@@ -1,0 +1,40 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Thu Aug 22 12:49:07 2019
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000005    program   0x000024
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000005    0x000016      
+            19 out of 8454 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     diez   0x00000b    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                      inc   0x00000d    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                   inicio   0x000006    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                   limpia   0x000005    program     static C:\Users\Micros\Documents\ejercicio4.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   limpia   0x000005    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                   inicio   0x000006    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                     diez   0x00000b    program     static C:\Users\Micros\Documents\ejercicio4.asm
+                      inc   0x00000d    program     static C:\Users\Micros\Documents\ejercicio4.asm
+
+
