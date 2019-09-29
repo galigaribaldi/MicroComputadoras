@@ -1,0 +1,44 @@
+MPLINK 4.46, Linker
+Linker Map File - Created Thu Sep 26 12:38:25 2019
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000005    program   0x000054
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000005    0x00002e      
+            43 out of 8454 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    caso1   0x000023    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso2   0x000026    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso3   0x000029    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso4   0x00002c    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    ciclo   0x00000e    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                   inicio   0x000005    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   inicio   0x000005    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    ciclo   0x00000e    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso1   0x000023    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso2   0x000026    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso3   0x000029    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+                    caso4   0x00002c    program     static C:\Users\Micros\Desktop\Práctica 5\prog2.asm
+
+
