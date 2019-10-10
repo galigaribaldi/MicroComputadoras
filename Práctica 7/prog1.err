@@ -1,0 +1,27 @@
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 1 : Found directive in column 1. (processor)
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 2 : Found directive in column 1. (include)
+Message[301] C:\PROGRAM FILES (X86)\MICROCHIP\MPASM SUITE\P16F877.INC 33 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 4 : Found label after column 1. (Y)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 5 : Found label after column 1. (contador)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 6 : Found label after column 1. (valor1)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 7 : Found label after column 1. (valor2)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 8 : Found label after column 1. (valor3)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 11 : Found label after column 1. (cte1)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 12 : Found label after column 1. (cte2)
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 13 : Found label after column 1. (cte3)
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 21 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 23 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 26 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 27 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 68 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 90 : Symbol not previously defined (L)
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 94 : Symbol not previously defined (L)
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 105 : Symbol not previously defined (L)
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 109 : Symbol not previously defined (L)
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 120 : Symbol not previously defined (L)
+Error[113]   C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 124 : Symbol not previously defined (L)
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 146 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 148 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 150 : Using default destination of 1 (file).
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\PROG1.ASM 154 : Found directive in column 1. (end)
