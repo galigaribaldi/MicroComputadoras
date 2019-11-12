@@ -1,0 +1,136 @@
+* finens  ---> r=7
+                        iniens 
+                        main equ $804a 
+                        printlcd16x2sh equ $82a6 
+                        finens 
+*****************************************************************
+* finens  ---> r=22
+                        iniens 
+                        jsr lee#car 
+                        finens 
+*****************************************************************
+* varaux..1$ = ""  ---> r=25
+                        varaux..1$ = "" 
+*****************************************************************
+* varaux..2~ = 1  ---> r=26
+                        varaux..2~ = 1 
+*****************************************************************
+* varaux..3~ = 1  ---> r=27
+                        varaux..3~ = 1 
+*****************************************************************
+* finens  ---> r=41
+                        iniens 
+                        ldhx #varaux..3~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..2~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..1$ 
+                        pshx 
+                        pshh 
+                        jsr printlcd16x2sh 
+                        ais #$06 
+                        finens 
+*****************************************************************
+* while 1  ---> r=45
+iniwhile#001: 
+                        t~1 = 1 
+                        while#001 t~1 wend#001 
+*****************************************************************
+* input "Dar texto a colocar en LCD,texto = " , texto$  ---> r=50
+                        print1#de0 "Dar texto a colocar en LCD,texto = " 
+                        input#0 texto$ 
+                        print#crlf 
+*****************************************************************
+* input "Dar renglón,renglón = " , rn~  ---> r=51
+                        print1#de0 "Dar renglón,renglón = " 
+                        input#1 rn~ 
+                        print#crlf 
+*****************************************************************
+* input "Dar columna,columna = " , colu~  ---> r=52
+                        print1#de0 "Dar columna,columna = " 
+                        input#1 colu~ 
+                        print#crlf 
+*****************************************************************
+* varaux..1$ = texto$  ---> r=55
+                        varaux..1$ = texto$ 
+*****************************************************************
+* varaux..2~ = rn~  ---> r=56
+                        varaux..2~ = rn~ 
+*****************************************************************
+* varaux..3~ = colu~  ---> r=57
+                        varaux..3~ = colu~ 
+*****************************************************************
+* finens  ---> r=71
+                        iniens 
+                        ldhx #varaux..3~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..2~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..1$ 
+                        pshx 
+                        pshh 
+                        jsr printlcd16x2sh 
+                        ais #$06 
+                        finens 
+*****************************************************************
+* print "Oprimir una tecla"  ---> r=75
+                        print1#de0 "Oprimir una tecla" 
+                        print#crlf 
+*****************************************************************
+* finens  ---> r=79
+                        iniens 
+                        jsr lee#car 
+                        finens 
+*****************************************************************
+* varaux..1$ = "                "  ---> r=82
+                        varaux..1$ = "                " 
+*****************************************************************
+* varaux..2~ = rn~  ---> r=83
+                        varaux..2~ = rn~ 
+*****************************************************************
+* varaux..3~ = 1  ---> r=84
+                        varaux..3~ = 1 
+*****************************************************************
+* finens  ---> r=98
+                        iniens 
+                        ldhx #varaux..3~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..2~ 
+                        pshx 
+                        pshh 
+                        ldhx #varaux..1$ 
+                        pshx 
+                        pshh 
+                        jsr printlcd16x2sh 
+                        ais #$06 
+                        finens 
+*****************************************************************
+* wend  ---> r=105
+                        goto iniwhile#001 
+wend#001: 
+*****************************************************************
+* finens  ---> r=130
+                        iniens 
+                        pulx 
+                        pulh 
+                        sthx var#topmem 
+                        pulx 
+                        pulh 
+                        sthx var#dirultdesc 
+                        pulx 
+                        pulh 
+                        sthx var#dirinistr 
+                        pulx 
+                        pulh 
+                        sthx apun * 
+                        pula 
+                        pulx 
+                        pulh 
+                        rts 
+                        finens 
+*****************************************************************

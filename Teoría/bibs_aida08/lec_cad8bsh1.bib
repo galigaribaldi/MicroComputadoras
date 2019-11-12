@@ -1,0 +1,100 @@
+def_fun lec_cad8bsh1(ncanal as byte,conf as byte) as integer
+
+'Efectúa la conversión A-D del canal especificado por e
+'la variable ncanal. (0<=ncanal<15).
+'Si ncanal no es valido retorna cero y avisa del error en la consola.
+
+'La variable conf especifica si se va a inicializar el CAD acorde con el
+'número de canal esécificado por ncanal.
+
+'Si conf es cero se efectúa la conversión del canal especificado
+'y se retorna el valor asociado.
+ 
+'Si conf es diferente de cero se efectúa inicialización del CAD y se sale retornando cero.
+
+' adccfg se deja en su default lo que hace que:
+' adclck=busclock, conversión de 8 bits, tiempo corto de muestreo,
+' configuración de alta velocidad.
+
+dim varcad as integer  
+
+     iniens
+adcsc1  equ $10
+adcsc2  equ $11
+adcrh   equ $12
+adcrl   equ $13
+adccvh  equ $14
+adccvl  equ $15
+adccfg  equ $16
+apctl1  equ $17
+apctl2  equ $18
+
+       finens
+
+       if ncanal < 0 or ncanal>15 then
+        print "Número de canal inválido en la función lec_cad8bsh1"
+        exit_fun
+       endif
+
+       if conf <> 0 then 
+       iniens
+       mov #$00,adccfg
+       finens
+
+           varauxi& = 2^(ncanal)
+
+          if ncanal< 8 then
+           
+           
+           
+           iniens 
+           lda varauxi&+3
+           sta apctl1
+           finens
+
+
+           else
+
+            iniens 
+           lda varauxi&+2
+           sta apctl2
+           finens
+
+           
+
+
+          endif
+
+       exit_fun
+
+
+
+       endif ' Cierre de if conf <> 0 then
+
+        iniens
+
+conv8bit:   lda ncanal
+            sta adcsc1
+checoco:    brclr 7,adcsc1,checoco
+            ldhx adcrh 
+            sthx varcad 
+
+
+
+        finens
+
+       
+
+          lec_cad8bsh1 = varcad
+
+
+
+
+
+
+
+
+
+
+
+  end_fun

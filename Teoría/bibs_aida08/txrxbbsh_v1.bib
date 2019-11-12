@@ -1,0 +1,444 @@
+   def_sub txbb_sh32(bytx as integer,bitx as integer,idport as byte,bpstx as integer)
+   'Transmite serialmente por bitbang el byte cuyo valor está en la variable bytx.
+
+   'bytx es el byte a transmitir
+   'bitx es el bit de puerto usado para efectuar la transmisión serie por bit-bang.
+   
+   'idport identifica en que puerto del MCU está el bit bitx.
+
+   'Si idport=1 el puerto donde está bitx es ptad.
+   'Si idport=2 el puerto donde está bitx es ptbd.
+   'Si idport=3 el puerto donde está bitx es ptcd.
+
+   'Si bpstx <> 0 se inicializan variables y recursos del MCU requeridos para que bitx sea una 
+   'línea de transmisión serie a la velocidad especificada en al variable bpstx.
+
+   'Si bpstx = 0, se efectúa la transmisión del byte conenido en la variable bytx a la velocidad
+   'previamente configurada.
+
+   'Las velocidades de transmisión posibles en bits/seg (bps) son:
+
+   '75,150,300,600,1200,2400,4800,9600,19200 y 31250
+
+   'Si el baudaje especificado es inválido, avisa esto en consola
+   'y detiene la ejecución. 
+
+   if bpstx <> 0 then
+  'Idetifica que se invocó este procedimiento para inicializar línea de
+  'transmisión,bitx,puerto donde reside bitx y semilla de velocidad bps.
+     
+
+    'Si bitx es negativo o mayor que siete avisa esto en la consola y finaliza ejecución. 
+    'sin completar inicialización.
+
+      if bitx<0 or bitx>7 then
+      print "Bitx de transmisión ";bitx; " inválido"
+      iniens
+      sei
+      finens
+      end 
+      'exit_sub
+      else 
+     ' Detremina masktxbb
+      masktxbb=2.^bitx
+      commasktxbb=255-masktxbb
+      endif
+
+    'Si idport es inválido avisa esto en la consola finaliza ejecución,  
+    'sin completar inicialización.
+ 
+      if idport<1 or idport>3 then
+      print "idport=";idport;" en el procedimiento txbb_sh32,no es válido."
+      print "idport debe satisfacer: 0 < idport < 2 para el MCU mc9s08sh32"
+      iniens
+      sei
+      finens
+      end 
+      'exit_sub
+      else
+     ' Detremina direcciones de puerto
+      select case idport
+
+      case 1
+      'En el puerto 'A' reside bitx
+      dirporttx=&h0
+      dirddporttx=&h1
+
+      case 2
+      'En el puerto 'B' reside bitx
+      dirporttx=&h2
+      dirddporttx=&h3
+    
+      case 3
+      'En el puerto 'C' reside bitx
+      dirporttx=&h4
+      dirddporttx=&h5
+
+      end select
+      endif
+
+
+      'Genera semilla semtxbb para retardo de medio tiempo de bit
+
+      select case bpstx
+
+      case 75
+      '75 bps
+      semtxbb=26663
+
+      case 150
+      '150 bps
+      semtxbb=13329
+
+      case 300
+      '300 bps
+      semtxbb=6663
+
+      case 600
+      '600 bps
+      semtxbb=3329
+
+      case 1200
+      '1200 bps
+      semtxbb=1663
+
+      case 2400
+      '2400 bps
+      semtxbb=829
+
+      case 4800
+      '4800 bps
+      semtxbb=413
+
+      case 9600
+      '9600 bps
+      semtxbb=205
+
+      case 19200
+      '19200 bps
+      semtxbb=101
+
+      case 31250
+      '31250 bps
+      semtxbb=61
+
+      case else
+      'Si el baudaje especificado es inválido, avisa esto en consola
+      'y detiene la ejecución.
+      print "Baudaje inválido en inicialización de procedimiento txbb_sh32"
+      iniens
+      sei
+      finens
+      end 
+     ' exit_sub
+      end select
+
+      'Inicializa como salida bitx en puerto donde residirá éste,
+      'y pone uno en bitx
+       iniens
+       ldhx dirddporttx
+       
+       lda ,x
+       ora masktxbb+1
+       sta ,x 'bitx es salida
+
+       ldhx dirporttx
+       lda ,x
+       ora masktxbb+1
+       sta ,x 'bitx <-- 1
+       finens
+      '...........................................................
+
+  exit_sub
+  endif 'Cierre de if bpstx <> 0 then
+
+  
+
+     'Si bytx es negativo o mayor que 255 avisa esto en la consola y detiene ejecución 
+     'sin efectuar la transmisión.
+
+      if bytx<0 or bytx>255 then
+      print "Byte ";bytx;" por transmitir inválido en procedimiento txbb_sh32"
+      iniens
+      sei
+      finens
+      end 
+     ' exit_sub
+      endif
+
+'**** Aquí inicia transmisión serie por bitbang en bitx ****
+
+         contaux~ = 8
+     
+
+        iniens
+
+            bsr ceroabitx 'Pone start bit
+            jsr ret_tbit
+
+            ldhx #tab_mask
+
+
+            'Transmite bit0
+otrobit:    lda bytx+1
+            bit ,x
+            bne b0esuno
+            bsr ceroabitx
+            bra retb0
+b0esuno:    bsr unoabitx
+retb0:      jsr ret_tbit
+            aix #$01
+            lda contaux~
+            deca
+            sta contaux~
+            bne otrobit
+
+ponestopbit: bsr unoabitx
+             jsr ret_tbit
+             bra sal_txbb
+
+unoabitx:   pshh
+            pshx
+            psha
+            ldhx dirporttx
+            lda ,x
+            ora masktxbb+1
+            sta ,x
+            pula
+            pulx
+            pulh
+            rts
+
+ceroabitx:  pshh
+            pshx
+            psha
+            ldhx dirporttx
+            lda ,x
+            and commasktxbb+1
+            sta ,x
+            pula
+            pulx
+            pulh
+            rts
+       
+
+ret_tbit:   pshh
+            pshx
+            nop
+            nop
+            ldhx semtxbb
+vt:         nop
+            nop
+            aix #$ff
+            cphx #$0000
+            bne vt
+            nop
+            nop
+            pulx
+            pulh
+            rts
+             
+tab_mask:   db $01,$02,$04,$08,$10,$20,$40,$80
+sal_txbb:   nop
+
+
+      finens
+
+    end_sub
+
+   def_fun rxbb_sh32(birx as integer,idport as byte,bpsrx as integer) as integer
+   'Recibe en formato serie asíncrono un byte, cuyo valor retorna como variable integer.
+ 
+
+   if bpsrx > 0 then
+  'Idetifica que se invocó este procedimiento para inicializar línea de
+  'recepción birx,puerto donde reside birx, y semilla de velocidad bps.
+     
+
+    'Si birx es negativo o mayor que siete avisa esto en la consola y retorna 
+    'sin completar inicialización.
+
+      if birx<0 or birx>7 then
+      print "Bit de recepción ";birx; " inválido"
+      exit_fun
+      else 
+     ' print "Voy a determinar maskrxbb" '<<<<<<<<<<<<<<
+      maskrxbb=2.^birx
+      commaskrxbb=255-maskrxbb
+      endif
+
+    'Si idport es negativo o mayor que dos avisa esto en la consola y retorna 
+    'sin completar inicialización.
+ 
+      if idport<0 or idport>2 then
+      print "idport=";idport;" en el procedimiento rxbb_sh32,no es válido."
+      print "idport debe satisfacer: 0 < idport < 2, para el MCU mc9s08sh32"
+      exit_fun
+      else
+     ' print "Voy a calcular direcciones de puerto" '<<<<<<<<
+      select case idport
+
+      case 0
+      'En el puerto 'A' reside birx
+      dirportrx=&h0
+      dirddportrx=&h1
+      dirpeportrx=&h1840
+
+      case 1
+      'En el puerto 'B' reside birx
+      dirportrx=&h2
+      dirddportrx=&h3
+      dirpeportrx=&h1848
+    
+      case 2
+      'En el puerto 'C' reside birx
+      dirportrx=&h4
+      dirddportrx=&h5
+      dirpeportrx=&h1850
+
+      end select
+      endif
+
+
+      'Genera semilla semrxbb para retardo de medio tiempo de bit
+
+     ' print "Voy a calcular semrxbb" '<<<<<<
+
+      select case bpsrx
+
+      case 75
+      '75 bps
+      semrxbb=13329
+
+      case 150
+      '150 bps
+      semrxbb=6663
+
+      case 300
+      '300 bps
+      semrxbb=3329
+
+      case 600
+      '600 bps
+      semrxbb=1663
+
+      case 1200
+      '1200 bps
+      semrxbb=829
+
+      case 2400
+      '2400 bps
+      semrxbb=413
+
+      case 4800
+      '4800 bps
+      semrxbb=205
+
+      case 9600
+      '9600 bps
+      semrxbb=101
+
+      case 19200
+      '19200 bps
+      semrxbb=49
+
+      case 31250
+      '31250 bps
+      semrxbb=29
+
+      case else
+      print "Baudaje inválido en inicialización de procedimiento rxbb_sh32"
+      exit_fun
+      end select
+
+
+      'Inicializa como entrada birx en puerto donde residirá éste,
+      ' y pone pull-up en birx
+       iniens
+       ldhx dirddportrx
+       lda ,x
+       and commaskrxbb+1
+       sta ,x 'birx es entrada
+
+       ldhx dirpeportrx
+       lda ,x
+       ora maskrxbb+1
+       sta ,x 'birx tiene pull-up
+       finens
+      '...........................................................
+
+  exit_fun
+  endif 'Cierre de if bpsrx > 0 then
+
+  'Inicia espera y armado de byte recibido en variable byte byrec~
+
+     byrec~=0
+     byint%=0    
+     maskaux~ = 1
+     
+
+        iniens
+      
+             ldhx dirportrx 'Inicializa apuntador de puerto donde reside birx
+
+espstartbit: lda ,x
+             bit maskrxbb+1
+             beq espmediotbit
+             bra espstartbit 
+espmediotbit: jsr ret_medtbit 
+              lda ,x
+              bit maskrxbb+1
+              beq armarecby 'Si fue startbit válido procede a armar byte por recibir
+              bra espstartbit
+
+armarecby:    jsr ret_medtbit 
+              jsr ret_medtbit 'Espera un tiempo de bit (Tbit).
+              lda ,x
+              bit maskrxbb+1
+              beq fue_cero
+              lda maskaux~
+              ora byrec~  'and byrec~
+              sta byrec~ ' bitpresente <-- 1
+fue_cero:     lda maskaux~
+              clc
+              rola
+              sta maskaux~
+              bne armarecby
+            '  jsr ret_medtbit
+              jsr ret_medtbit 'Espera un tiempo de bit final
+
+
+              bra sal_rxbb
+
+ret_medtbit: pshh
+             pshx
+             nop
+             nop
+             ldhx semrxbb
+vt:          nop
+             nop
+             aix #$ff
+             cphx #$0000
+             bne vt
+             nop
+             nop
+             pulx
+             pulh
+             rts
+             
+sal_rxbb:   lda byrec~
+            sta byint%+1
+ 
+
+
+      finens
+
+  
+   rxbb_sh32 = byint% ' Retorna el byte recibido como variable integer 
+  '  rxbb_sh32=65
+
+   
+
+
+    end_fun
+

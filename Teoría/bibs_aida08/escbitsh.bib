@@ -1,0 +1,104 @@
+     def_sub escbitsh(portn as byte,bitn as byte,nivlog as byte)
+
+     'Si nivlog <> 0, escribe en el bitn del puerto portn un uno lógico,
+     'en otro caso escribe un cero lógico en dicho bit.
+
+      'portn es el número de puerto implicado.
+
+    '    1 < portn <= 3 
+
+      'portn=1 si el puerto implicado es el puerto A
+      'portn=2 si el puerto implicado es el puerto B
+      'portn=3 si el puerto implicado es el puerto C
+
+      'Si portn tiene un valor inválido,
+      'retorna sin efectuar un cambio en bitn.
+
+     ' bitn es el número de bit implicado.
+
+     '    0 <= bitn <= 7  
+
+     'Si bitn tiene un valor inválido,
+     'retorna sin efectuar un cambio en bitn.
+
+dim mask,maskinv as byte
+
+           iniens
+
+      
+'..Calcula mask y maskinv
+
+       
+       lda bitn
+       cmp #$07
+       bls ggg
+       jmp salescbit
+ggg:   cmp #$00
+       bhs qqq
+       jmp salescbit
+
+qqq:   nop 'inca
+       psha
+       pulx 'x <- bitn
+       lda #$01
+       cpx #$00
+       beq asmsk
+       
+otr:   asla
+       decx
+       bne otr
+asmsk: sta mask
+       coma
+       sta maskinv
+
+'.. Pasa a escribir al bitn en el puerto especificado ..              
+       lda portn
+       cmp #$01
+       beq escpa
+       cmp #$02
+       beq escpb
+       cmp #$03
+       beq escpc
+       bra salescbit
+
+escpa:  lda nivlog
+        beq cerola
+        lda $00
+        ora mask
+        sta $00
+        jmp salescbit
+cerola: lda $00
+        and maskinv
+        sta $00
+        bra salescbit
+
+escpb:  lda nivlog
+        beq cerolb
+        lda $02
+        ora mask
+        sta $02
+        bra salescbit
+cerolb: lda $02
+        and maskinv
+        sta $02
+        bra salescbit
+
+escpc:  lda nivlog
+        beq cerolc
+        lda $04
+        ora mask
+        sta $04
+        bra salescbit
+cerolc: lda $04
+        and maskinv
+        sta $04
+        
+        finens
+
+
+
+
+salescbit:
+
+        end_sub
+

@@ -1,0 +1,91 @@
+'Subrutina despstr_16x2 llamable desde código MINIBAS8A.
+'Coloca en el LCD al string num$.
+'Antes de invocar:
+'num$ <-- string a colocar en LCD.
+'ren~ <-- renglón donde se desea iniciar colocación del string num$.
+'col~ <-- columna donde se desea iniciar colocación del string num$.
+'Si num$ es un string nulo retorna sin efectuar acción sobre el LCD.
+'Si el renglón y/o la columna de colocación son inválidos,
+'retorna sin efectuar acción sobre el LCD.
+'Esta subrutina invoca la subrutina despstr.
+'Usa la variable tipo byte lstr~,la cual retorna con valor cero.
+
+'******************  NOTA MUY IMPORTANTE ****************************
+
+'En un programa que use esta subrutina de biblioteca se deben colocar,
+'al final de éste,las siguientes sentencias:
+
+
+'          iniens
+'$include "c:\bibs_aida08\swmdam8sh.asm"
+'          finens
+
+
+'#include "c:\bibs_aida08\despstr.bib"
+
+'Además, al inicio del programa se deben colocar las siguientes sentencias:
+
+'           iniens
+'           jsr inilcd
+'           finens
+        
+'*********************************************************************
+
+ 
+despstr_16x2:
+                if len(num$)=0 then
+                return
+                endif
+
+                if ren~ < 1 or ren~ > 2 then
+                return
+                endif
+
+                if col~ < 1 or col~ > 16 then
+                return
+                endif
+
+                if ren~ = 1 then
+                posdesp~=col~-129
+                else
+                posdesp~=col~-65
+                endif
+
+                gosub despstr
+
+                return
+
+'Subrutina despstr
+'Coloca en el LCD al string num$
+'Antes de invocar:
+'num$<--string a colocar en LCD
+'posdesp~<--byte comando de posición inicial de colocación.
+'Usa la variable tipo byte lstr~,la cual retorna con valor cero.
+ 
+despstr:
+
+         lstr~ = len(num$)
+
+
+
+          iniens
+
+          lda num$
+          psha
+          pulh
+          ldx num$+1 'h:x<--dirección inicial de num$ en memoria.
+          lda posdesp~
+          jsr escom4
+yuopp:    lda ,x
+          jsr escdat4
+          aix #$01
+          lda lstr~
+          deca 
+          sta lstr~       
+          bne yuopp
+
+          finens
+
+          return
+
+

@@ -1,0 +1,80 @@
+def_sub cnfgptoentsh32(portn as byte,mask as byte,maskpu as byte)
+ 
+ 'Configura como entrada los bits del puerto denotado por portn,
+ 'acorde con los bits que son uno en el byte mask.
+
+ 'Habilita pull-up en las posiciones de bit que son uno en
+ 'el byte maskpu
+
+ 'portn es el número de puerto implicado.
+
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+ 'Si previamente se han configurado como entrada otros bits del 
+ 'puerto, diferentes a los que son uno en el byte mask,éstos seguirán
+ 'siendo entrada.
+
+ 'Si previamente se han configurado con pull-up interno otros bits del 
+ 'puerto, diferentes a los que son uno en el byte maskpu,éstos seguirán
+ 'teniendo pull-up interno si los mismos siguen siendo entrada.
+
+dim maskinv as byte
+
+     if portn < 1 or portn > 3 then
+     exit_sub
+     endif
+
+'Se obtiene complemento del byte mask
+     iniens
+     lda mask
+     coma
+     sta maskinv
+     finens
+ '............................................
+
+  
+     select case portn
+
+      case 1
+      'Se configuran entradas y pull-ups del puerto A
+      iniens
+      lda $01
+      and maskinv
+      sta $01
+      lda $1840
+      ora maskpu
+      sta $1840
+      finens
+
+      case 2
+      'Se configuran entradas y pull-ups del puerto B
+      iniens
+      lda $03
+      and maskinv
+      sta $03
+      lda $1848
+      ora maskpu
+      sta $1848
+      finens
+
+      case 3
+      'Se configuran entradas y pull-ups del puerto C
+      iniens
+      lda $05
+      and maskinv
+      sta $05
+      lda $1850
+      ora maskpu
+      sta $1850
+      finens
+
+     end select     
+
+ end_sub

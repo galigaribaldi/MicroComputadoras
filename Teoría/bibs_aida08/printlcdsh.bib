@@ -1,0 +1,82 @@
+     def_sub prlcd16x2sh(x1 as string,ren as byte,col as byte)
+
+      'Despliega el string x1 en un LCD conectado a la interfaz propia
+      'de éste presente en la tarjeta MINICON_08SH.  
+      
+      'ren y col representan el renglón y columna a partir de donde se 
+      'desea se despliegue el sring x1.
+      'Si ren y/o col son inválidos no se efectua ninguna acción.
+      
+      'Si el string x1 es nulo se inicializa el LCD y se sale.
+  
+        if x1="" then
+        'Si el string x1 es nulo inicializa el LCD y sale. 
+        iniens
+        jsr inilcd
+        finens
+        goto fuera
+        endif
+     
+        if ren<1 or ren>2 then
+        goto fuera
+        endif
+
+        if col<1 or col>16 then
+        goto fuera
+        endif
+
+        if ren=1 then
+        posdesp~=col-129
+        else
+        posdesp~=col-65
+        endif
+        
+        num$=x1
+        gosub despstr
+
+
+
+        goto fuera 
+
+        iniens
+
+$include "I:\bibs_aida08\rutsswlcdsh32_20mhz.asm"
+
+        finens
+
+'Subrutina despstr
+'Coloca en el LCD al string num$
+'Antes de invocar:
+'num$<--string a colocar en LCD
+'posdesp~<--byte comando de posición inicial de colocación.
+'Usa la variable tipo byte lstr~,la cual retorna con valor cero.
+ 
+
+
+despstr:
+
+         lstr~ = len(num$)
+
+          iniens
+
+          lda num$
+          psha
+          pulh
+          ldx num$+1 'h:x<--dirección inicial de num$ en memoria.
+          lda posdesp~
+          jsr escom4
+yuopp:    lda ,x
+          jsr escdat4
+          aix #$01
+          lda lstr~
+          deca 
+          sta lstr~       
+          bne yuopp
+
+          finens
+
+          return
+
+fuera:
+
+        end_sub

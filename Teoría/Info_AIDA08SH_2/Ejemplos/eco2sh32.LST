@@ -1,0 +1,85 @@
+
+F:\Info_AIDA08SH_2\Ejemplos\eco2sh32.asm   Ensamblado con ENS08 el 24/08/2016 10:45:18 a. m.
+
+
+0000               * Programa ECO1SH32
+0000               * Ejecutable en RAM del MCU MC9S08SH32
+0000               * Recibe un byte por el puerto serie (SCI)
+0000               * después lo transmite por el mismo puerto,
+0000               * repiténdos endefinidamente estas acciones.
+0000               * Se testifica en el puerto C el byte recibido.
+
+
+0000               * Por: Antonio Salvá Calleja
+0000               * Fecha: agosto 24,2016
+0000                  
+0000                scibdh equ $38
+0000                scibdl equ $39
+0000                scic2  equ $3b
+0000                scis1  equ $3c
+0000                scid   equ $3f
+
+0000                ptcd equ $04
+0000                ptcdd equ $05
+
+
+0000                 
+0100                           org $0100
+
+0100 450082                 ldhx #$0082
+0103 3538                   sthx scibdh
+0105 6E0C3B                 mov #$0c,scic2
+
+0108 6EFF05                 mov #$ff,ptcdd
+
+
+010B AD06           ciclo:  bsr rxsci ;Recibe byte.
+010D B704                   sta ptcd
+010F AD08                   bsr txsci ;Tranmite byte recibido.
+0111 20F8                   bra ciclo
+
+0113               ** SUBRUTINA RXSCI DE RECEPCIÓN SERIE **
+0113               ** Al invocarse se pasa a un lazo de espera
+0113               ** por la recepción de un byte en el puerto
+0113               ** serie del MCU MC9S08SH32.
+0113               ** Al retornar:
+0113               ** a <-- byte recibido
+
+0113 0B3CFD         rxsci: brclr 5,scis1,rxsci
+0116 B63F                  lda scid
+0118 81                    rts
+0119                 
+
+0119                 
+
+0119               ** SUBRUTINA TXSCI DE TRANSMISIÓN SERIE **
+0119               ** por el puerto serie del MCU MC9S08SH32.
+0119               ** Antes de invocar:
+0119               ** a <-- byte a transmitir
+0119               ** Al retornar:
+0119               ** ya se habra transmitido el byte implicado
+
+0119 0D3CFD         txsci: brclr 6,scis1,txsci
+011C B73F                  sta scid
+011E 81                    rts
+
+011F                  
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CICLO                    010B
+RXSCI                    0113
+TXSCI                    0119
+
+   ASIGNACIONES    EQU
+
+SCIBDH                  $38
+SCIBDL                  $39
+SCIC2                   $3B
+SCIS1                   $3C
+SCID                    $3F
+PTCD                    $04
+PTCDD                   $05
+

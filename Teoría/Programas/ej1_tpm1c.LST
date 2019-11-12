@@ -1,0 +1,83 @@
+
+F:\Ejemplos_2020-1\ej1_tpm1c.asm   Ensamblado con ENS08 el 17/09/2019 06:02:24 p. m.
+
+
+0000               ** Programa ejemplo de interrupción por overflow del temporizador 1.
+0000               ** Se genera una interrupción cada 50 ms, la acción que se efectúa es
+0000               ** la complementación del puerto C.
+
+0000               ** Este programa se hizo el 20/feb/2019
+
+
+0000                ptcd equ $04
+0000                ptcdd equ $05
+
+0000                tpm1sc equ $20
+0000                tpm1modh equ $23
+0000                tpm1modl equ $24
+
+0000                contaux equ $b0
+
+
+8000                                   org $8000
+
+
+8000 6EFF05                           mov #$ff,ptcdd ;ptcd es salida en todos sus bits
+
+8003 6E4C20                           mov #$4c,tpm1sc ;toie <-- 1, pe=16, reloj base es reloj de bus
+8006 6EF423                           mov #$f4,tpm1modh
+8009 6E2324                           mov #$23,tpm1modl ;Tovf=50 ms
+800C 3FB0           			clr contaux
+
+800E 9A                               cli
+
+800F 20FE           fin:             bra fin
+
+8011 B620           servovf:         lda tpm1sc
+8013 1F20                            bclr 7,tpm1sc ;TOF <-- 0
+8015 2906           			 bhcs seg2
+8017 2604           			 bne seg2
+8019 3304           			 com ptcd
+801B 260A           			 bne salir
+
+801D 3CB0           seg2:			 inc contaux
+801F B6B0           			 lda contaux
+8021 A128           			 cmp #$28 ; compara cuenta con 40	
+8023 2602           			 bne salir
+8025 3FB0           			 clr contaux
+
+8027 80             salir:                 rti
+
+
+
+D7E8                                org $d7e8
+D7E8 8011                            dw servovf
+D7EA                 
+
+
+
+
+
+D7EA                 
+D7EA                           
+
+D7EA                        
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+FIN                      800F
+SERVOVF                  8011
+SEG2                     801D
+SALIR                    8027
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+TPM1SC                  $20
+TPM1MODH                $23
+TPM1MODL                $24
+CONTAUX                 $B0
+

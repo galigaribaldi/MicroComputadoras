@@ -1,0 +1,29 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DE AVISOS DEL COMPILADOR
+                              AVISO [1] DEL COMPILADOR          
+Se encontraron variables y/o constantes numéricas de diferente tipo en el renglón  61
+El compilador homologará estos al tipo más alto. 
+posdesp~ = col - 129 
+-------------------------------------------------------------------------
+                              AVISO [2] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  61
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+posdesp~ = col - 129 
+-------------------------------------------------------------------------
+                              AVISO [3] DEL COMPILADOR          
+Se encontraron variables y/o constantes numéricas de diferente tipo en el renglón  63
+El compilador homologará estos al tipo más alto. 
+posdesp~ = col - 65 
+-------------------------------------------------------------------------
+                              AVISO [4] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  63
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+posdesp~ = col - 65 
+-------------------------------------------------------------------------
+                              AVISO [5] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  428
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+lstr~ = len ( num$ ) 
+-------------------------------------------------------------------------

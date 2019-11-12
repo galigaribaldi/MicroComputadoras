@@ -1,0 +1,309 @@
+  def_sub gpwm2sh32(ct as single,pms as single,fb as single,niv_ver as byte,ntp as byte,nch as byte,habliber as byte)
+
+    'Genera una señal pwm en el canal definido en la variable nch,del temporizador definido en
+    'la variable ntp.Esto para el MCU MC9S08SH32.
+
+    '************************************************************************************** 
+    'Posición de canales de salida de los temporizadores del MCU MC9S08SH32
+
+    'TPM1CH0 está en el pin que por defecto es pta0, pin 26 de encapsulado SOIC de 28 patas.
+    'TPM1CH1 está en el pin que por defecto es ptb5, pin 11 de encapsulado SOIC de 28 patas.
+    'TPM2CH0 está en el pin que por defecto es pta1, pin 25 de encapsulado SOIC de 28 patas.
+    'TPM2CH1 está en el pin que por defecto es ptb4, pin 12 de encapsulado SOIC de 28 patas.
+    '*******************************************************************************************
+    '.........................................................................................
+    'Descripción de funcionalidad de los argumentos de este procedimiento:
+    'ct es el ciclo de trabajo de la señal pwm a generar, 0 <= ct <=1 100
+
+    'pms es el periodo en milisegundos de la señal pwm a generar.
+    'niv_ver debe ser cero, si se desea que el nivel de verificación de los pulsos sea bajo.
+    'niv_ver debe ser diferente de cero,si se desea que el nivel de verificación de los pulsos sea alto.
+
+    'fb es la frecuencia de bus del sistema en MHz.
+    'ntp es el número de temporizador implicado.
+    'nch es el número de canal implicado.
+    
+    'habliber es una variable que determina pin asociado con el canal implicado va a ser utilizado 
+    'para fines de la generación de una señal pwm;
+    'o bien éste va a ser retornado a su funcionalidad como línea de puerto.
+ 
+    'Si habliber=1,regresa el pin asociado con el canal implicado 
+    'a su funcionalidad como bit de puerto.
+    'Si habliber=0,genera señal pwm en temporizador y canal especificado en argumentos
+    'ct,pms,fb,ntp y nch. 
+   '...........................................................................................
+
+    
+ dim nc,ncmin,ncct as long
+ dim pe,bytpmxsc,bytpmxcysc,selcanal as integer
+
+    iniens
+'* EQUS de temporizador 1
+tpm1sc equ $20
+tpm1cnth equ $21
+tpm1cntl equ $22
+tpm1modh equ $23
+tpm1modl equ $24
+tpm1c0sc equ $25
+tpm1c0vh equ $26
+tpm1c0vl equ $27
+tpm1c1sc equ $28
+tpm1c1vh equ $29
+tpm1c1vl equ $2a
+'*++++++++++++++++++++++++++++
+
+'* EQUS de temporizador 2
+tpm2sc equ $60
+tpm2cnth equ $61
+tpm2cntl equ $62
+tpm2modh equ $63
+tpm2modl equ $64
+tpm2c0sc equ $65
+tpm2c0vh equ $66
+tpm2c0vl equ $67
+tpm2c1sc equ $68
+tpm2c1vh equ $69
+tpm2c1vl equ $6a
+'*++++++++++++++++++++++++++++
+   finens
+   
+
+  
+    if habliber <0 or habliber > 1 then
+    'si la variable habliber es inválida avisa esto en consola y detiene la ejecuciónònv
+    print "Variable definitoria de liberlización inválida en procedimiento gpwm_sh32"
+    iniens
+    sei
+    finens
+    end
+    endif
+
+    selcanal=10*ntp + nch
+
+    if habliber=1 then
+    'Libera canal especificado y sale
+     select case selcanal
+   
+     case 10
+   'Retorna pin a función como pta0 o ptc0
+   iniens
+   clr tpm1sc
+   clr tpm1c0sc
+   finens
+
+   case 11
+   'Retorna pin a función como ptb5 o ptc1
+   iniens
+   clr tpm1sc
+   clr tpm1c1sc
+   finens
+
+   case 20
+  'Retorna pin a función como pta1 o pta6
+   iniens
+   clr tpm2sc
+   clr tpm2c0sc
+   finens
+
+    case 21
+   'Retorna pin a función como ptb4 o pta7
+   iniens
+   clr tpm2sc
+   clr tpm2c1sc
+   finens
+
+
+   end select
+
+    exit_sub
+
+    endif
+
+
+    if ntp<1 or ntp>2 then
+    'si el número de temporizador es inválido, avisa esto en consola y detiene la ejecuciónònv
+    print "Número de temporizador inválido en procedimiento gpwm_sh32"
+    iniens
+    sei
+    finens
+    end
+    endif
+
+    if nch<0 or nch>1 then
+    'si el número de canal es inválido, avisa esto en consola y detiene la ejecuciónòn
+    print "Número de canal de temporizador inválido en procedimiento gpwm_sh32"
+    iniens
+    sei
+    finens
+    end
+    endif
+
+    if fb < 1. or fb > 25. then
+    'si la frecuencia de bus es inválida, avisa esto en consola y detiene la ejecuciónòn
+    print "Frecuencia de bus inválida en procedimiento gpwm_sh32"
+    iniens
+    sei
+    finens
+    end
+    endif
+
+    nc=fb*pms*1000.
+    ncmin=nc/128
+
+    'print "nc=";nc
+    'print "ncmin=";ncmin
+
+    if ncmin > 65535 then
+    'si el periodo pms no es realizable para la frecuencia de bus dada, avisa esto en consola y detiene la ejecuciónòn
+    print "Periodo de señal de pwm irrealizable para Fbus=";fb;" MHz.Esto en procedimiento gpwm_sh32"
+    iniens
+    sei
+    finens
+    end
+
+    else
+    pe=1
+    expe=0
+
+    for i~=0 to 7
+     if nc<65535 then
+     goto klotop
+     else 
+     nc=nc/2
+     pe=2*pe
+     endif
+
+     next i~
+
+klotop:
+        ' print "i~=";i~
+        ' print "pe=";pe
+        ' print "nc=";nc
+         
+ 
+      if ct<0. or  ct>1 then
+      'Si el ciclo de trabajo ct es inválido, avisa esto en consola y
+      'detiene la ejecución.
+
+       print "Ciclo de trabajo inválido en procedimiento genpwm_sh32"
+       iniens
+       sei
+       finens
+       end
+      endif
+  ' Si llega aquí los argumentos del procedimiento son válidos,
+  ' y procede a modificar los registros del MCU implicados para que
+  ' se genere la señal de pwm especificada por los argumentos:
+  ' ct,pms,fb,ntp y nch
+  
+   
+
+   ncct=ct*nc
+   nc=nc-1
+
+   bytpmxsc= 8 + i~
+   
+   if niv_ver = 0 then
+   bytpmxcysc=36 '&h24,Señal pwm con pulso en bajo en tpm1chy de tpmx
+   else
+   bytpmxcysc=40 '&h28,Señal pwm con pulso en alto en tpm1chy de tpmx
+   endif
+
+  
+   
+  
+   'Colocación de valores en registros asociados
+
+   select case selcanal
+   
+   case 10
+   'Señal PWM en TPM1CH0 de TPM1
+   iniens
+   lda bytpmxsc+1
+   sta tpm1sc
+   ldhx nc+2
+   sthx tpm1modh
+
+   lda bytpmxcysc+1
+   sta tpm1c0sc
+   ldhx ncct+2
+   sthx tpm1c0vh
+
+   finens
+
+   case 11
+   'Señal PWM en TPM1CH1 de TPM1
+   iniens
+   lda bytpmxsc+1
+   sta tpm1sc
+   ldhx nc+2
+   sthx tpm1modh
+
+   lda bytpmxcysc+1
+   sta tpm1c1sc
+   ldhx ncct+2
+   sthx tpm1c1vh
+
+    finens
+
+   case 20
+   'Señal PWM en TPM1CH0 de TPM2
+   iniens
+   lda bytpmxsc+1
+   sta tpm2sc
+   ldhx nc+2
+   sthx tpm2modh
+
+   lda bytpmxcysc+1
+   sta tpm2c0sc
+   ldhx ncct+2
+   sthx tpm2c0vh
+
+    finens
+
+    case 21
+   'Señal PWM en TPM1CH1 de TPM2
+   iniens
+   lda bytpmxsc+1
+   sta tpm2sc
+   ldhx nc+2
+   sthx tpm2modh
+
+   lda bytpmxcysc+1
+   sta tpm2c1sc
+   ldhx ncct+2
+   sthx tpm2c1vh
+
+    finens
+
+
+ 
+
+   end select
+
+
+
+
+
+   
+    endif ' Cierre de: if ncmin > 65535 then
+
+
+
+
+   
+
+
+
+
+    select case habliber
+    
+    case 0
+
+    case 1
+    'habliberliza periodo con ct=0
+
+    end select
+
+
+    end_sub

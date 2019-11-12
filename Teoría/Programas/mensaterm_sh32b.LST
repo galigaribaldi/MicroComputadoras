@@ -1,0 +1,90 @@
+
+C:\Users\galig\Desktop\Ejemplos_2020-1\mensaterm_sh32b.asm   Ensamblado con ENS08 el 26/09/2019 06:32:02 p. m.
+
+0000               * Programa MENSATERM_SH32
+0000               * Ejecutable en RAM del MCU MC9S08SH32
+0000               * Despliega repetitivamente en el emulador
+0000               * de terminal el mensaje:
+
+0000               * Hola alumnos desde el dispositivo el MCU MC9S08SH32.
+0000               * Habilitado como dispositivo CHIPBAS8SH.
+
+0000               * Por: Antonio Salvá Calleja
+0000               * Fecha: agosto 24,2016
+
+0000               **** Equ's del sci1 *******
+0000                scibdh equ $38
+0000                scibdl equ $39
+0000                scic2  equ $3b
+0000                scis1  equ $3c
+0000                scid   equ $3f
+
+0000               ********************************
+
+
+
+0100                             org $0100
+
+0100               ; Inicializa puerto serie
+0100 450082                       ldhx #$0082  ;BR=130 para 
+0103 3538                         sthx scibdh  ;9600 bps, @Fbus=20 MHz
+0105 6E0C3B                       mov #$0c,scic2  ;habilita tx y rx
+0108               ;.........................................
+0108                             
+0108 AD14           ciclot:        bsr rxsci
+010A 450124                        ldhx #textmens
+010D F6             otrocar:       lda ,x
+010E A104                          cmp #$04 ;Checa por fin de texto
+0110 27F6                          beq ciclot
+0112 AD04                          bsr txsci
+0114 AF01                          aix #$01 ;h:x <-- h:x + 1
+0116 20F5                          bra otrocar
+
+0118                              
+0118               ***********************************************
+0118 0D3CFD         txsci:         brclr 6,scis1,txsci
+011B B73F                          sta scid
+011D 81                            rts
+
+011E 0B3CFD         rxsci:         brclr 5,scis1,rxsci
+0121 B63F                          lda scid
+0123 81                            rts
+
+0124 486F6C6120     textmens:      fcc "Hola mundo desde el MCU MC9S08SH32."
+     6D756E646F
+     2064657364
+     6520656C20
+     4D4355204D
+     4339533038
+     534833322E
+     
+0147 0D0A                          db $0d,$0a ; Para hacer un salto de linea y fregresa al renglon
+0149 53ED206675                    fcc "Sí funciona esta cosa :'v."
+     6E63696F6E
+     6120657374
+     6120636F73
+     61203A2776
+     2E
+0163 0D0A0D0A04                    db $0d,$0a,$0d,$0a,$04 ;Fin de texto
+
+0168                            
+
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CICLOT                   0108
+OTROCAR                  010D
+TXSCI                    0118
+RXSCI                    011E
+TEXTMENS                 0124
+
+   ASIGNACIONES    EQU
+
+SCIBDH                  $38
+SCIBDL                  $39
+SCIC2                   $3B
+SCIS1                   $3C
+SCID                    $3F
+

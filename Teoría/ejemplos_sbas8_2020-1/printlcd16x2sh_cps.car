@@ -1,0 +1,21 @@
+* Guarda en stack status de delimitadores de direcciones asociadas con
+* variables string locales,propias del procedimiento que llamó al presente.
+
+                         pshh
+                         pshx
+                         psha
+ 
+                         ldhx apun*
+                         pshh
+                         pshx
+                         ldhx var#dirinistr
+                         pshh
+                         pshx
+
+                         ldhx var#dirultdesc
+                         pshh
+                         pshx
+                         ldhx var#topmem
+                         pshh
+                         pshx
+*.................................................................................

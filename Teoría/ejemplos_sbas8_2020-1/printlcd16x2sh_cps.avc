@@ -1,0 +1,35 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DE AVISOS DEL COMPILADOR
+                              AVISO [1] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  23
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+tesdir..str% = 0 
+-------------------------------------------------------------------------
+                              AVISO [2] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  39
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+mi..ascii% = 0 
+-------------------------------------------------------------------------
+                              AVISO [3] DEL COMPILADOR          
+Se encontraron variables y/o constantes numéricas de diferente tipo en el renglón  59
+El compilador homologará estos al tipo más alto. 
+x1 = x1 + chr$ ( mi..ascii% ) 
+-------------------------------------------------------------------------
+                              AVISO [4] DEL COMPILADOR          
+Se encontraron variables y/o constantes numéricas de diferente tipo en el renglón  111
+El compilador homologará estos al tipo más alto. 
+posdesp~ = col - 129 
+-------------------------------------------------------------------------
+                              AVISO [5] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  111
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+posdesp~ = col - 129 
+-------------------------------------------------------------------------
+                              AVISO [6] DEL COMPILADOR          
+Los tipos asociados a la derecha e izquierda del signo '=' en el renglón  478
+son diferentes,el compilador homologará al tipo asociado con la variable 
+a la izquierda del signo '='. 
+lstr~ = len ( num$ ) 
+-------------------------------------------------------------------------

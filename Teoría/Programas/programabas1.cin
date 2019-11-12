@@ -1,0 +1,90 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DEL CÓDIGO INTERMEDIO
+*
+*    <<< iniens  (ren= 1) >>>
+*
+        iniens 
+           jsr lee#car 
+*
+*    <<< finens  (ren= 3) >>>
+*
+        finens 
+ fin#sent finens   3 3
+*
+*<<< dardatos: input "x1 = " , x1  (ren= 5) >>>
+*
+dardatos:
+                        print1#de0 "x1 = "
+                        input#4 x1 
+                        print#crlf
+ fin#sent dardatos: input "x1 = " , x1   5 4
+*
+*    <<< input "x2 = " , x2  (ren= 6) >>>
+*
+                        print1#de0 "x2 = "
+                        input#4 x2 
+                        print#crlf
+ fin#sent input "x2 = " , x2   6 5
+*
+*    <<< input "x3 = " , x3  (ren= 7) >>>
+*
+                        print1#de0 "x3 = "
+                        input#4 x3 
+                        print#crlf
+ fin#sent input "x3 = " , x3   7 6
+*
+*    <<< z1 = 3.5 + x1 * x2  (ren= 9) >>>
+*
+                        t!1 = x1 * x2
+                        t!2 = 3.5 + t!1
+                        z1  = t!2
+ fin#sent z1 = 3.5 + x1 * x2   9 7
+*
+*    <<< z2 = sqr ( x1 ) + 3. / x2 + x1  (ren= 10) >>>
+*
+                        t!2 = sqr(x1)
+                        t!3 = 3. / x2
+                        t!4 = t!2 + t!3
+                        t!5 = t!4 + x1
+                        z2  = t!5
+ fin#sent z2 = sqr ( x1 ) + 3. / x2 + x1   10 8
+*
+*    <<< z3 = sqr ( x1 )  (ren= 11) >>>
+*
+                        t!2 = sqr(x1)
+                        z3  = t!2
+ fin#sent z3 = sqr ( x1 )   11 9
+*
+*    <<< print "3.5+x1*x2 = " , z1  (ren= 14) >>>
+*
+                        print0#de0 "3.5+x1*x2 = "
+                        print1#4 z1
+                        print#crlf
+ fin#sent print "3.5+x1*x2 = " , z1   14 10
+*
+*    <<< print "sqr(x1)+3./x2+x1 = " , z2  (ren= 15) >>>
+*
+                        print0#de0 "sqr(x1)+3./x2+x1 = "
+                        print1#4 z2
+                        print#crlf
+ fin#sent print "sqr(x1)+3./x2+x1 = " , z2   15 11
+*
+*    <<< print "sqr(" ; x1 ; ")= " , z3  (ren= 16) >>>
+*
+                        print1#de0 "sqr("
+                        print1#4 x1
+                        print0#de0 ")= "
+                        print1#4 z3
+                        print#crlf
+ fin#sent print "sqr(" ; x1 ; ")= " , z3   16 12
+*
+*    <<< print  (ren= 17) >>>
+*
+                        print#crlf
+ fin#sent print   17 13
+*
+*    <<< goto dardatos  (ren= 18) >>>
+*
+                        goto dardatos 
+ fin#sent goto dardatos   18 14
+** Sentencias data **
+** Sentencias datax, x=b/w/l/s/d **

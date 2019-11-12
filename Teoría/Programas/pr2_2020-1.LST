@@ -1,0 +1,65 @@
+
+F:\Ejemplos_2020-1\pr2_2020-1.ASM   Ensamblado con ENS08 el 03/09/2019 06:49:58 p. m.
+
+
+0000                ptcd equ $04
+0000                ptcdd equ $05
+
+
+0100                                org $0100
+
+0100 A6FF                       lda #$ff
+0102 B705                       sta ptcdd ;ptcd es salida
+0104 4F                         clra
+
+0105 B704           ciclo:      sta ptcd
+0107 4C                         inca
+0108 CD010D                     jsr ret1seg
+010B 20F8                       bra ciclo
+
+010D 87             ret1seg:    psha
+010E A628                       lda #$28
+0110 CD011A         otro:       jsr ret25ms
+0113 4A                         deca
+0114 A100                       cmp #$00
+0116 26F8                       bne otro
+0118 86                         pula
+0119 81                         rts
+
+
+
+
+011A 8B             ret25ms:    pshh
+011B 89                         pshx
+011C 45C34D                     ldhx #$c34d
+011F 9D             vuelta:     nop
+0120 9D                         nop
+0121 AFFF                       aix #$ff
+0123 650000                     cphx #$0000
+0126 26F7                       bne vuelta
+0128 9D                         nop
+0129 88                         pulx
+012A 8A                         pulh
+012B 81                         rts
+
+
+012C                          
+012C                
+
+012C                
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CICLO                    0105
+RET1SEG                  010D
+OTRO                     0110
+RET25MS                  011A
+VUELTA                   011F
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+

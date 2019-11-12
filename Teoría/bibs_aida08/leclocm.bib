@@ -1,0 +1,18 @@
+def_fun lec_locm(dir as integer) as byte
+
+      'Retorna el contenido de la localidad de memoria cuya dirección 
+      'se define en la variable dir.
+
+      'Este procedimiento se ejecuta en 15 us @fbus=20 MHz.
+
+dim bylec as byte
+
+       iniens
+       ldhx dir
+       lda ,x
+       sta bylec
+       finens
+
+     lec_locm=bylec
+
+   end_fun

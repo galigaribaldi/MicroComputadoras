@@ -1,0 +1,87 @@
+   def_fun leebitsh(portn as byte,bitn as byte) as byte
+   
+   'Retorna un valor diferente de cero (2^bitn),si el bitn de
+   'entrada del puerto denotado por portn es uno lógico,
+   'en otro caso retorna cero.
+
+   'portn es el número de puerto implicado.
+
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'retorna cero.
+
+    ' bitn es el número de bit implicado.
+
+    '    0 <= bitn <= 7  
+
+    'Si bitn tiene un valor inválido,
+    'retorna cero.
+
+  dim by_tes,mask as byte
+
+
+
+       iniens
+
+       clra
+       sta by_tes 'by_tes = 0
+
+'..Calcula mask 
+
+       
+       lda bitn
+       cmp #$07
+       bls ggg
+       jmp saleebit
+ggg:   cmp #$00
+       bhs qqq
+       jmp saleebit
+
+qqq:   nop 'inca
+       psha
+       pulx 'x <- bitn
+       lda #$01
+       cpx #$00
+       beq asmsk
+       
+otr:   asla
+       decx
+       bne otr
+asmsk: sta mask
+
+'.. Pasa a leer el bitn en el puerto especificado y asignar el valor de retorno a by_tes ..              
+       lda portn
+       cmp #$01
+       beq leepa
+       cmp #$02
+       beq leepb
+       cmp #$03
+       beq leepc
+       jmp saleebit
+
+leepa: lda $00
+       and mask
+       sta by_tes
+       bra saleebit
+
+leepb: lda $02
+       and mask
+       sta by_tes
+       bra saleebit
+
+leepc: lda $04
+       and mask
+       sta by_tes
+    
+       finens
+
+saleebit:
+          leebitsh=by_tes
+
+
+    end_fun

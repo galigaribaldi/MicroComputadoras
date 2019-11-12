@@ -1,0 +1,75 @@
+
+E:\Ejemplos_2020-1\pr2_2020-1aut.ASM   Ensamblado con ENS08 el 27/08/2019 06:18:22 p. m.
+
+
+0000                ptcd equ $04
+0000                ptcdd equ $05
+
+0000                sopt1  equ $1802
+
+8000                                org $8000
+
+8000 A621                       lda #$21
+8002 C71802                     sta sopt1 ;Deshabilita COP (Watch dog)
+
+
+8005 A6FF                       lda #$ff
+8007 B705                       sta ptcdd ;ptcd es salida
+8009 4F                         clra
+
+800A B704           ciclo:      sta ptcd
+800C 4C                         inca
+800D CD8012                     jsr ret1seg
+8010 20F8                       bra ciclo
+
+8012 87             ret1seg:    psha
+8013 A628                       lda #$28
+8015 CD801F         otro:       jsr ret25ms
+8018 4A                         deca
+8019 A100                       cmp #$00
+801B 26F8                       bne otro
+801D 86                         pula
+801E 81                         rts
+
+
+
+
+801F 8B             ret25ms:    pshh
+8020 89                         pshx
+8021 45C34D                     ldhx #$c34d
+8024 9D             vuelta:     nop
+8025 9D                         nop
+8026 AFFF                       aix #$ff
+8028 650000                     cphx #$0000
+802B 26F7                       bne vuelta
+802D 9D                         nop
+802E 88                         pulx
+802F 8A                         pulh
+8030 81                         rts
+
+D7FE                          org $d7fe
+D7FE 8000                      dw $8000
+
+
+
+D800                          
+D800                
+
+D800                
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CICLO                    800A
+RET1SEG                  8012
+OTRO                     8015
+RET25MS                  801F
+VUELTA                   8024
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+SOPT1                   $1802
+

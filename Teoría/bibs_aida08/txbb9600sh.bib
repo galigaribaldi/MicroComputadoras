@@ -1,0 +1,226 @@
+   def_sub txbb9600sh(bytx as integer,bitx as integer,idport as byte,initxs as integer)
+   'Transmite serialmente por bitbang, a 9600 bps, el byte cuyo valor está en la variable bytx.
+  
+   'bytx es el byte a transmitir
+   'bitx es el bit de puerto usado para efectuar la transmisión serie por bit-bang.
+   
+   'idport identifica en que puerto del MCU está el bit bitx.
+
+   'Si idport=1 el puerto donde está bitx es ptad.
+   'Si idport=2 el puerto donde está bitx es ptbd.
+   'Si idport=3 el puerto donde está bitx es ptcd.
+
+   'Si initxs <> 0 se inicializan variables y recursos del MCU requeridos para que bitx sea una 
+   'línea de transmisión serie a 9600 bps.
+   'Si initxs=0, se efectúa la transmisión del byte conenido en la variable bytx.
+
+
+
+'dim semtxbb,masktxbb,commasktxbb,dirporttx,dirddporttx as integer
+
+   if initxs <> 0 then
+  'Idetifica que se invocó este procedimiento para inicializar línea de
+  'transmisión,bitx,puerto donde reside bitx y semilla de velocidad bps.
+     
+
+    'Si bitx es negativo o mayor que siete avisa esto en la consola y retorna 
+    'sin completar inicialización.
+
+      if bitx<0 or bitx>7 then
+      print "Bitx de transmisión ";bitx; " inválido"
+      exit_sub
+      else 
+      'determina masktxbb y commasktxbb 
+      masktxbb=2.^bitx
+      commasktxbb=255-masktxbb
+      endif
+
+    'Si idport es inválido avisa esto en la consola y retorna 
+    'sin completar inicialización.
+ 
+      if idport<1 or idport>3 then
+      print "idport=";idport;" en el procedimiento txbb_sh32,no es válido."
+      print "idport debe satisfacer: 0 < idport < 2 para el MCU mc9s08sh32"
+      exit_sub
+      else
+     ' Determina direcciones de puerto y control de éstos
+      select case idport
+
+      case 1
+      'En el puerto 'A' reside bitx
+      dirporttx=&h0
+      dirddporttx=&h1
+
+      case 2
+      'En el puerto 'B' reside bitx
+      dirporttx=&h2
+      dirddporttx=&h3
+    
+      case 3
+      'En el puerto 'C' reside bitx
+      dirporttx=&h4
+      dirddporttx=&h5
+
+      end select
+      endif
+
+
+      'Genera semilla semtxbb para retardo de medio tiempo de bit
+
+      'Determina semtxbb para velocidadde 9600 bps
+
+     ' select case initxs
+
+      'case 75
+      '75 bps
+      'semtxbb=26663
+
+      'case 150
+      '150 bps
+      'semtxbb=13329
+
+      'case 300
+      '300 bps
+      'semtxbb=6663
+
+      'case 600
+      '600 bps
+      'semtxbb=3329
+
+      'case 1200
+      '1200 bps
+      'semtxbb=1663
+
+      'case 2400
+      '2400 bps
+      semtxbb=829
+
+      'case 4800
+      '4800 bps
+      'semtxbb=413
+
+      'case 9600
+      '9600 bps
+      semtxbb=205
+
+      'case 19200
+      '19200 bps
+      'semtxbb=101
+
+      'case 31250
+      '31250 bps
+      'semtxbb=61
+
+      'case else
+      'print "Baudaje inválido en inicialización de procedimiento txbb_sh32"
+      'exit_sub
+      'end select
+
+      'Inicializa como salida bitx en puerto donde residirá éste,
+      ' y pone uno en bitx
+       iniens
+       ldhx dirddporttx
+       
+       lda ,x
+       ora masktxbb+1
+       sta ,x 'bitx es salida
+
+       ldhx dirporttx
+       lda ,x
+       ora masktxbb+1
+       sta ,x 'bitx <-- 1
+       finens
+      '...........................................................
+
+  exit_sub
+  endif 'Cierre de if initxs > 0 then
+
+  
+
+     'Si bytx es negativo o mayor que 255 avisa esto en la consola y para la ejecución.
+
+      if bytx<0 or bytx>255 then
+      print "Byte ";bytx;" por transmitir inválido en procedimiento txbb9600sh"
+      iniens
+      sei
+      finens
+      end
+     ' exit_sub
+      endif
+     contaux~ = 8
+     
+
+        iniens
+
+            bsr ceroabitx 'Pone start bit
+            jsr ret_tbit
+
+            ldhx #tab_mask
+
+
+            'Transmite bit0
+otrobit:    lda bytx+1
+            bit ,x
+            bne b0esuno
+            bsr ceroabitx
+            bra retb0
+b0esuno:    bsr unoabitx
+retb0:      jsr ret_tbit
+            aix #$01
+            lda contaux~
+            deca
+            sta contaux~
+            bne otrobit
+
+ponestopbit: bsr unoabitx
+             jsr ret_tbit
+             bra sal_txbb
+
+unoabitx:   pshh
+            pshx
+            psha
+            ldhx dirporttx
+            lda ,x
+            ora masktxbb+1
+            sta ,x
+            pula
+            pulx
+            pulh
+            rts
+
+ceroabitx:  pshh
+            pshx
+            psha
+            ldhx dirporttx
+            lda ,x
+            and commasktxbb+1
+            sta ,x
+            pula
+            pulx
+            pulh
+            rts
+       
+
+ret_tbit:   pshh
+            pshx
+            nop
+            nop
+            ldhx semtxbb
+vt:         nop
+            nop
+            aix #$ff
+            cphx #$0000
+            bne vt
+            nop
+            nop
+            pulx
+            pulh
+            rts
+             
+tab_mask:   db $01,$02,$04,$08,$10,$20,$40,$80
+sal_txbb:   nop
+
+
+      finens
+
+    end_sub

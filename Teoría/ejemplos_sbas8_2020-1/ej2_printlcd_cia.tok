@@ -1,0 +1,18 @@
+ 6
+ 1
+ 1
+002  006  iniens
+ 7
+ 1
+ 5
+017  008  llamain:
+001  003  jsr
+001  007  llamain
+003  001  +
+008  001  5
+ 8
+ 1
+ 1
+002  006  finens
+***** Fin de archivo de tokens  E:\ejemplos_sbas8_2020-1\ej2_printlcd_cia.tok  *****
+***** procesado el  29/10/2019 06:22:32 p. m.  *****

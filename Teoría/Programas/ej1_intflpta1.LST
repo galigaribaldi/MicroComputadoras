@@ -1,0 +1,106 @@
+
+C:\Users\galig\Desktop\Ejemplos_2020-1\ej1_intflpta1.asm   Ensamblado con ENS08 el 10/09/2019 06:39:15 p. m.
+
+0000               ;;;Modificado en clase el 10 de Septiembre del 2019, con 2 interrupciones para el micrchip
+0000                ptcd		      equ $04	    ;iguala ptcd al valor en memoria 0x0004
+0000                ptcdd		      equ $05         ;iguala ptcdd al valor en memoria 0x0005
+0000                ptape             equ $1840
+0000                ptasc             equ $1844
+0000                ptaps             equ $1845
+0000                ptaes             equ $1846 
+0000                ptad              equ $00
+
+8000               		      org $8000       ;dirección inicial de carga del programa (RAM)
+8000 A6FF           		      lda #$ff        ;a <-- $ff
+8002 B705           		      sta ptcdd       ;se activa el puerto C como salida
+8004               			
+8004                                 
+8004 A602                             lda #$02
+8006 C71844                           sta ptasc
+
+8009 A603                             lda #$03
+800B C71845                           sta ptaps       ;Flanco de bajada en pta0 o pta1 detona interrupción
+800E               ;                                  esto porque ptaes de dejará en su default
+
+800E C71840                           sta ptape       ;pta0 y pta1 tienen pull-up
+
+8011 9A                               cli
+
+8012 4F                               clra
+8013 B704           lazo:             sta ptcd
+8015 4C                               inca
+8016 CD8032                           jsr ret1seg
+8019 20F8                             bra lazo
+
+801B C61844         servfl:           lda ptasc
+801E AA04                             ora #$04
+8020 C71844                           sta ptasc       ;ptaack <-- 0,ptaif <-- 0
+
+8023 010005         			brclr 0,ptad,fuepta0 
+8026 6EFF04         fuepta1:		mov #$ff,ptcd
+8029 2003           			bra retar
+
+802B 6EAA04         fuepta0:		mov #$aa,ptcd
+
+802E CD8032         retar:            jsr ret1seg
+8031                                 
+8031 80                               rti
+
+
+
+
+
+8032 87             ret1seg:          psha            ;manda el acumulador a al SP
+8033 A628           			lda #$28        ;a <-- $28
+8035 CD803F         llamaret2:		jsr ret25ms     ;salta a ret25ms
+8038 4A             			deca		    ;a = a-1
+8039 A100           			cmp #$00	    ;comprara con $00
+803B 26F8           			bne llamaret2   ;a no igual $00 salta a llamaret2
+803D 86             			pula		    ;jala el acumulador a del SP
+803E 81             			rts		    ;regresa a subrutina
+
+803F 8B             ret25ms:          pshh		    ;manda el acumulador h al SP
+8040 89             		 	pshx            ;manda el acumulador x al SP
+8041 45C34D         			ldhx #$C34D     ;valor de retardo para 25 ms
+8044 9D             vuelta:		nop             ;tiempo muerto
+8045 9D             			nop             ;tiempo muerto
+8046 AFFF           			aix  #$ff	    ;hix = hix-1
+8048 650000         			cphx #$0000     ;compara con $00
+804B 26F7           			bne  vuelta     ;hix no igual $00 salta a vuelta
+804D 9D             			nop             ;tiempo muerto
+804E 88             			pulx            ;jala el acumulador x del SP
+804F 8A             			pulh            ;jala el acumulador h del SP
+8050 81                               rts		    ;regresa a subrutina
+
+D7D6                                 org $d7d6
+D7D6 801B                             dw servfl
+D7D8                
+
+D7D8                               
+
+
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+LAZO                     8013
+SERVFL                   801B
+FUEPTA1                  8026
+FUEPTA0                  802B
+RETAR                    802E
+RET1SEG                  8032
+LLAMARET2                8035
+RET25MS                  803F
+VUELTA                   8044
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+PTAPE                   $1840
+PTASC                   $1844
+PTAPS                   $1845
+PTAES                   $1846
+PTAD                    $00
+

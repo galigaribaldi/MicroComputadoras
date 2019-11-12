@@ -1,0 +1,118 @@
+def_sub cnfgbitentsh(portn as byte,bitn as byte,pu as byte)
+ 
+ 'Configura como entrada el bit bitn del  puerto denotado por portn.
+ 'acorde con los bits que son uno en el byte mask.
+
+ 'Habilita pull-up en bitn si pu <> 0,
+ 'si pu=0 deshabilita pull-up en bitn
+ 
+ 'portn es el número de puerto implicado.
+
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+    ' bitn es el número de bit implicado.
+
+    '    0 <= bitn <= 7  
+
+    'Si bitn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+dim mask,maskinv as byte
+
+     if portn < 1 or portn > 3 then
+     exit_sub
+
+     elseif bitn <0 or bitn > 7 then
+
+     exit_sub
+     endif
+
+     if bitn=7 then
+     mask = -128
+     else
+     mask=2^bitn
+     endif
+
+'Se obtiene complemento del byte mask
+     iniens
+     lda mask
+     coma
+     sta maskinv
+     finens
+ '............................................
+
+  
+     select case portn
+
+      case 1
+      'Se configura como entrada al bitn y pull-up en puerto A
+      iniens
+      lda $01
+      and maskinv
+      sta $01
+      lda $1840
+      ora mask
+      sta $1840
+      finens
+      
+      if pu=0 then
+      'deshabilita pull-up en bitn
+      iniens 
+      lda $1840
+      and maskinv
+      sta $1840
+      finens
+      endif
+ 
+      
+      case 2
+      'Se configura como entrada al bitn y pull-up en puerto B
+      iniens
+      lda $03
+      and maskinv
+      sta $03
+      lda $1848
+      ora mask
+      sta $1848
+      finens
+
+      if pu=0 then
+      'deshabilita pull-up en bitn
+      iniens 
+      lda $1848
+      and maskinv
+      sta $1848
+      finens
+      endif
+
+      case 3
+      'Se configura como entrada al bitn y pull-up en puerto C
+      iniens
+      lda $05
+      and maskinv
+      sta $05
+      lda $1850
+      ora mask
+      sta $1850
+      finens
+
+      if pu=0 then
+      'deshabilita pull-up en bitn
+      iniens 
+      lda $1850
+      and maskinv
+      sta $1850
+      finens
+      endif
+
+     
+     end select     
+
+ end_sub

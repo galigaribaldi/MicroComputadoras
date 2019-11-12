@@ -1,0 +1,114 @@
+
+E:\Ejemplos_2020-1\ej1_tpm1c_2.asm   Ensamblado con ENS08 el 21/09/2019 01:41:29 p. m.
+
+
+0000               ** Programa ejemplo de interrupción por overflow del temporizador 1.
+0000               ** Se genera una interrupción cada 50 ms.
+0000               ** Se efectua una accion cada 50 ms o cada 2 seg, esto gobernado por sendos botones
+0000               ** colocados respectivamente en pta0 y pta1.
+0000               ** Si se oprime el boton conectado a pta0, la accion será cada 50 ms
+0000               ** Si se oprime el boton conectado a pta1, la accion sera cada 2 seg
+0000               ** La accion consiste en la complementacion del puerto c 
+
+
+0000                ptcd equ $04
+0000                ptcdd equ $05
+0000                ptape equ $1840
+0000                ptad equ $00
+0000                ptadd equ $01
+
+0000                tpm1sc equ $20
+0000                tpm1modh equ $23
+0000                tpm1modl equ $24
+
+
+0000                contaux equ $b0
+0000                topecont equ $b1
+
+
+
+8000                                   org $8000
+
+8000 1E01           			bset 7,ptadd ;pta7 es salida
+8002 6EFF05                           mov #$ff,ptcdd ;ptcd es salida en todos sus bits
+8005 A603                             lda #$03
+8007 C71840                           sta ptape ;pta0 y pta1 tienen pull up
+800A 6E28B1                           mov #$28,topecont ;periodicidad por defecto es 2s
+
+
+800D                                 
+
+800D 6E4C20                           mov #$4c,tpm1sc ;toie <-- 1, pe=16, reloj base es reloj de bus
+8010 6EF423                           mov #$f4,tpm1modh
+8013 6E2324                           mov #$23,tpm1modl ;Tovf=50 ms
+8016 3FB0           			clr contaux
+
+8018 9A                               cli
+
+8019 010005         checbot:         brclr 0,ptad,ac_50ms
+801C 030009                          brclr 1,ptad,ac_2seg
+801F 20F8                            bra checbot
+
+8021 6E01B1         ac_50ms:         mov #$01,topecont
+8024 3FB0                            clr contaux
+8026 20F1                            bra checbot
+
+8028 6E28B1         ac_2seg:         mov #$28,topecont
+802B 3FB0                            clr contaux
+802D 20EA                            bra checbot
+
+802F                                
+802F B620           servovf:         lda tpm1sc
+8031 1F20                            bclr 7,tpm1sc ;TOF <-- 0
+8033 3CB0           			inc contaux 
+8035 B6B0           			lda contaux 
+8037 B1B1           			cmp topecont ;compara con tope de cuenta requerido
+8039 260A           			bne salir
+803B 3FB0           			clr contaux
+
+803D 3304                            com ptcd
+803F B600           			lda ptad
+8041 A880           			eor #$80
+8043 B700           			sta ptad
+
+
+8045 80             salir:                 rti
+
+
+
+D7E8                                org $d7e8
+D7E8 802F                            dw servovf
+D7EA                 
+
+
+
+
+
+D7EA                 
+D7EA                           
+
+D7EA                        
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CHECBOT                  8019
+AC_50MS                  8021
+AC_2SEG                  8028
+SERVOVF                  802F
+SALIR                    8045
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+PTAPE                   $1840
+PTAD                    $00
+PTADD                   $01
+TPM1SC                  $20
+TPM1MODH                $23
+TPM1MODL                $24
+CONTAUX                 $B0
+TOPECONT                $B1
+

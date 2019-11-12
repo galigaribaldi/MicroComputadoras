@@ -1,0 +1,105 @@
+def_sub esd_msk_sh32(portn as byte,msk as byte,nivlog as byte)
+    
+    'Escribe en el puerto definido por la variable portn,
+    'el nivel lógico especificado en nivlog,esto en el perfil de bits 
+    'indicado en la variable msk.
+    'Las posiciones de bit que son cero en la variable msk no cambian 
+    'su nivel lógico presente.
+
+        
+    'portn es el número de puerto implicado.
+    '    1 <= portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si el argumento nivlog es cero, el nivel lógico que se asignará al 
+    'perfil de bits definido en la máscara será bajo.
+
+    'Si el argumento nivlog diferente de cero, el nivel lógico que se asignará al 
+    'perfil de bits definido en la máscara será alto.
+ 
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+    'Este procedimiento se ejecuta en 18 us @Fbus=20 MHz. 
+
+dim cmsk,bytesport as byte
+
+      iniens
+porta equ $00
+portb equ $02
+portc equ $04
+
+        lda portn
+        cmp #$01
+        beq acporta
+        cmp #$02
+        beq acportb
+        cmp #$03
+        beq acportc
+        bra fuerasinacc
+   
+       'Escritura sobre el puerto A
+acporta: lda porta
+        sta bytesport
+        jsr actp
+        lda bytesport
+        sta porta
+        bra fuerasinacc
+
+       'Escritura sobre el puerto B
+acportb: lda portb
+          sta bytesport
+          jsr actp
+          lda bytesport
+          sta portb
+          bra fuerasinacc
+
+       'Escritura sobre el puerto C
+acportc: lda portc
+          sta bytesport
+          jsr actp
+          lda bytesport
+          sta portc
+          bra fuerasinacc
+
+       finens
+
+fuerasinacc: 
+ 
+
+       exit_sub
+
+       iniens
+
+'Subrutina actp
+'Actualiza byte a colocar en puerto sobre el que se va 
+'a hacer una modificación.
+'Antes de invocar:
+'bytesport <-- status de puerto antes de la modificación
+'bytesport <-- byte a colocar en puerto para que se validen en 
+              'éste las modificaciones implicadas,acorde con 
+              'los argumentos de este procedimiento [esd_msk_sh32(.,.,.)].
+
+
+actp:  lda nivlog
+       bne sig0
+       lda msk
+       coma           'Si el nivel a colocar es cero
+       sta cmsk       'genera el valor de la variable cmsk,
+       lda bytesport  'y coloca el nivel cero lógico en el perfil
+       and cmsk       'de bits definido por msk.
+       bra salir
+
+sig0:  lda bytesport 'Coloca el nivel uno lógico en el perfil
+       ora msk       'de bits definido por msk.
+salir: sta bytesport
+       rts
+
+       finens
+
+
+     end_sub
+

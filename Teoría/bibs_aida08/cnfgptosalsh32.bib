@@ -1,0 +1,53 @@
+ def_sub cnfgptosalsh32(portn as byte,mask as byte)
+
+ 'configura como salida los bits del puerto denotado por portn,
+ 'acorde con los bits que son uno en el byte mask.
+
+ 'portn es el número de puerto implicado.
+
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+ 'Si previamente se han configurado como salida otros bits del 
+ 'puerto, diferentes a los que son uno en el byte mask,éstos seguirán
+ 'siendo salida.
+
+     if portn < 1 or portn > 3 then
+     exit_sub
+     endif
+  
+     select case portn
+
+      case 1
+      'Se configuran bits como salida en puerto A
+      iniens
+      lda $01
+      ora mask
+      sta $01
+      finens
+
+      case 2
+      'Se configuran bits como salida en puerto B
+      iniens
+      lda $03
+      ora mask
+      sta $03
+      finens
+
+      case 3
+      'Se configuran bits como salida en puerto C
+      iniens
+      lda $05
+      ora mask
+      sta $05
+      finens
+
+     end select     
+
+ end_sub

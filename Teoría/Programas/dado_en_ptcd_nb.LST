@@ -1,0 +1,191 @@
+
+K:\Ejemplos_2020-1\dado_en_ptcd_nb.ASM   Ensamblado con ENS08 el 22/08/2019 01:51:32 p. m.
+
+
+0000               **** Este pr+grama genera un númer+ aleat+ri+ enter+ de 1 a 6,que se c+l+ca en el puert+ ptcd.
+0000               **** Para est+,se emplea el c+ntad+r del temp+rizad+r 1
+0000               **** P+r Ant+ni+ Salvá Calleja
+0000               **** 22/ag+st+/2019
+
+0000               *        c       d
+0000               *        +       +
+0000               *        b   a   b
+0000               *        +   +   +
+0000               *        d       c
+0000               *        +       +
+
+0000                ptcd	equ $04	    
+0000                ptcdd equ $05        
+0000                ptape equ $1840
+0000                ptad  equ $00
+
+0000                tpm1sc equ $20
+0000                tpm1cnth equ $21
+
+0000                dirlimsup equ $a0
+0000                dirliminf equ $a1
+0000                num1a6    equ $a2
+
+0100                               org $0100
+0100                               
+0100 6EFF05                        mov #$ff,ptcdd ;ptcd es salida
+
+0103 6E1020                         mov #$10,tpm1sc ;arranca c+ntad+r de TPM1
+0106 A601                           lda #$01
+0108 C71840                         sta ptape ;pta0 tiene pull-up
+010B CD019A                         jsr ret25ms
+
+
+010E 0000FD         n+tira:         brset 0,ptad,n+tira
+0111 3F20                           clr tpm1sc ;para c+ntad+r de TPM1
+0113 5521                           ldhx tpm1cnth
+0115 AD0B                           bsr detnum1a6
+0117 4EA204                         mov num1a6,ptcd
+011A 0100FD         espera:         brclr 0,ptad,espera
+
+011D               *                jsr ret1seg
+011D 6E1020                         mov #$10,tpm1sc ;arranca de nuev+ c+ntad+r de TPM1
+
+0120 20EC                           bra n+tira
+
+0122               ** Subrutina detnum1a6
+0122               ** Antes de inv+car:
+0122               ** x < N entre cer+ y 252
+0122               ** Al ret+rnar:
+0122               ** num1a6 <-- númer+ entre un+ y seis generad+
+
+
+0122 6E00A1         detnum1a6:     mov #$00,dirliminf
+0125 6E2AA0                        mov #$2a,dirlimsup
+0128 AD53                          bsr detsidentro
+012A A101                          cmp #$01
+012C 2732                          beq pon1
+
+012E 6E2AA1                        mov #$2a,dirliminf
+0131 6E54A0                        mov #$54,dirlimsup
+0134 AD47                          bsr detsidentro
+0136 A101                          cmp #$01
+0138 272B                          beq pon2
+
+013A 6E54A1                        mov #$54,dirliminf
+013D 6E7EA0                        mov #$7e,dirlimsup
+0140 AD3B                          bsr detsidentro
+0142 A101                          cmp #$01
+0144 2724                          beq pon3
+
+0146 6E7EA1                        mov #$7e,dirliminf
+0149 6EA8A0                        mov #$a8,dirlimsup
+014C AD2F                          bsr detsidentro
+014E A101                          cmp #$01
+0150 271D                          beq pon4
+
+0152 6EA8A1                        mov #$a8,dirliminf
+0155 6EDEA0                        mov #$de,dirlimsup
+0158 AD23                          bsr detsidentro
+015A A101                          cmp #$01
+015C 2716                          beq pon5
+
+015E 2019                          bra pon6
+
+0160 6E01A2         pon1:          mov #$01,num1a6
+0163 2017                          bra salir
+0165 6E02A2         pon2:          mov #$02,num1a6
+0168 2012                          bra salir
+016A 6E03A2         pon3:          mov #$03,num1a6
+016D 200D                          bra salir
+
+016F 6E04A2         pon4:          mov #$04,num1a6
+0172 2008                          bra salir
+0174 6E05A2         pon5:          mov #$05,num1a6
+0177 2003                          bra salir
+0179 6E06A2         pon6:          mov #$06,num1a6
+017C                              
+017C 81             salir:         rts
+017D                
+017D                   
+
+017D               * Subrutina detsidentr+
+017D               * Antes de inv+car:
+017D               * dirlimsup <-- límite superior del intervalo a checar
+017D               * dirliminf <-- límite inferior  del intervalo a checar
+017D               * x <-- N, númer+ a checar si est{a dentr+ del interval+
+017D               * Al ret+rnar:
+017D               * a <-- $01 si N está dentr+ del interval+
+017D               * a <-- $00, si N n+ está dentr+ del interval+
+
+017D 89             detsidentro:   pshx
+017E B3A0                          cpx dirlimsup
+0180 2503                          blo checliminf
+0182 4F             limpiaysale:   clra
+0183 2006                          bra saldetsi
+0185 B3A1           checliminf:    cpx dirliminf
+0187 25F9                          blo limpiaysale
+0189 A601           siestá:        lda #$01 
+018B 88             saldetsi:      pulx
+018C 81                            rts
+018D                 
+
+018D 87             ret1seg:          psha            
+018E A628           			lda #$28        
+0190 CD019A         llamaret2:		jsr ret25ms     
+0193 4A             			deca		    
+0194 A100           			cmp #$00	    
+0196 26F8           			bne llamaret2   
+0198 86             			pula		    
+0199 81             			rts		    
+
+019A 8B             ret25ms:          pshh		    
+019B 89             		 	pshx            
+019C 45C34D         			ldhx #$C34D     
+019F 9D             vuelta:		nop             
+01A0 9D             			nop             
+01A1 AFFF           			aix  #$ff	    
+01A3 650000         			cphx #$0000     
+01A6 26F7           			bne  vuelta     
+01A8 9D             			nop             
+01A9 88             			pulx            
+01AA 8A             			pulh            
+01AB 81                               rts		   
+
+
+01AC                   
+
+
+01AC                                   
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+N+TIRA                   010E
+ESPERA                   011A
+DETNUM1A6                0122
+PON1                     0160
+PON2                     0165
+PON3                     016A
+PON4                     016F
+PON5                     0174
+PON6                     0179
+SALIR                    017C
+DETSIDENTRO              017D
+LIMPIAYSALE              0182
+CHECLIMINF               0185
+SIESTÁ                   0189
+SALDETSI                 018B
+RET1SEG                  018D
+LLAMARET2                0190
+RET25MS                  019A
+VUELTA                   019F
+
+   ASIGNACIONES    EQU
+
+PTCD                    $04
+PTCDD                   $05
+PTAPE                   $1840
+PTAD                    $00
+TPM1SC                  $20
+TPM1CNTH                $21
+DIRLIMSUP               $A0
+DIRLIMINF               $A1
+NUM1A6                  $A2
+

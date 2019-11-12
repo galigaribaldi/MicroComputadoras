@@ -1,0 +1,1132 @@
+
+E:\ejemplos_sbas8_2020-1\printlcd16x2sh_cps.cus   Ensamblado con ENS08 el 29/10/2019 06:23:29 p. m.
+
+0000               * Dirección asociada con apuntador de sentencias 'data' *
+0000                dirapdata*           equ   $00D0
+0000               * Dirección inicial de colocación de variables de usuario e internas *
+0000                dirinivars*          equ   $011D
+0000               *....................................................................*
+0000               * Direcciones asociadas con variables de tipo byte *
+0000                dirinibyte*          equ   $011D
+0000                ren                  equ   $011D
+0000                col                  equ   $011E
+0000                l..str~              equ   $011F
+0000                i..~                 equ   $0120
+0000                posdesp~             equ   $0121
+0000                lstr~                equ   $0122
+0000                t~1                  equ   $0123
+0000                t~2                  equ   $0124
+0000                t~3                  equ   $0125
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo entero de 2 bytes *
+0000                dirinient2b*         equ   $0126
+0000                tesdir..str%         equ   $0126
+0000                mi..ascii%           equ   $0128
+0000                t%1                  equ   $012A
+0000                t%2                  equ   $012C
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo entero de 4 bytes (long) *
+0000                dirinilong*          equ   $012E
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo real de 4 bytes *
+0000                dirinivr4b*          equ   $012E
+0000                t!1                  equ   $012E
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo real de 8 bytes *
+0000                dirinivr8b*          equ   $0132
+0000               ******************************************************************
+0000               * Direcciones asociadas con descriptores de variables de tipo string *
+0000                dirinivrstr*         equ   $0132
+0000                x1                   equ   $0132
+0000                num$                 equ   $0135
+0000                t$1                  equ   $0138
+0000                t$2                  equ   $013B
+0000               ******************************************************************
+0000               * Dirección inicial de colocación de strings *
+0000                dirinistrings*       equ   $013E
+0000               ******************************************************************
+0000                dir#ultdesc          equ   $013B
+0000                top#mem              equ   $01BE
+0000                SUM#NSNBY             EQU        $D800
+0000                RES#NSNBY             EQU        $D82A
+0000                ROT#IZQ08             EQU        $D854
+0000                ROT#DER08             EQU        $D864
+0000                MUL#NSNBY             EQU        $D874
+0000                SUMA#PARCIAL          EQU        $D8F2
+0000                NEG#NBY               EQU        $D919
+0000                CP#NSNB               EQU        $D93F
+0000                CP#NSNBZ              EQU        $D961
+0000                DIV#NSNBY             EQU        $D976
+0000                MOD#NSNBY             EQU        $DAAD
+0000                GEN#CADASCNBY         EQU        $DB66
+0000                GEN#ASCFNSNBY         EQU        $DBD7
+0000                SUMAL#NBY             EQU        $DC3E
+0000                RESTAL#NBY            EQU        $DC70
+0000                MULAL#NBY             EQU        $DC78
+0000                PONE#7FFF             EQU        $DCE5
+0000                PONE#FF80             EQU        $DD18
+0000                DIVAL#NBY             EQU        $DD42
+0000                MODAL#NBY             EQU        $DD7C
+0000                CP#NBY                EQU        $DDB1
+0000                MULX10#NSNBY          EQU        $DDD8
+0000                GEN#10^N1             EQU        $DE08
+0000                EST#NBDEND            EQU        $DE27
+0000                ESC#MOFFS             EQU        $DE45
+0000                ASCENT#ABIN           EQU        $DE5A
+0000                SI#ESDIGDEC           EQU        $DEDD
+0000                ASCREAL#ABIN          EQU        $DEED
+0000                ASCRNOEX#AFLOT        EQU        $DF9F
+0000                MUL#PFPS              EQU        $E053
+0000                GENFLOT#10^M          EQU        $E0DE
+0000                GENFLOT#10^(-M)       EQU        $E10E
+0000                SWAP#ACPFPS           EQU        $E12F
+0000                ASCRCONEX#AFLOT       EQU        $E16C
+0000                PSH#ACPFPS2           EQU        $E1DA
+0000                PUL#ACPFPS2           EQU        $E1EE
+0000                PSH#ACPFPS1           EQU        $E202
+0000                PUL#ACPFPS1           EQU        $E216
+0000                DIV#PFPS              EQU        $E22A
+0000                RES#PFPS              EQU        $E2D8
+0000                SUM#PFPS              EQU        $E2E3
+0000                CP#PFPS               EQU        $E372
+0000                AJU#EXPYMANT          EQU        $E3D6
+0000                PARTENT#PFPS          EQU        $E427
+0000                PARTFRAC#PFPS         EQU        $E47F
+0000                PRINTIP1#PFPS         EQU        $E49B
+0000                PRINTIP2#PFPS         EQU        $E52C
+0000                ANALIZA#CAD           EQU        $E5F2
+0000                PONE#CEROSIZQ         EQU        $E6D1
+0000                VALIDALEC#NUM         EQU        $E795
+0000                PRINT#ENTSIG          EQU        $E875
+0000                FLOT5B#AFLOT4B        EQU        $E8BB
+0000                FLOT4B#AFLOT5B        EQU        $E8D5
+0000                MUEVE#BLO_FFFF        EQU        $E8FC
+0000                MUEVE#BLO_0000        EQU        $E94A
+0000                ASIGCAD#ASTR          EQU        $E99D
+0000                SUM#STRINGS           EQU        $EAB0
+0000                CP#STRINGS            EQU        $EB39
+0000                ASIG#SUBSTRING        EQU        $EB7C
+0000                AVISO#ARGINV          EQU        $EBF1
+0000                CONV#12               EQU        $EC0D
+0000                CONV#13               EQU        $EC1B
+0000                CONV#14               EQU        $EC33
+0000                CONV#21               EQU        $EC67
+0000                CONV#23               EQU        $EC90
+0000                CONV#24               EQU        $ECA3
+0000                CONV#31               EQU        $ECE7
+0000                CONV#32               EQU        $ED11
+0000                CONV#34               EQU        $ED3D
+0000                CONV#41               EQU        $ED8A
+0000                CONV#42               EQU        $EDF2
+0000                CONV#43               EQU        $EE69
+0000                RAIZ#CUAD             EQU        $EEEC
+0000                GENFLOT#X^M           EQU        $EF6A
+0000                CGCTE#ACPFPS2         EQU        $EF7E
+0000                CGCTE#ACPFPS1         EQU        $EF92
+0000                SEN(Z)#V1             EQU        $EF9E
+0000                COS(Z)#V1             EQU        $F007
+0000                SEN(Z)#Z<PI/2         EQU        $F020
+0000                SEN(Z)#Z<2PI          EQU        $F057
+0000                SEN(Z)#GEN            EQU        $F0C3
+0000                COS(Z)#GEN            EQU        $F14D
+0000                EXP(Z)#V1             EQU        $F160
+0000                EXP(Z)#GEN            EQU        $F1AC
+0000                L(Z)#GEN              EQU        $F237
+0000                L10(z)#GEN            EQU        $F2DA
+0000                TAN(Z)#GEN            EQU        $F2ED
+0000                ATAN(Z)#V2            EQU        $F315
+0000                ATAN(Z)#Z<=1          EQU        $F360
+0000                ATAN(Z)#GEN           EQU        $F3BF
+0000                XEY#PFPS              EQU        $F404
+0000                XEY#GEN               EQU        $F41A
+0000                OB#1/Z                EQU        $F498
+0000                FIX#PFPS              EQU        $F4B1
+0000                VMEMFL#ACPFPS1        EQU        $F4C1
+0000                VMEMFL#ACPFPS2        EQU        $F4D1
+0000                ACPFPS1#VMEMFL        EQU        $F4E7
+0000                VMEM#ACC1+OFFS        EQU        $F4F7
+0000                ACC1+OFFS#VMEM        EQU        $F50F
+0000                ES#DIGHEX             EQU        $F527
+0000                ANALIZA#CADHEX        EQU        $F544
+0000                PON#CAR               EQU        $F565
+0000                LEE#CAR               EQU        $F569
+0000                INPUT#ACC1            EQU        $F56D
+0000                ENRU#PONCAR           EQU        $F5D5
+0000                PONCAR#DE_STR         EQU        $F5EA
+0000                CADHEX#AFLOT          EQU        $F850
+0000                PONE#CEROENACPFPS1    EQU        $F8D6
+0000                PARHEXA#BYTEQ         EQU        $F8E1
+0000                VAL#DIGHEX            EQU        $F8F8
+0000                VAL#GEN               EQU        $F905
+0000                STR$#GEN              EQU        $F954
+0000                HEX$#GEN              EQU        $F976
+0000                CHR$#GEN              EQU        $F9AE
+0000                ASC#GEN               EQU        $F9C3
+0000                LEN#GEN               EQU        $F9DD
+0000                SGN#GEN               EQU        $F9E6
+0000                ABS#GEN               EQU        $F9F8
+0000                CINT#GEN              EQU        $F9FB
+0000                CSGN#GEN              EQU        $FA32
+0000                DIVENT#PFPS           EQU        $FA3C
+0000                SUB#AUXDIVINTYMOD     EQU        $FA5E
+0000                MODAL#PFPS            EQU        $FA72
+0000                OPERBOOLE#PFPS        EQU        $FA94
+0000                OPERBOOLE#NBY         EQU        $FAAF
+0000                NOT#PFPS              EQU        $FB02
+0000                NOT#NBY               EQU        $FB1B
+0000                BLOQUE1#ABLOQUE2      EQU        $FB29
+0000                AVISO#INDINV          EQU        $FB42
+0000                INPUT#ACC9            EQU        $FB99
+0000                TX#SCI                EQU        $FBC6
+0000                RX#SCI                EQU        $FBCC
+0000                MUL#N3B               EQU        $FBD2
+0000                txsci equ $fc87
+0000                rxsci equ $fc8d
+0000                acc#1          equ $A0
+0000                apf#ps1        equ $B4
+0000                m1pf#ps1       equ $B5
+0000                m2pf#ps1       equ $B6
+0000                m3pf#ps1       equ $B7
+0000                tspf#ps1       equ $B8
+0000                apf#ps2        equ $B9
+0000                m1pf#ps2       equ $BA
+0000                m2pf#ps2       equ $BB
+0000                m3pf#ps2       equ $BC
+0000                tspf#ps2       equ $BD
+0000                apun*          equ $87
+0000                var#dirinistr  equ $89
+0000                var#dirultdesc equ $8B
+0000                var#topmem     equ $8D
+0000                locaux#-6      equ $8F
+0000                locaux#-5      equ $90
+0000                locaux#-4      equ $91
+0000                locaux#-3      equ $92
+0000                locaux#-2      equ $93
+0000                locaux#-1      equ $94
+0000                locaux#0       equ $95
+0000                locaux#1       equ $96
+0000                locaux#2       equ $97
+0000                locaux#3       equ $98
+0000                locaux#4       equ $99
+0000                locaux#5       equ $9A
+0000                locaux#6       equ $9B
+0000                locaux#7       equ $9C
+0000                nu#by          equ $9D
+0000                bya#dirll      equ $9E
+0000                byb#dirll      equ $9F
+0000               ** Asignaciones equ asociadas con sentencias defvarxptr **
+0000               ** Fin de colocación de equs asociados con declaraciones defvarxptr
+
+
+0000                ini#sp            equ $047F
+82A6                                        org $82A6
+82A6               * Inicialización predefinida por el compilador SB8 o el usuario en archivo E:\ejemplos_sbas8_2020-1\printlcd16x2sh_cps.car *
+82A6               * Guarda en stack status de delimitadores de direcciones asociadas con
+82A6               * variables string locales,propias del procedimiento que llamó al presente.
+
+82A6 8B                                      pshh
+82A7 89                                      pshx
+82A8 87                                      psha
+82A9                
+82A9 5587                                    ldhx apun*
+82AB 8B                                      pshh
+82AC 89                                      pshx
+82AD 5589                                    ldhx var#dirinistr
+82AF 8B                                      pshh
+82B0 89                                      pshx
+
+82B1 558B                                    ldhx var#dirultdesc
+82B3 8B                                      pshh
+82B4 89                                      pshx
+82B5 558D                                    ldhx var#topmem
+82B7 8B                                      pshh
+82B8 89                                      pshx
+82B9               *.................................................................................
+
+82B9               * Fin de inicialización predefinida por el compilador SB8 o el usuario *
+82B9 45011D                                  ldhx #dirinivars*
+82BC 7F             otro#ceroaram:           clr ,x
+82BD AF01                                    aix #$01
+82BF 6501BF                                  cphx #top#mem+1
+82C2 26F8                                    bne otro#ceroaram
+82C4 45013E                                  ldhx #dirinistrings*
+82C7 650132                                  cphx #dirinivrstr*
+82CA 2719                                    beq ini#tops
+82CC 8B                                      pshh 
+82CD 86                                      pula 
+82CE B796                                    sta locaux#1
+82D0 89                                      pshx 
+82D1 86                                      pula 
+82D2 B797                                    sta locaux#2
+82D4 450132                                  ldhx #dirinivrstr*
+82D7 B696           otro#descriptor:         lda locaux#1
+82D9 F7                                      sta ,x
+82DA B697                                    lda locaux#2
+82DC E701                                    sta $01,x
+82DE AF03                                    aix #$03
+82E0 65013E                                  cphx #dirinistrings*
+82E3 26F2                                    bne otro#descriptor
+82E5 45013E         ini#tops:                ldhx #dirinistrings*
+82E8 3589                                    sthx var#dirinistr
+82EA 45013B                                  ldhx #dir#ultdesc
+82ED 358B                                    sthx var#dirultdesc
+82EF 4501BF                                  ldhx #top#mem+1
+82F2 358D                                    sthx var#topmem
+82F4 3F8F                                    clr locaux#-6
+82F6 3F9E                                    clr bya#dirll
+82F8 3F9F                                    clr byb#dirll
+82FA               ****  Fin de código de inicialización  *****
+82FA               *
+82FA               ****  Inicia código de usuario *****
+82FA               * finens  ---> r=11
+82FA               *            iniens
+82FA                main                     equ $804a
+82FA                printlcd16x2sh           equ $82a6
+82FA               *            finens
+82FA               * l..str~ = 0  ---> r=22
+82FA A600                                    lda #$00
+82FC C7011F                                  sta l..str~
+82FF               * tesdir..str% = 0  ---> r=23
+82FF 450000                                  ldhx #$0000
+8302 8B                                      pshh 
+8303 86                                      pula 
+8304 C70126                                  sta tesdir..str%
+8307 CF0127                                  stx tesdir..str%+1
+830A               * finens  ---> r=36
+830A               *            iniens
+830A 9EFE0E                                  ldhx $0e,sp
+830D E602                                    lda $02,x
+830F C7011F                                  sta l..str~
+8312 F6                                      lda ,x
+8313 C70126                                  sta tesdir..str%
+8316 E601                                    lda $01,x
+8318 C70127                                  sta tesdir..str%+1
+831B               *            finens
+831B               * mi..ascii% = 0  ---> r=39
+831B 450000                                  ldhx #$0000
+831E 8B                                      pshh 
+831F 86                                      pula 
+8320 C70128                                  sta mi..ascii%
+8323 CF0129                                  stx mi..ascii%+1
+8326               * x1 = ""  ---> r=41
+8326 450132                                  ldhx #x1
+8329 35A6                                    sthx acc#1+6
+832B 6E00A8                                  mov #$00,acc#1+8
+832E CDE99D                                  jsr asigcad#astr
+8331               * finens  ---> r=46
+8331               *            iniens
+8331 C6011F                                  lda l..str~
+8334 277D                                    beq fuera..
+8336               *            finens
+8336               * for i..~ = 1 to l..str~  ---> r=48
+8336 A601                                    lda #$01
+8338 C70120                                  sta i..~
+833B 9D             ciclofor#001:            nop 
+833C               * finens  ---> r=56
+833C               *            iniens
+833C 320126                                  ldhx tesdir..str%
+833F F6                                      lda ,x
+8340 C70129                                  sta mi..ascii%+1
+8343 AF01                                    aix #$01
+8345 960126                                  sthx tesdir..str%
+8348               *            finens
+8348               * x1 = x1 + chr$ ( mi..ascii% )  ---> r=59
+8348 450128                                  ldhx #mi..ascii%
+834B 7EB5                                    mov x+,m1pf#ps1
+834D 7EB6                                    mov x+,m2pf#ps1
+834F CDECA3                                  jsr conv#24
+8352 CDE8BB                                  jsr flot5b#aflot4b
+8355 45012E                                  ldhx #t!1
+8358 5EB4                                    mov apf#ps1,x+
+835A 5EB5                                    mov apf#ps1+1,x+
+835C 5EB6                                    mov apf#ps1+2,x+
+835E 5EB7                                    mov apf#ps1+3,x+
+8360 45012E                                  ldhx #t!1
+8363 CDF4C1                                  jsr vmemfl#acpfps1
+8366 CDF9AE                                  jsr chr$#gen
+8369 450138                                  ldhx #t$1
+836C 35A6                                    sthx acc#1+6
+836E CDE99D                                  jsr asigcad#astr
+8371 450132                                  ldhx #x1
+8374 7EA0                                    mov x+,acc#1
+8376 7EA1                                    mov x+,acc#1+1
+8378 7EA2                                    mov x+,acc#1+2
+837A 450138                                  ldhx #t$1
+837D 7EA3                                    mov x+,acc#1+3
+837F 7EA4                                    mov x+,acc#1+4
+8381 7EA5                                    mov x+,acc#1+5
+8383 CDEAB0                                  jsr sum#strings
+8386 450132                                  ldhx #x1
+8389 35A6                                    sthx acc#1+6
+838B CDE99D                                  jsr asigcad#astr
+838E               * next i..~  ---> r=64
+838E 450120                                  ldhx #i..~
+8391 7EA0                                    mov x+,acc#1
+8393 A601                                    lda #$01
+8395 B7A1                                    sta acc#1+1
+8397 6E019D                                  mov #$01,nu#by
+839A CDDC3E                                  jsr sumal#nby
+839D 450120                                  ldhx #i..~
+83A0 5EA0                                    mov acc#1,x+
+83A2 45011F                                  ldhx #l..str~
+83A5 7EA1                                    mov x+,acc#1+1
+83A7 6E019D                                  mov #$01,nu#by
+83AA CDDDB1                                  jsr cp#nby
+83AD 2203                                    bhi exitfor#001
+83AF CC833B                                  jmp ciclofor#001
+83B2 9D             exitfor#001:   nop
+83B3               * fuera..:  ---> r=65
+83B3 9D             fuera..:     nop
+83B4               * finens  ---> r=71
+83B4               *            iniens
+83B4 9EFE10                                  ldhx $10,sp
+83B7 F6                                      lda ,x
+83B8 C7011D                                  sta ren
+83BB               *            finens
+83BB               * finens  ---> r=78
+83BB               *            iniens
+83BB 9EFE12                                  ldhx $12,sp
+83BE F6                                      lda ,x
+83BF C7011E                                  sta col
+83C2               *            finens
+83C2               * if x1 = "" then  ---> r=94
+83C2 6E00A5                                  mov #$00,acc#1+5
+83C5 450132                                  ldhx #x1
+83C8 7EA0                                    mov x+,acc#1
+83CA 7EA1                                    mov x+,acc#1+1
+83CC 7EA2                                    mov x+,acc#1+2
+83CE CDEB39                                  jsr cp#strings
+83D1 2703                                    beq cmps1se0#001
+83D3 4F                                      clra 
+83D4 2002                                    bra cmps1se1#001
+83D6 A601           cmps1se0#001:            lda #$01
+83D8 C70123         cmps1se1#001:            sta t~1
+83DB C60123                                  lda t~1
+83DE 2603                                    bne argifblovdo#001
+83E0 CC83EA                                  jmp endif#001
+83E3 9D             argifblovdo#001:         nop 
+83E4               * finens  ---> r=98
+83E4               *            iniens
+83E4 CD851E                                  jsr inilcd
+83E7               *            finens
+83E7               * goto fuera  ---> r=99
+83E7 CC86BF                                  jmp fuera
+83EA               * endif  ---> r=100
+83EA 9D             endif#001:   nop
+83EB               * if ren < 1 or ren > 2 then  ---> r=102
+83EB A601                                    lda #$01
+83ED B7A1                                    sta acc#1+1
+83EF 45011D                                  ldhx #ren
+83F2 7EA0                                    mov x+,acc#1
+83F4 6E019D                                  mov #$01,nu#by
+83F7 CDDDB1                                  jsr cp#nby
+83FA 2503                                    blo cmpv1n2b0#001
+83FC 4F                                      clra 
+83FD 2002                                    bra cmpv1n2b1#001
+83FF A601           cmpv1n2b0#001:           lda #$01
+8401 C70123         cmpv1n2b1#001:           sta t~1
+8404 A602                                    lda #$02
+8406 B7A1                                    sta acc#1+1
+8408 45011D                                  ldhx #ren
+840B 7EA0                                    mov x+,acc#1
+840D 6E019D                                  mov #$01,nu#by
+8410 CDDDB1                                  jsr cp#nby
+8413 2203                                    bhi cmpv1n2b0#002
+8415 4F                                      clra 
+8416 2002                                    bra cmpv1n2b1#002
+8418 A601           cmpv1n2b0#002:           lda #$01
+841A C70124         cmpv1n2b1#002:           sta t~2
+841D C60123                                  lda t~1
+8420                                          
+8420 CA0124                                  ora t~2
+8423                                          
+8423 C70125                                  sta t~3
+8426 C60125                                  lda t~3
+8429 2603                                    bne argifblovdo#002
+842B CC8432                                  jmp endif#002
+842E 9D             argifblovdo#002:         nop 
+842F               * goto fuera  ---> r=103
+842F CC86BF                                  jmp fuera
+8432               * endif  ---> r=104
+8432 9D             endif#002:   nop
+8433               * if col < 1 or col > 16 then  ---> r=106
+8433 A601                                    lda #$01
+8435 B7A1                                    sta acc#1+1
+8437 45011E                                  ldhx #col
+843A 7EA0                                    mov x+,acc#1
+843C 6E019D                                  mov #$01,nu#by
+843F CDDDB1                                  jsr cp#nby
+8442 2503                                    blo cmpv1n2b0#003
+8444 4F                                      clra 
+8445 2002                                    bra cmpv1n2b1#003
+8447 A601           cmpv1n2b0#003:           lda #$01
+8449 C70123         cmpv1n2b1#003:           sta t~1
+844C A610                                    lda #$10
+844E B7A1                                    sta acc#1+1
+8450 45011E                                  ldhx #col
+8453 7EA0                                    mov x+,acc#1
+8455 6E019D                                  mov #$01,nu#by
+8458 CDDDB1                                  jsr cp#nby
+845B 2203                                    bhi cmpv1n2b0#004
+845D 4F                                      clra 
+845E 2002                                    bra cmpv1n2b1#004
+8460 A601           cmpv1n2b0#004:           lda #$01
+8462 C70124         cmpv1n2b1#004:           sta t~2
+8465 C60123                                  lda t~1
+8468                                          
+8468 CA0124                                  ora t~2
+846B                                          
+846B C70125                                  sta t~3
+846E C60125                                  lda t~3
+8471 2603                                    bne argifblovdo#003
+8473 CC847A                                  jmp endif#003
+8476 9D             argifblovdo#003:         nop 
+8477               * goto fuera  ---> r=107
+8477 CC86BF                                  jmp fuera
+847A               * endif  ---> r=108
+847A 9D             endif#003:   nop
+847B               * if ren = 1 then  ---> r=110
+847B A601                                    lda #$01
+847D B7A1                                    sta acc#1+1
+847F 45011D                                  ldhx #ren
+8482 7EA0                                    mov x+,acc#1
+8484 6E019D                                  mov #$01,nu#by
+8487 CDDDB1                                  jsr cp#nby
+848A 2703                                    beq cmpv1n2b0#005
+848C 4F                                      clra 
+848D 2002                                    bra cmpv1n2b1#005
+848F A601           cmpv1n2b0#005:           lda #$01
+8491 C70123         cmpv1n2b1#005:           sta t~1
+8494 C60123                                  lda t~1
+8497 2603                                    bne argifblovdo#004
+8499 CC84E0                                  jmp else#004
+849C 9D             argifblovdo#004:         nop 
+849D               * posdesp~ = col - 129  ---> r=111
+849D C6011E                                  lda col
+84A0 B7A1                                    sta acc#1+1
+84A2 CDEC0D                                  jsr conv#12
+84A5 55A0                                    ldhx acc#1
+84A7 8B                                      pshh 
+84A8 86                                      pula 
+84A9 C7012A                                  sta t%1
+84AC CF012B                                  stx t%1+1
+84AF C6012A                                  lda t%1
+84B2 B7A0                                    sta acc#1+0
+84B4 C6012B                                  lda t%1+1
+84B7 B7A1                                    sta acc#1+1
+84B9 450081                                  ldhx #$0081
+84BC 35A2                                    sthx acc#1+2
+84BE 6E029D                                  mov #$02,nu#by
+84C1 CDDC70                                  jsr restal#nby
+84C4 55A0                                    ldhx acc#1+0
+84C6 8B                                      pshh 
+84C7 86                                      pula 
+84C8 C7012C                                  sta t%2
+84CB CF012D                                  stx t%2+1
+84CE 45012C                                  ldhx #t%2
+84D1 7EA0                                    mov x+,acc#1
+84D3 7EA1                                    mov x+,acc#1+1
+84D5 CDEC67                                  jsr conv#21
+84D8 B6A1                                    lda acc#1+1
+84DA C70121                                  sta posdesp~
+84DD               * else  ---> r=112
+84DD CC84F5                                  jmp endif#004
+84E0 9D             else#004:    nop
+84E1               * posdesp~ = col - 65  ---> r=113
+84E1 C6011E                                  lda col
+84E4 B7A0                                    sta acc#1+0
+84E6 A641                                    lda #$41
+84E8 B7A1                                    sta acc#1+1
+84EA 6E019D                                  mov #$01,nu#by
+84ED CDDC70                                  jsr restal#nby
+84F0 B6A0                                    lda acc#1+0
+84F2 C70121                                  sta posdesp~
+84F5               * endif  ---> r=114
+84F5 9D             endif#004:   nop
+84F6               * num$ = x1  ---> r=116
+84F6 450132                                  ldhx #x1
+84F9 F6                                      lda ,x
+84FA B7A0                                    sta acc#1
+84FC E601                                    lda $01,x
+84FE B7A1                                    sta acc#1+1
+8500 E602                                    lda $02,x
+8502 B79D                                    sta nu#by
+8504 B7A8                                    sta acc#1+8
+8506 2708                                    beq asigi1s#001
+8508 8C                                      clrh 
+8509 AEA9                                    ldx #acc#1+9
+850B 35A2                                    sthx acc#1+2
+850D CDFB29                                  jsr bloque1#abloque2
+8510 450135         asigi1s#001:             ldhx #num$
+8513 35A6                                    sthx acc#1+6
+8515 CDE99D                                  jsr asigcad#astr
+8518               * gosub despstr  ---> r=117
+8518 CD8684                                  jsr despstr
+851B               * goto fuera  ---> r=121
+851B CC86BF                                  jmp fuera
+851E               * finens  ---> r=465
+851E               *            iniens
+851E                contcar                  equ $80
+851E                contgcgram               equ $81
+851E                contret                  equ $82
+851E                ascamina                 equ $e1
+851E                ascemina                 equ $e9
+851E                ascimina                 equ $ed
+851E                ascomina                 equ $f3
+851E                ascumina                 equ $fa
+851E                asceniemin               equ $f1
+851E                ascumindier              equ $fc
+851E                ascamaya                 equ $c1
+851E                ascemaya                 equ $c9
+851E                ascimaya                 equ $cd
+851E                ascomaya                 equ $d3
+851E                ascumaya                 equ $da
+851E                asceniemay               equ $d1
+851E                ascumaydier              equ $dc
+851E                portlcd                  equ $04
+851E                ddrportlcd               equ $05
+851E 87             inilcd:                  psha 
+851F A6FC                                    lda #$fc
+8521 B705                                    sta ddrportlcd
+8523 CD85AF                                  jsr ret5m
+8526 CD85AF                                  jsr ret5m
+8529 CD85AF                                  jsr ret5m
+852C CD85AF                                  jsr ret5m
+852F A630                                    lda #$30
+8531 AD26                                    bsr escom8
+8533 CD85AF                                  jsr ret5m
+8536 AD21                                    bsr escom8
+8538 CD85A5                                  jsr ret100m
+853B CD85AF                                  jsr ret5m
+853E AD19                                    bsr escom8
+8540 A620                                    lda #$20
+8542 AD15                                    bsr escom8
+8544 A628                                    lda #$28
+8546 AD51                                    bsr escom4
+8548 A60C                                    lda #$0c
+854A AD4D                                    bsr escom4
+854C A601                                    lda #$01
+854E AD49                                    bsr escom4
+8550 A606                                    lda #$06
+8552 AD45                                    bsr escom4
+8554 CD85E7                                  jsr cargagcgram
+8557 86                                      pula 
+8558 81                                      rts 
+8559 87             escom8:                  psha 
+855A A4F0                                    and #$f0
+855C B704                                    sta portlcd
+855E 1504                                    bclr 2,portlcd
+8560 1604                                    bset 3,portlcd
+8562 6E2382                                  mov #$23,contret
+8565 AD5E           oppp:                    bsr ret500
+8567 3A82                                    dec contret
+8569 26FA                                    bne oppp
+856B 1704                                    bclr 3,portlcd
+856D 86                                      pula 
+856E 81                                      rts 
+856F 87             escdat8:                 psha 
+8570 A4F0                                    and #$f0
+8572 B704                                    sta portlcd
+8574 1404                                    bset 2,portlcd
+8576 1604                                    bset 3,portlcd
+8578 6E2382                                  mov #$23,contret
+857B AD48           oppp2:                   bsr ret500
+857D 3A82                                    dec contret
+857F 26FA                                    bne oppp2
+8581 1704                                    bclr 3,portlcd
+8583 1504                                    bclr 2,portlcd
+8585 86                                      pula 
+8586 81                                      rts 
+8587 87             escdat4:                 psha 
+8588 A17F                                    cmp #$7f
+858A 2302                                    bls sigg1
+858C AD75           asciiext:                bsr prasciiext
+858E ADDF           sigg1:                   bsr escdat8
+8590 98                                      clc 
+8591 49                                      rola 
+8592 49                                      rola 
+8593 49                                      rola 
+8594 49                                      rola 
+8595 ADD8                                    bsr escdat8
+8597 86                                      pula 
+8598 81                                      rts 
+8599 87             escom4:                  psha 
+859A ADBD                                    bsr escom8
+859C 98                                      clc 
+859D 49                                      rola 
+859E 49                                      rola 
+859F 49                                      rola 
+85A0 49                                      rola 
+85A1 ADB6                                    bsr escom8
+85A3 86                                      pula 
+85A4 81                                      rts 
+85A5 89             ret100m:                 pshx 
+85A6 AE64                                    ldx #$64
+85A8 AD05           otroret5m:               bsr ret5m
+85AA 5A                                      decx 
+85AB 26FB                                    bne otroret5m
+85AD 88                                      pulx 
+85AE 81                                      rts 
+85AF 89             ret5m:                   pshx 
+85B0 AE64                                    ldx #$64
+85B2 AD11           otroret500:              bsr ret500
+85B4 5A                                      decx 
+85B5 26FB                                    bne otroret500
+85B7 88                                      pulx 
+85B8 81                                      rts 
+85B9 89             ret100:                  pshx 
+85BA 9D                                      nop 
+85BB 9D                                      nop 
+85BC 9D                                      nop 
+85BD AE4C                                    ldx #$4c
+85BF 9D             vv:                      nop 
+85C0 5A                                      decx 
+85C1 26FC                                    bne vv
+85C3 88                                      pulx 
+85C4 81                                      rts 
+85C5 89             ret500:                  pshx 
+85C6 9D                                      nop 
+85C7 9D                                      nop 
+85C8 9D                                      nop 
+85C9 AEC4                                    ldx #$c4
+85CB 9D             vv1:                     nop 
+85CC 5A                                      decx 
+85CD 26FC                                    bne vv1
+85CF 88                                      pulx 
+85D0 81                                      rts 
+85D1 89             copiadis:                pshx 
+85D2 8B                                      pshh 
+85D3 87                                      psha 
+85D4 ADC3                                    bsr escom4
+85D6 A610                                    lda #$10
+85D8 B780                                    sta contcar
+85DA F6             otra:                    lda ,x
+85DB ADAA                                    bsr escdat4
+85DD AF01                                    aix #$01
+85DF 3A80                                    dec contcar
+85E1 26F7                                    bne otra
+85E3 86                                      pula 
+85E4 8A                                      pulh 
+85E5 88                                      pulx 
+85E6 81                                      rts 
+85E7 87             cargagcgram:             psha 
+85E8 8B                                      pshh 
+85E9 89                                      pshx 
+85EA A640                                    lda #$40
+85EC CD8599                                  jsr escom4
+85EF 6E4081                                  mov #$40,contgcgram
+85F2 458644                                  ldhx #aminacen
+85F5 F6             otradircg:               lda ,x
+85F6 CD8587                                  jsr escdat4
+85F9 AF01                                    aix #$01
+85FB 3A81                                    dec contgcgram
+85FD 26F6                                    bne otradircg
+85FF 88                                      pulx 
+8600 8A                                      pulh 
+8601 86                                      pula 
+8602 81                                      rts 
+8603 A1E1           prasciiext:              cmp #ascamina
+8605 271E                                    beq fuegamina
+8607 A1E9                                    cmp #ascemina
+8609 271E                                    beq fuegemina
+860B A1ED                                    cmp #ascimina
+860D 271E                                    beq fuegimina
+860F A1F3                                    cmp #ascomina
+8611 271E                                    beq fuegomina
+8613 A1FA                                    cmp #ascumina
+8615 271E                                    beq fuegumina
+8617 A1F1                                    cmp #asceniemin
+8619 271E                                    beq fuegeniemin
+861B A1FC                                    cmp #ascumindier
+861D 271E                                    beq fuegumindier
+861F A1D1                                    cmp #asceniemay
+8621 271E                                    beq fuegeniemay
+8623 201E                                    bra salgprasciiext
+8625 A600           fuegamina:               lda #$00
+8627 201A                                    bra salgprasciiext
+8629 A601           fuegemina:               lda #$01
+862B 2016                                    bra salgprasciiext
+862D A602           fuegimina:               lda #$02
+862F 2012                                    bra salgprasciiext
+8631 A603           fuegomina:               lda #$03
+8633 200E                                    bra salgprasciiext
+8635 A604           fuegumina:               lda #$04
+8637 200A                                    bra salgprasciiext
+8639 A605           fuegeniemin:             lda #$05
+863B 2006                                    bra salgprasciiext
+863D A606           fuegumindier:            lda #$06
+863F 2002                                    bra salgprasciiext
+8641 A607           fuegeniemay:             lda #$07
+8643 81             salgprasciiext:          rts 
+8644 02040E010F     aminacen:                db $02,$04,$0e,$01,$0f,$11,$0f,$00
+     110F00
+864C 02040E111F     eminacen:                db $02,$04,$0e,$11,$1f,$10,$0e,$00
+     100E00
+8654 0204000C04     iminacen:                db $02,$04,$00,$0c,$04,$04,$0e,$00
+     040E00
+865C 02040E1111     ominacen:                db $02,$04,$0e,$11,$11,$11,$0e,$00
+     110E00
+8664 0204111111     uminacen:                db $02,$04,$11,$11,$11,$13,$0d,$00
+     130D00
+866C 0E00161911     eniemin:                 db $0e,$00,$16,$19,$11,$11,$11,$00
+     111100
+8674 1100111111     umindier:                db $11,$00,$11,$11,$11,$13,$0d,$00
+     130D00
+867C 0E00111915     eniemayacen:             db $0e,$00,$11,$19,$15,$13,$11,$00
+     131100
+8684               *            finens
+8684               * despstr:  ---> r=476
+8684 9D             despstr:     nop
+8685               * lstr~ = len ( num$ )  ---> r=478
+8685 450135                                  ldhx #num$
+8688 CDF9DD                                  jsr len#gen
+868B 45012A                                  ldhx #t%1
+868E 5EA0                                    mov acc#1,x+
+8690 5EA1                                    mov acc#1+1,x+
+8692 45012A                                  ldhx #t%1
+8695 7EA0                                    mov x+,acc#1
+8697 7EA1                                    mov x+,acc#1+1
+8699 CDEC67                                  jsr conv#21
+869C B6A1                                    lda acc#1+1
+869E C70122                                  sta lstr~
+86A1               * finens  ---> r=496
+86A1               *            iniens
+86A1 C60135                                  lda num$
+86A4 87                                      psha 
+86A5 8A                                      pulh 
+86A6 CE0136                                  ldx num$+1
+86A9 C60121                                  lda posdesp~
+86AC CD8599                                  jsr escom4
+86AF F6             yuopp:                   lda ,x
+86B0 CD8587                                  jsr escdat4
+86B3 AF01                                    aix #$01
+86B5 C60122                                  lda lstr~
+86B8 4A                                      deca 
+86B9 C70122                                  sta lstr~
+86BC 26F1                                    bne yuopp
+86BE               *            finens
+86BE               * return  ---> r=498
+86BE 81                                      rts
+86BF               * fuera:  ---> r=500
+86BF 9D             fuera:     nop
+86C0               * finens  ---> r=524
+86C0               *            iniens
+86C0 88                                      pulx 
+86C1 8A                                      pulh 
+86C2 358D                                    sthx var#topmem
+86C4 88                                      pulx 
+86C5 8A                                      pulh 
+86C6 358B                                    sthx var#dirultdesc
+86C8 88                                      pulx 
+86C9 8A                                      pulh 
+86CA 3589                                    sthx var#dirinistr
+86CC 88                                      pulx 
+86CD 8A                                      pulh 
+86CE 3587                                    sthx apun*
+86D0 86                                      pula 
+86D1 88                                      pulx 
+86D2 8A                                      pulh 
+86D3 81                                      rts 
+86D4               *            finens
+86D4               ****  Fin de código ejecutable de usuario *****
+86D4 20FE           fin#codus:               bra fin#codus
+86D6               *...............................................................................*
+86D6               ****  Inicio de datos de usuario declarados con sentencias datax, x=b/w/l/s *****
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+OTRO#CEROARAM            82BC
+OTRO#DESCRIPTOR          82D7
+INI#TOPS                 82E5
+CICLOFOR#001             833B
+EXITFOR#001              83B2
+FUERA..                  83B3
+CMPS1SE0#001             83D6
+CMPS1SE1#001             83D8
+ARGIFBLOVDO#001          83E3
+ENDIF#001                83EA
+CMPV1N2B0#001            83FF
+CMPV1N2B1#001            8401
+CMPV1N2B0#002            8418
+CMPV1N2B1#002            841A
+ARGIFBLOVDO#002          842E
+ENDIF#002                8432
+CMPV1N2B0#003            8447
+CMPV1N2B1#003            8449
+CMPV1N2B0#004            8460
+CMPV1N2B1#004            8462
+ARGIFBLOVDO#003          8476
+ENDIF#003                847A
+CMPV1N2B0#005            848F
+CMPV1N2B1#005            8491
+ARGIFBLOVDO#004          849C
+ELSE#004                 84E0
+ENDIF#004                84F5
+ASIGI1S#001              8510
+INILCD                   851E
+ESCOM8                   8559
+OPPP                     8565
+ESCDAT8                  856F
+OPPP2                    857B
+ESCDAT4                  8587
+ASCIIEXT                 858C
+SIGG1                    858E
+ESCOM4                   8599
+RET100M                  85A5
+OTRORET5M                85A8
+RET5M                    85AF
+OTRORET500               85B2
+RET100                   85B9
+VV                       85BF
+RET500                   85C5
+VV1                      85CB
+COPIADIS                 85D1
+OTRA                     85DA
+CARGAGCGRAM              85E7
+OTRADIRCG                85F5
+PRASCIIEXT               8603
+FUEGAMINA                8625
+FUEGEMINA                8629
+FUEGIMINA                862D
+FUEGOMINA                8631
+FUEGUMINA                8635
+FUEGENIEMIN              8639
+FUEGUMINDIER             863D
+FUEGENIEMAY              8641
+SALGPRASCIIEXT           8643
+AMINACEN                 8644
+EMINACEN                 864C
+IMINACEN                 8654
+OMINACEN                 865C
+UMINACEN                 8664
+ENIEMIN                  866C
+UMINDIER                 8674
+ENIEMAYACEN              867C
+DESPSTR                  8684
+YUOPP                    86AF
+FUERA                    86BF
+FIN#CODUS                86D4
+
+   ASIGNACIONES    EQU
+
+DIRAPDATA*              $00D0
+DIRINIVARS*             $011D
+DIRINIBYTE*             $011D
+REN                     $011D
+COL                     $011E
+L..STR~                 $011F
+I..~                    $0120
+POSDESP~                $0121
+LSTR~                   $0122
+T~1                     $0123
+T~2                     $0124
+T~3                     $0125
+DIRINIENT2B*            $0126
+TESDIR..STR%            $0126
+MI..ASCII%              $0128
+T%1                     $012A
+T%2                     $012C
+DIRINILONG*             $012E
+DIRINIVR4B*             $012E
+T!1                     $012E
+DIRINIVR8B*             $0132
+DIRINIVRSTR*            $0132
+X1                      $0132
+NUM$                    $0135
+T$1                     $0138
+T$2                     $013B
+DIRINISTRINGS*          $013E
+DIR#ULTDESC             $013B
+TOP#MEM                 $01BE
+SUM#NSNBY               $D800
+RES#NSNBY               $D82A
+ROT#IZQ08               $D854
+ROT#DER08               $D864
+MUL#NSNBY               $D874
+SUMA#PARCIAL            $D8F2
+NEG#NBY                 $D919
+CP#NSNB                 $D93F
+CP#NSNBZ                $D961
+DIV#NSNBY               $D976
+MOD#NSNBY               $DAAD
+GEN#CADASCNBY           $DB66
+GEN#ASCFNSNBY           $DBD7
+SUMAL#NBY               $DC3E
+RESTAL#NBY              $DC70
+MULAL#NBY               $DC78
+PONE#7FFF               $DCE5
+PONE#FF80               $DD18
+DIVAL#NBY               $DD42
+MODAL#NBY               $DD7C
+CP#NBY                  $DDB1
+MULX10#NSNBY            $DDD8
+GEN#10^N1               $DE08
+EST#NBDEND              $DE27
+ESC#MOFFS               $DE45
+ASCENT#ABIN             $DE5A
+SI#ESDIGDEC             $DEDD
+ASCREAL#ABIN            $DEED
+ASCRNOEX#AFLOT          $DF9F
+MUL#PFPS                $E053
+GENFLOT#10^M            $E0DE
+GENFLOT#10^(-M)         $E10E
+SWAP#ACPFPS             $E12F
+ASCRCONEX#AFLOT         $E16C
+PSH#ACPFPS2             $E1DA
+PUL#ACPFPS2             $E1EE
+PSH#ACPFPS1             $E202
+PUL#ACPFPS1             $E216
+DIV#PFPS                $E22A
+RES#PFPS                $E2D8
+SUM#PFPS                $E2E3
+CP#PFPS                 $E372
+AJU#EXPYMANT            $E3D6
+PARTENT#PFPS            $E427
+PARTFRAC#PFPS           $E47F
+PRINTIP1#PFPS           $E49B
+PRINTIP2#PFPS           $E52C
+ANALIZA#CAD             $E5F2
+PONE#CEROSIZQ           $E6D1
+VALIDALEC#NUM           $E795
+PRINT#ENTSIG            $E875
+FLOT5B#AFLOT4B          $E8BB
+FLOT4B#AFLOT5B          $E8D5
+MUEVE#BLO_FFFF          $E8FC
+MUEVE#BLO_0000          $E94A
+ASIGCAD#ASTR            $E99D
+SUM#STRINGS             $EAB0
+CP#STRINGS              $EB39
+ASIG#SUBSTRING          $EB7C
+AVISO#ARGINV            $EBF1
+CONV#12                 $EC0D
+CONV#13                 $EC1B
+CONV#14                 $EC33
+CONV#21                 $EC67
+CONV#23                 $EC90
+CONV#24                 $ECA3
+CONV#31                 $ECE7
+CONV#32                 $ED11
+CONV#34                 $ED3D
+CONV#41                 $ED8A
+CONV#42                 $EDF2
+CONV#43                 $EE69
+RAIZ#CUAD               $EEEC
+GENFLOT#X^M             $EF6A
+CGCTE#ACPFPS2           $EF7E
+CGCTE#ACPFPS1           $EF92
+SEN(Z)#V1               $EF9E
+COS(Z)#V1               $F007
+SEN(Z)#Z<PI/2           $F020
+SEN(Z)#Z<2PI            $F057
+SEN(Z)#GEN              $F0C3
+COS(Z)#GEN              $F14D
+EXP(Z)#V1               $F160
+EXP(Z)#GEN              $F1AC
+L(Z)#GEN                $F237
+L10(Z)#GEN              $F2DA
+TAN(Z)#GEN              $F2ED
+ATAN(Z)#V2              $F315
+ATAN(Z)#Z<=1            $F360
+ATAN(Z)#GEN             $F3BF
+XEY#PFPS                $F404
+XEY#GEN                 $F41A
+OB#1/Z                  $F498
+FIX#PFPS                $F4B1
+VMEMFL#ACPFPS1          $F4C1
+VMEMFL#ACPFPS2          $F4D1
+ACPFPS1#VMEMFL          $F4E7
+VMEM#ACC1+OFFS          $F4F7
+ACC1+OFFS#VMEM          $F50F
+ES#DIGHEX               $F527
+ANALIZA#CADHEX          $F544
+PON#CAR                 $F565
+LEE#CAR                 $F569
+INPUT#ACC1              $F56D
+ENRU#PONCAR             $F5D5
+PONCAR#DE_STR           $F5EA
+CADHEX#AFLOT            $F850
+PONE#CEROENACPFPS1      $F8D6
+PARHEXA#BYTEQ           $F8E1
+VAL#DIGHEX              $F8F8
+VAL#GEN                 $F905
+STR$#GEN                $F954
+HEX$#GEN                $F976
+CHR$#GEN                $F9AE
+ASC#GEN                 $F9C3
+LEN#GEN                 $F9DD
+SGN#GEN                 $F9E6
+ABS#GEN                 $F9F8
+CINT#GEN                $F9FB
+CSGN#GEN                $FA32
+DIVENT#PFPS             $FA3C
+SUB#AUXDIVINTYMOD       $FA5E
+MODAL#PFPS              $FA72
+OPERBOOLE#PFPS          $FA94
+OPERBOOLE#NBY           $FAAF
+NOT#PFPS                $FB02
+NOT#NBY                 $FB1B
+BLOQUE1#ABLOQUE2        $FB29
+AVISO#INDINV            $FB42
+INPUT#ACC9              $FB99
+TX#SCI                  $FBC6
+RX#SCI                  $FBCC
+MUL#N3B                 $FBD2
+TXSCI                   $FC87
+RXSCI                   $FC8D
+ACC#1                   $A0
+APF#PS1                 $B4
+M1PF#PS1                $B5
+M2PF#PS1                $B6
+M3PF#PS1                $B7
+TSPF#PS1                $B8
+APF#PS2                 $B9
+M1PF#PS2                $BA
+M2PF#PS2                $BB
+M3PF#PS2                $BC
+TSPF#PS2                $BD
+APUN*                   $87
+VAR#DIRINISTR           $89
+VAR#DIRULTDESC          $8B
+VAR#TOPMEM              $8D
+LOCAUX#-6               $8F
+LOCAUX#-5               $90
+LOCAUX#-4               $91
+LOCAUX#-3               $92
+LOCAUX#-2               $93
+LOCAUX#-1               $94
+LOCAUX#0                $95
+LOCAUX#1                $96
+LOCAUX#2                $97
+LOCAUX#3                $98
+LOCAUX#4                $99
+LOCAUX#5                $9A
+LOCAUX#6                $9B
+LOCAUX#7                $9C
+NU#BY                   $9D
+BYA#DIRLL               $9E
+BYB#DIRLL               $9F
+INI#SP                  $047F
+MAIN                    $804A
+PRINTLCD16X2SH          $82A6
+CONTCAR                 $80
+CONTGCGRAM              $81
+CONTRET                 $82
+ASCAMINA                $E1
+ASCEMINA                $E9
+ASCIMINA                $ED
+ASCOMINA                $F3
+ASCUMINA                $FA
+ASCENIEMIN              $F1
+ASCUMINDIER             $FC
+ASCAMAYA                $C1
+ASCEMAYA                $C9
+ASCIMAYA                $CD
+ASCOMAYA                $D3
+ASCUMAYA                $DA
+ASCENIEMAY              $D1
+ASCUMAYDIER             $DC
+PORTLCD                 $04
+DDRPORTLCD              $05
+

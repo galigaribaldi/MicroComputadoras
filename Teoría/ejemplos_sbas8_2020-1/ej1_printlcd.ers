@@ -1,0 +1,49 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DE ERRORES DE SINTAXIS Y SEMÁNTICOS
+Posible arreglo no definido en el renglón  13
+
+printlcd16x2sh ( "" , 1 , 1 ) -------------> printlcd16x2sh
+-------------------------------------------------------------------------
+Posible arreglo no definido en el renglón  24
+
+printlcd16x2sh ( texto$ , rn~ , colu~ ) -------------> printlcd16x2sh
+-------------------------------------------------------------------------
+Posible arreglo no definido en el renglón  33
+
+def_sub printlcd16x2sh ( x1 as string , ren as byte , col as byte ) -------------> printlcd16x2sh
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  5
+
+end_codini 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  7
+
+def_sub main ( ) 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  13
+
+printlcd16x2sh ( "" , 1 , 1 ) 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  24
+
+printlcd16x2sh ( texto$ , rn~ , colu~ ) 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  29
+
+end_sub 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  33
+
+def_sub printlcd16x2sh ( x1 as string , ren as byte , col as byte ) 
+-------------------------------------------------------------------------
+Incompatibilidad de tipos en el renglón  44
+
+if x1 = "" then -------> x1 = "" 
+-------------------------------------------------------------------------
+Inconsistencia de tipos en el renglón  66
+
+num$ = x1 
+-------------------------------------------------------------------------
+Expresión sin asignación a variable simple o arrreglo en el renglón  452
+
+end_sub 
+-------------------------------------------------------------------------

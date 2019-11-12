@@ -1,0 +1,13 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DEL CÓDIGO INTERMEDIO
+*
+*    <<< iniens  (ren= 6) >>>
+*
+        iniens 
+llamain:       jsr llamain + 5 
+*
+*    <<< finens  (ren= 8) >>>
+*
+        finens 
+ fin#sent finens   8 3
+** Sentencias data **
+** Sentencias datax, x=b/w/l/s/d **

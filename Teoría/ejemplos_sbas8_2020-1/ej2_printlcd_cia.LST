@@ -1,0 +1,441 @@
+
+E:\ejemplos_sbas8_2020-1\ej2_printlcd_cia.cus   Ensamblado con ENS08 el 29/10/2019 06:22:33 p. m.
+
+0000               * Dirección asociada con apuntador de sentencias 'data' *
+0000                dirapdata*           equ   $00D0
+0000               * Dirección inicial de colocación de variables de usuario e internas *
+0000                dirinivars*          equ   $00D0
+0000               *....................................................................*
+0000               * Direcciones asociadas con variables de tipo byte *
+0000                dirinibyte*          equ   $00D0
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo entero de 2 bytes *
+0000                dirinient2b*         equ   $00D0
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo entero de 4 bytes (long) *
+0000                dirinilong*          equ   $00D0
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo real de 4 bytes *
+0000                dirinivr4b*          equ   $00D0
+0000               ******************************************************************
+0000               * Direcciones asociadas con variables de tipo real de 8 bytes *
+0000                dirinivr8b*          equ   $00D0
+0000               ******************************************************************
+0000               * Direcciones asociadas con descriptores de variables de tipo string *
+0000                dirinivrstr*         equ   $00D0
+0000               ******************************************************************
+0000               * Dirección inicial de colocación de strings *
+0000                dirinistrings*       equ   $00D0
+0000               ******************************************************************
+0000                dir#ultdesc          equ   $00CD
+0000                top#mem              equ   $00D0
+0000                SUM#NSNBY             EQU        $D800
+0000                RES#NSNBY             EQU        $D82A
+0000                ROT#IZQ08             EQU        $D854
+0000                ROT#DER08             EQU        $D864
+0000                MUL#NSNBY             EQU        $D874
+0000                SUMA#PARCIAL          EQU        $D8F2
+0000                NEG#NBY               EQU        $D919
+0000                CP#NSNB               EQU        $D93F
+0000                CP#NSNBZ              EQU        $D961
+0000                DIV#NSNBY             EQU        $D976
+0000                MOD#NSNBY             EQU        $DAAD
+0000                GEN#CADASCNBY         EQU        $DB66
+0000                GEN#ASCFNSNBY         EQU        $DBD7
+0000                SUMAL#NBY             EQU        $DC3E
+0000                RESTAL#NBY            EQU        $DC70
+0000                MULAL#NBY             EQU        $DC78
+0000                PONE#7FFF             EQU        $DCE5
+0000                PONE#FF80             EQU        $DD18
+0000                DIVAL#NBY             EQU        $DD42
+0000                MODAL#NBY             EQU        $DD7C
+0000                CP#NBY                EQU        $DDB1
+0000                MULX10#NSNBY          EQU        $DDD8
+0000                GEN#10^N1             EQU        $DE08
+0000                EST#NBDEND            EQU        $DE27
+0000                ESC#MOFFS             EQU        $DE45
+0000                ASCENT#ABIN           EQU        $DE5A
+0000                SI#ESDIGDEC           EQU        $DEDD
+0000                ASCREAL#ABIN          EQU        $DEED
+0000                ASCRNOEX#AFLOT        EQU        $DF9F
+0000                MUL#PFPS              EQU        $E053
+0000                GENFLOT#10^M          EQU        $E0DE
+0000                GENFLOT#10^(-M)       EQU        $E10E
+0000                SWAP#ACPFPS           EQU        $E12F
+0000                ASCRCONEX#AFLOT       EQU        $E16C
+0000                PSH#ACPFPS2           EQU        $E1DA
+0000                PUL#ACPFPS2           EQU        $E1EE
+0000                PSH#ACPFPS1           EQU        $E202
+0000                PUL#ACPFPS1           EQU        $E216
+0000                DIV#PFPS              EQU        $E22A
+0000                RES#PFPS              EQU        $E2D8
+0000                SUM#PFPS              EQU        $E2E3
+0000                CP#PFPS               EQU        $E372
+0000                AJU#EXPYMANT          EQU        $E3D6
+0000                PARTENT#PFPS          EQU        $E427
+0000                PARTFRAC#PFPS         EQU        $E47F
+0000                PRINTIP1#PFPS         EQU        $E49B
+0000                PRINTIP2#PFPS         EQU        $E52C
+0000                ANALIZA#CAD           EQU        $E5F2
+0000                PONE#CEROSIZQ         EQU        $E6D1
+0000                VALIDALEC#NUM         EQU        $E795
+0000                PRINT#ENTSIG          EQU        $E875
+0000                FLOT5B#AFLOT4B        EQU        $E8BB
+0000                FLOT4B#AFLOT5B        EQU        $E8D5
+0000                MUEVE#BLO_FFFF        EQU        $E8FC
+0000                MUEVE#BLO_0000        EQU        $E94A
+0000                ASIGCAD#ASTR          EQU        $E99D
+0000                SUM#STRINGS           EQU        $EAB0
+0000                CP#STRINGS            EQU        $EB39
+0000                ASIG#SUBSTRING        EQU        $EB7C
+0000                AVISO#ARGINV          EQU        $EBF1
+0000                CONV#12               EQU        $EC0D
+0000                CONV#13               EQU        $EC1B
+0000                CONV#14               EQU        $EC33
+0000                CONV#21               EQU        $EC67
+0000                CONV#23               EQU        $EC90
+0000                CONV#24               EQU        $ECA3
+0000                CONV#31               EQU        $ECE7
+0000                CONV#32               EQU        $ED11
+0000                CONV#34               EQU        $ED3D
+0000                CONV#41               EQU        $ED8A
+0000                CONV#42               EQU        $EDF2
+0000                CONV#43               EQU        $EE69
+0000                RAIZ#CUAD             EQU        $EEEC
+0000                GENFLOT#X^M           EQU        $EF6A
+0000                CGCTE#ACPFPS2         EQU        $EF7E
+0000                CGCTE#ACPFPS1         EQU        $EF92
+0000                SEN(Z)#V1             EQU        $EF9E
+0000                COS(Z)#V1             EQU        $F007
+0000                SEN(Z)#Z<PI/2         EQU        $F020
+0000                SEN(Z)#Z<2PI          EQU        $F057
+0000                SEN(Z)#GEN            EQU        $F0C3
+0000                COS(Z)#GEN            EQU        $F14D
+0000                EXP(Z)#V1             EQU        $F160
+0000                EXP(Z)#GEN            EQU        $F1AC
+0000                L(Z)#GEN              EQU        $F237
+0000                L10(z)#GEN            EQU        $F2DA
+0000                TAN(Z)#GEN            EQU        $F2ED
+0000                ATAN(Z)#V2            EQU        $F315
+0000                ATAN(Z)#Z<=1          EQU        $F360
+0000                ATAN(Z)#GEN           EQU        $F3BF
+0000                XEY#PFPS              EQU        $F404
+0000                XEY#GEN               EQU        $F41A
+0000                OB#1/Z                EQU        $F498
+0000                FIX#PFPS              EQU        $F4B1
+0000                VMEMFL#ACPFPS1        EQU        $F4C1
+0000                VMEMFL#ACPFPS2        EQU        $F4D1
+0000                ACPFPS1#VMEMFL        EQU        $F4E7
+0000                VMEM#ACC1+OFFS        EQU        $F4F7
+0000                ACC1+OFFS#VMEM        EQU        $F50F
+0000                ES#DIGHEX             EQU        $F527
+0000                ANALIZA#CADHEX        EQU        $F544
+0000                PON#CAR               EQU        $F565
+0000                LEE#CAR               EQU        $F569
+0000                INPUT#ACC1            EQU        $F56D
+0000                ENRU#PONCAR           EQU        $F5D5
+0000                PONCAR#DE_STR         EQU        $F5EA
+0000                CADHEX#AFLOT          EQU        $F850
+0000                PONE#CEROENACPFPS1    EQU        $F8D6
+0000                PARHEXA#BYTEQ         EQU        $F8E1
+0000                VAL#DIGHEX            EQU        $F8F8
+0000                VAL#GEN               EQU        $F905
+0000                STR$#GEN              EQU        $F954
+0000                HEX$#GEN              EQU        $F976
+0000                CHR$#GEN              EQU        $F9AE
+0000                ASC#GEN               EQU        $F9C3
+0000                LEN#GEN               EQU        $F9DD
+0000                SGN#GEN               EQU        $F9E6
+0000                ABS#GEN               EQU        $F9F8
+0000                CINT#GEN              EQU        $F9FB
+0000                CSGN#GEN              EQU        $FA32
+0000                DIVENT#PFPS           EQU        $FA3C
+0000                SUB#AUXDIVINTYMOD     EQU        $FA5E
+0000                MODAL#PFPS            EQU        $FA72
+0000                OPERBOOLE#PFPS        EQU        $FA94
+0000                OPERBOOLE#NBY         EQU        $FAAF
+0000                NOT#PFPS              EQU        $FB02
+0000                NOT#NBY               EQU        $FB1B
+0000                BLOQUE1#ABLOQUE2      EQU        $FB29
+0000                AVISO#INDINV          EQU        $FB42
+0000                INPUT#ACC9            EQU        $FB99
+0000                TX#SCI                EQU        $FBC6
+0000                RX#SCI                EQU        $FBCC
+0000                MUL#N3B               EQU        $FBD2
+0000                txsci equ $fc87
+0000                rxsci equ $fc8d
+0000                acc#1          equ $A0
+0000                apf#ps1        equ $B4
+0000                m1pf#ps1       equ $B5
+0000                m2pf#ps1       equ $B6
+0000                m3pf#ps1       equ $B7
+0000                tspf#ps1       equ $B8
+0000                apf#ps2        equ $B9
+0000                m1pf#ps2       equ $BA
+0000                m2pf#ps2       equ $BB
+0000                m3pf#ps2       equ $BC
+0000                tspf#ps2       equ $BD
+0000                apun*          equ $87
+0000                var#dirinistr  equ $89
+0000                var#dirultdesc equ $8B
+0000                var#topmem     equ $8D
+0000                locaux#-6      equ $8F
+0000                locaux#-5      equ $90
+0000                locaux#-4      equ $91
+0000                locaux#-3      equ $92
+0000                locaux#-2      equ $93
+0000                locaux#-1      equ $94
+0000                locaux#0       equ $95
+0000                locaux#1       equ $96
+0000                locaux#2       equ $97
+0000                locaux#3       equ $98
+0000                locaux#4       equ $99
+0000                locaux#5       equ $9A
+0000                locaux#6       equ $9B
+0000                locaux#7       equ $9C
+0000                nu#by          equ $9D
+0000                bya#dirll      equ $9E
+0000                byb#dirll      equ $9F
+0000               ** Asignaciones equ asociadas con sentencias defvarxptr **
+0000               ** Fin de colocación de equs asociados con declaraciones defvarxptr
+
+0000                ini#sp            equ $047F
+8000                                        org $8000
+8000 450480                                  ldhx #ini#sp+1
+8003 94                                      txs 
+8004               ** No hay código de inicialización definido por el usuario **
+8004 4500D0                                  ldhx #dirinivars*
+8007 7F             otro#ceroaram:           clr ,x
+8008 AF01                                    aix #$01
+800A 6500D1                                  cphx #top#mem+1
+800D 26F8                                    bne otro#ceroaram
+800F 4500D0                                  ldhx #dirinistrings*
+8012 6500D0                                  cphx #dirinivrstr*
+8015 2719                                    beq ini#tops
+8017 8B                                      pshh 
+8018 86                                      pula 
+8019 B796                                    sta locaux#1
+801B 89                                      pshx 
+801C 86                                      pula 
+801D B797                                    sta locaux#2
+801F 4500D0                                  ldhx #dirinivrstr*
+8022 B696           otro#descriptor:         lda locaux#1
+8024 F7                                      sta ,x
+8025 B697                                    lda locaux#2
+8027 E701                                    sta $01,x
+8029 AF03                                    aix #$03
+802B 6500D0                                  cphx #dirinistrings*
+802E 26F2                                    bne otro#descriptor
+8030 4500D0         ini#tops:                ldhx #dirinistrings*
+8033 3589                                    sthx var#dirinistr
+8035 4500CD                                  ldhx #dir#ultdesc
+8038 358B                                    sthx var#dirultdesc
+803A 4500D1                                  ldhx #top#mem+1
+803D 358D                                    sthx var#topmem
+803F 3F8F                                    clr locaux#-6
+8041 3F9E                                    clr bya#dirll
+8043 3F9F                                    clr byb#dirll
+8045               ****  Fin de código de inicialización  *****
+8045               *
+8045               ****  Inicia código de usuario *****
+8045               * finens  ---> r=8
+8045               *            iniens
+8045 CD804A         llamain:                 jsr llamain+5
+8048               *            finens
+8048               ****  Fin de código ejecutable de usuario *****
+8048 20FE           fin#codus:               bra fin#codus
+804A               *...............................................................................*
+804A               ****  Inicio de datos de usuario declarados con sentencias datax, x=b/w/l/s *****
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+OTRO#CEROARAM            8007
+OTRO#DESCRIPTOR          8022
+INI#TOPS                 8030
+LLAMAIN                  8045
+FIN#CODUS                8048
+
+   ASIGNACIONES    EQU
+
+DIRAPDATA*              $00D0
+DIRINIVARS*             $00D0
+DIRINIBYTE*             $00D0
+DIRINIENT2B*            $00D0
+DIRINILONG*             $00D0
+DIRINIVR4B*             $00D0
+DIRINIVR8B*             $00D0
+DIRINIVRSTR*            $00D0
+DIRINISTRINGS*          $00D0
+DIR#ULTDESC             $00CD
+TOP#MEM                 $00D0
+SUM#NSNBY               $D800
+RES#NSNBY               $D82A
+ROT#IZQ08               $D854
+ROT#DER08               $D864
+MUL#NSNBY               $D874
+SUMA#PARCIAL            $D8F2
+NEG#NBY                 $D919
+CP#NSNB                 $D93F
+CP#NSNBZ                $D961
+DIV#NSNBY               $D976
+MOD#NSNBY               $DAAD
+GEN#CADASCNBY           $DB66
+GEN#ASCFNSNBY           $DBD7
+SUMAL#NBY               $DC3E
+RESTAL#NBY              $DC70
+MULAL#NBY               $DC78
+PONE#7FFF               $DCE5
+PONE#FF80               $DD18
+DIVAL#NBY               $DD42
+MODAL#NBY               $DD7C
+CP#NBY                  $DDB1
+MULX10#NSNBY            $DDD8
+GEN#10^N1               $DE08
+EST#NBDEND              $DE27
+ESC#MOFFS               $DE45
+ASCENT#ABIN             $DE5A
+SI#ESDIGDEC             $DEDD
+ASCREAL#ABIN            $DEED
+ASCRNOEX#AFLOT          $DF9F
+MUL#PFPS                $E053
+GENFLOT#10^M            $E0DE
+GENFLOT#10^(-M)         $E10E
+SWAP#ACPFPS             $E12F
+ASCRCONEX#AFLOT         $E16C
+PSH#ACPFPS2             $E1DA
+PUL#ACPFPS2             $E1EE
+PSH#ACPFPS1             $E202
+PUL#ACPFPS1             $E216
+DIV#PFPS                $E22A
+RES#PFPS                $E2D8
+SUM#PFPS                $E2E3
+CP#PFPS                 $E372
+AJU#EXPYMANT            $E3D6
+PARTENT#PFPS            $E427
+PARTFRAC#PFPS           $E47F
+PRINTIP1#PFPS           $E49B
+PRINTIP2#PFPS           $E52C
+ANALIZA#CAD             $E5F2
+PONE#CEROSIZQ           $E6D1
+VALIDALEC#NUM           $E795
+PRINT#ENTSIG            $E875
+FLOT5B#AFLOT4B          $E8BB
+FLOT4B#AFLOT5B          $E8D5
+MUEVE#BLO_FFFF          $E8FC
+MUEVE#BLO_0000          $E94A
+ASIGCAD#ASTR            $E99D
+SUM#STRINGS             $EAB0
+CP#STRINGS              $EB39
+ASIG#SUBSTRING          $EB7C
+AVISO#ARGINV            $EBF1
+CONV#12                 $EC0D
+CONV#13                 $EC1B
+CONV#14                 $EC33
+CONV#21                 $EC67
+CONV#23                 $EC90
+CONV#24                 $ECA3
+CONV#31                 $ECE7
+CONV#32                 $ED11
+CONV#34                 $ED3D
+CONV#41                 $ED8A
+CONV#42                 $EDF2
+CONV#43                 $EE69
+RAIZ#CUAD               $EEEC
+GENFLOT#X^M             $EF6A
+CGCTE#ACPFPS2           $EF7E
+CGCTE#ACPFPS1           $EF92
+SEN(Z)#V1               $EF9E
+COS(Z)#V1               $F007
+SEN(Z)#Z<PI/2           $F020
+SEN(Z)#Z<2PI            $F057
+SEN(Z)#GEN              $F0C3
+COS(Z)#GEN              $F14D
+EXP(Z)#V1               $F160
+EXP(Z)#GEN              $F1AC
+L(Z)#GEN                $F237
+L10(Z)#GEN              $F2DA
+TAN(Z)#GEN              $F2ED
+ATAN(Z)#V2              $F315
+ATAN(Z)#Z<=1            $F360
+ATAN(Z)#GEN             $F3BF
+XEY#PFPS                $F404
+XEY#GEN                 $F41A
+OB#1/Z                  $F498
+FIX#PFPS                $F4B1
+VMEMFL#ACPFPS1          $F4C1
+VMEMFL#ACPFPS2          $F4D1
+ACPFPS1#VMEMFL          $F4E7
+VMEM#ACC1+OFFS          $F4F7
+ACC1+OFFS#VMEM          $F50F
+ES#DIGHEX               $F527
+ANALIZA#CADHEX          $F544
+PON#CAR                 $F565
+LEE#CAR                 $F569
+INPUT#ACC1              $F56D
+ENRU#PONCAR             $F5D5
+PONCAR#DE_STR           $F5EA
+CADHEX#AFLOT            $F850
+PONE#CEROENACPFPS1      $F8D6
+PARHEXA#BYTEQ           $F8E1
+VAL#DIGHEX              $F8F8
+VAL#GEN                 $F905
+STR$#GEN                $F954
+HEX$#GEN                $F976
+CHR$#GEN                $F9AE
+ASC#GEN                 $F9C3
+LEN#GEN                 $F9DD
+SGN#GEN                 $F9E6
+ABS#GEN                 $F9F8
+CINT#GEN                $F9FB
+CSGN#GEN                $FA32
+DIVENT#PFPS             $FA3C
+SUB#AUXDIVINTYMOD       $FA5E
+MODAL#PFPS              $FA72
+OPERBOOLE#PFPS          $FA94
+OPERBOOLE#NBY           $FAAF
+NOT#PFPS                $FB02
+NOT#NBY                 $FB1B
+BLOQUE1#ABLOQUE2        $FB29
+AVISO#INDINV            $FB42
+INPUT#ACC9              $FB99
+TX#SCI                  $FBC6
+RX#SCI                  $FBCC
+MUL#N3B                 $FBD2
+TXSCI                   $FC87
+RXSCI                   $FC8D
+ACC#1                   $A0
+APF#PS1                 $B4
+M1PF#PS1                $B5
+M2PF#PS1                $B6
+M3PF#PS1                $B7
+TSPF#PS1                $B8
+APF#PS2                 $B9
+M1PF#PS2                $BA
+M2PF#PS2                $BB
+M3PF#PS2                $BC
+TSPF#PS2                $BD
+APUN*                   $87
+VAR#DIRINISTR           $89
+VAR#DIRULTDESC          $8B
+VAR#TOPMEM              $8D
+LOCAUX#-6               $8F
+LOCAUX#-5               $90
+LOCAUX#-4               $91
+LOCAUX#-3               $92
+LOCAUX#-2               $93
+LOCAUX#-1               $94
+LOCAUX#0                $95
+LOCAUX#1                $96
+LOCAUX#2                $97
+LOCAUX#3                $98
+LOCAUX#4                $99
+LOCAUX#5                $9A
+LOCAUX#6                $9B
+LOCAUX#7                $9C
+NU#BY                   $9D
+BYA#DIRLL               $9E
+BYB#DIRLL               $9F
+INI#SP                  $047F
+

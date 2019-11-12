@@ -1,0 +1,62 @@
+def_fun lec_pto_sh32(portn as byte) as byte
+    
+    'Retorna como variable byte el contenido del puerto especificado
+    'por la variable portn.
+
+    'portn es el número de puerto implicado.
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa lectura de puerto y se retorna
+    'un byte nulo.
+    'Este procedimiento se ejecuta en 14 us @Fbus=20Mhz.
+
+
+dim bylei as byte
+
+      iniens
+porta equ $00
+portb equ $02
+portc equ $04
+
+        lda portn
+        cmp #$01
+        beq acporta
+        cmp #$02
+        beq acportb
+        cmp #$03
+        beq acportc
+        bra fuerasinacc
+   
+       'Lectura del puerto A
+acporta: lda porta
+         sta bylei
+         bra fuera
+
+       'Lectura del puerto B
+acportb:  lda portb
+          sta bylei
+          bra fuera
+
+       'Lectura del puerto C
+acportc:  lda portc
+          sta bylei
+          bra fuera
+
+
+       finens
+
+fuera: 
+          lec_pto_sh32=bylei
+        
+
+fuerasinacc:
+ 
+ 
+
+       end_fun
+

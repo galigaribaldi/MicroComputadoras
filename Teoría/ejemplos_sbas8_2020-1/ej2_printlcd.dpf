@@ -1,0 +1,5 @@
+     iniens
+main  equ $0000
+printlcd16x2sh  equ $0000
+     finens
+

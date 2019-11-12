@@ -1,0 +1,157 @@
+def_fun md_hcsr04(velson as single,bitdisp as byte,biteco as byte,bcf as byte) as single
+
+  'Retorna la distancia entre el sensor hc-src y un obstáculo delante de éste,
+  
+  'bitdisp define el bit del puerto A que recibe del MCU la señal de disparo.
+  'biteco define el bit del puerto A que presenta al MCU la señal de eco implicada.
+
+  'Si bcf=0, inicializa recursos del puerto A.
+  'Si bcf <> 0, se efectúa la medición y se retorna el valor de la distancia implicada.
+
+  'Si uno o varios de los tres primeros parámetros argumento es inválido cuando
+  'el parámetro bcf es 1, retorna el valor -1.
+  
+  'Supone que Fbus = 20 MHz, si no es el caso, habría que hacer ajustes en proporción.
+  
+defvarbptr ptad &h0
+defvarbptr ptadd &h1
+defvarbptr ptape &h1840
+'................................................
+
+dim maskdis,maskeco,maskdisinv as byte
+dim contus as integer
+
+
+'***<< Entre este punto y ***>> se tarda aprox 0.5 ms
+
+    if velson < 0 then
+    'Checa por parámetros inválidos
+    'si es el caso sale retornando el valor -1
+     md_hcsr04 = -1.
+     exit_fun
+    
+    elseif bitdisp<0 or bitdisp>7 then
+     md_hcsr04 = -1.
+     exit_fun
+
+    elseif biteco<0 or biteco>7 then
+     md_hcsr04 = -1.
+     exit_fun
+
+    endif
+
+'***>>
+
+
+
+ 
+' nota: El cálculo de mascaras se tarda 45 ms
+
+
+     'calcula mascaras
+    if bitdisp=7 then
+    maskdis=-128
+    maskdisinv=127
+    else
+    maskdis=2^bitdisp
+    maskdisinv=-(maskdis+1)
+    endif
+
+    if biteco=7 then
+    maskeco=-128
+    else
+    maskeco=2^biteco
+    endif
+'***** Fin de cálculo de máscaras
+
+  
+
+ 
+
+    if bcf=0 then
+    'inicializa recursos del MCU requeridos
+    ptape=maskeco 'biteco del puerto A tiene pull-up'
+    ptadd= maskdis 'bitdisp del puerto A es salida,va a ser señal de disparo
+   
+    iniens
+     lda ptad
+     and maskdisinv
+     sta ptad 'bitdisp <-- 0
+
+    finens
+
+
+    md_hcsr04 = -1.
+    exit_fun
+
+    endif
+
+    
+
+     'Inicia medición
+
+       contus = 0
+
+       iniens
+       lda ptad
+       and maskdisinv
+       sta ptad 'bitdisp <-- 0
+       jsr retap10us 'Espera 10 us antes de lanzar pulso de disparo
+
+   ' Lanza pulso de disparo
+       lda ptad
+       ora maskdis
+       sta ptad 'bitdisp <-- 1
+       jsr retap10us
+       lda ptad
+       and maskdisinv
+       sta ptad 'bitdisp <-- 0
+  ' fin de pulso de disparo 
+     
+ 
+       ldhx contus '5
+
+      
+ 
+       bra espb0
+
+retap10us: pshh
+           pshx
+           ldhx #$0012
+vuelta:    nop
+           nop
+           aix #$ff
+           cphx #$0000
+           bne vuelta
+           pulx
+           pulh  
+           rts 
+
+   'Espera por flanco de subida de pulso eco
+espb0:     lda ptad    '3
+           bit maskeco '3
+           beq espb0   '3
+    '........................................
+    ' El siguiente lazo se ejecuta en 1 us si fbus = 20 MHz     
+espb2:     aix #$01    '2
+           cphx #$6766 '3. Si el tiempo de espera llega a 26.47 ms (tiempo para una distancia de 4.5 metros),
+                       ' esto seguro se debió a que no hubo rebote, por lo que sale del lazo, lo cual
+                       ' hace que el tiempo sea fijado en 26.47 ms. Si esto sucede, para que el sensor siga
+                       ' funcionando, habría que resetearlo desenergizandolo y de inmediato energizandolo
+                       ' de nuevo.
+           beq jopat   '3
+           nop '1
+           nop '1
+           nop '1
+       'Espera por flanco de bajada de pulso eco
+espb1:     lda ptad    '3
+           bit maskeco '3
+           bne espb2   '3
+    '........................................
+jopat:    sthx contus '5    
+          
+          finens
+
+       md_hcsr04= 0.5*velson*1.e-6*contus
+   
+        end_fun

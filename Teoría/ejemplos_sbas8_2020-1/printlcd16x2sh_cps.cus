@@ -1,0 +1,823 @@
+* Dirección asociada con apuntador de sentencias 'data' *
+dirapdata*           equ   $00D0
+* Dirección inicial de colocación de variables de usuario e internas *
+dirinivars*          equ   $011D
+*....................................................................*
+* Direcciones asociadas con variables de tipo byte *
+dirinibyte*          equ   $011D
+ren                  equ   $011D
+col                  equ   $011E
+l..str~              equ   $011F
+i..~                 equ   $0120
+posdesp~             equ   $0121
+lstr~                equ   $0122
+t~1                  equ   $0123
+t~2                  equ   $0124
+t~3                  equ   $0125
+******************************************************************
+* Direcciones asociadas con variables de tipo entero de 2 bytes *
+dirinient2b*         equ   $0126
+tesdir..str%         equ   $0126
+mi..ascii%           equ   $0128
+t%1                  equ   $012A
+t%2                  equ   $012C
+******************************************************************
+* Direcciones asociadas con variables de tipo entero de 4 bytes (long) *
+dirinilong*          equ   $012E
+******************************************************************
+* Direcciones asociadas con variables de tipo real de 4 bytes *
+dirinivr4b*          equ   $012E
+t!1                  equ   $012E
+******************************************************************
+* Direcciones asociadas con variables de tipo real de 8 bytes *
+dirinivr8b*          equ   $0132
+******************************************************************
+* Direcciones asociadas con descriptores de variables de tipo string *
+dirinivrstr*         equ   $0132
+x1                   equ   $0132
+num$                 equ   $0135
+t$1                  equ   $0138
+t$2                  equ   $013B
+******************************************************************
+* Dirección inicial de colocación de strings *
+dirinistrings*       equ   $013E
+******************************************************************
+dir#ultdesc          equ   $013B
+top#mem              equ   $01BE
+SUM#NSNBY             EQU        $D800
+RES#NSNBY             EQU        $D82A
+ROT#IZQ08             EQU        $D854
+ROT#DER08             EQU        $D864
+MUL#NSNBY             EQU        $D874
+SUMA#PARCIAL          EQU        $D8F2
+NEG#NBY               EQU        $D919
+CP#NSNB               EQU        $D93F
+CP#NSNBZ              EQU        $D961
+DIV#NSNBY             EQU        $D976
+MOD#NSNBY             EQU        $DAAD
+GEN#CADASCNBY         EQU        $DB66
+GEN#ASCFNSNBY         EQU        $DBD7
+SUMAL#NBY             EQU        $DC3E
+RESTAL#NBY            EQU        $DC70
+MULAL#NBY             EQU        $DC78
+PONE#7FFF             EQU        $DCE5
+PONE#FF80             EQU        $DD18
+DIVAL#NBY             EQU        $DD42
+MODAL#NBY             EQU        $DD7C
+CP#NBY                EQU        $DDB1
+MULX10#NSNBY          EQU        $DDD8
+GEN#10^N1             EQU        $DE08
+EST#NBDEND            EQU        $DE27
+ESC#MOFFS             EQU        $DE45
+ASCENT#ABIN           EQU        $DE5A
+SI#ESDIGDEC           EQU        $DEDD
+ASCREAL#ABIN          EQU        $DEED
+ASCRNOEX#AFLOT        EQU        $DF9F
+MUL#PFPS              EQU        $E053
+GENFLOT#10^M          EQU        $E0DE
+GENFLOT#10^(-M)       EQU        $E10E
+SWAP#ACPFPS           EQU        $E12F
+ASCRCONEX#AFLOT       EQU        $E16C
+PSH#ACPFPS2           EQU        $E1DA
+PUL#ACPFPS2           EQU        $E1EE
+PSH#ACPFPS1           EQU        $E202
+PUL#ACPFPS1           EQU        $E216
+DIV#PFPS              EQU        $E22A
+RES#PFPS              EQU        $E2D8
+SUM#PFPS              EQU        $E2E3
+CP#PFPS               EQU        $E372
+AJU#EXPYMANT          EQU        $E3D6
+PARTENT#PFPS          EQU        $E427
+PARTFRAC#PFPS         EQU        $E47F
+PRINTIP1#PFPS         EQU        $E49B
+PRINTIP2#PFPS         EQU        $E52C
+ANALIZA#CAD           EQU        $E5F2
+PONE#CEROSIZQ         EQU        $E6D1
+VALIDALEC#NUM         EQU        $E795
+PRINT#ENTSIG          EQU        $E875
+FLOT5B#AFLOT4B        EQU        $E8BB
+FLOT4B#AFLOT5B        EQU        $E8D5
+MUEVE#BLO_FFFF        EQU        $E8FC
+MUEVE#BLO_0000        EQU        $E94A
+ASIGCAD#ASTR          EQU        $E99D
+SUM#STRINGS           EQU        $EAB0
+CP#STRINGS            EQU        $EB39
+ASIG#SUBSTRING        EQU        $EB7C
+AVISO#ARGINV          EQU        $EBF1
+CONV#12               EQU        $EC0D
+CONV#13               EQU        $EC1B
+CONV#14               EQU        $EC33
+CONV#21               EQU        $EC67
+CONV#23               EQU        $EC90
+CONV#24               EQU        $ECA3
+CONV#31               EQU        $ECE7
+CONV#32               EQU        $ED11
+CONV#34               EQU        $ED3D
+CONV#41               EQU        $ED8A
+CONV#42               EQU        $EDF2
+CONV#43               EQU        $EE69
+RAIZ#CUAD             EQU        $EEEC
+GENFLOT#X^M           EQU        $EF6A
+CGCTE#ACPFPS2         EQU        $EF7E
+CGCTE#ACPFPS1         EQU        $EF92
+SEN(Z)#V1             EQU        $EF9E
+COS(Z)#V1             EQU        $F007
+SEN(Z)#Z<PI/2         EQU        $F020
+SEN(Z)#Z<2PI          EQU        $F057
+SEN(Z)#GEN            EQU        $F0C3
+COS(Z)#GEN            EQU        $F14D
+EXP(Z)#V1             EQU        $F160
+EXP(Z)#GEN            EQU        $F1AC
+L(Z)#GEN              EQU        $F237
+L10(z)#GEN            EQU        $F2DA
+TAN(Z)#GEN            EQU        $F2ED
+ATAN(Z)#V2            EQU        $F315
+ATAN(Z)#Z<=1          EQU        $F360
+ATAN(Z)#GEN           EQU        $F3BF
+XEY#PFPS              EQU        $F404
+XEY#GEN               EQU        $F41A
+OB#1/Z                EQU        $F498
+FIX#PFPS              EQU        $F4B1
+VMEMFL#ACPFPS1        EQU        $F4C1
+VMEMFL#ACPFPS2        EQU        $F4D1
+ACPFPS1#VMEMFL        EQU        $F4E7
+VMEM#ACC1+OFFS        EQU        $F4F7
+ACC1+OFFS#VMEM        EQU        $F50F
+ES#DIGHEX             EQU        $F527
+ANALIZA#CADHEX        EQU        $F544
+PON#CAR               EQU        $F565
+LEE#CAR               EQU        $F569
+INPUT#ACC1            EQU        $F56D
+ENRU#PONCAR           EQU        $F5D5
+PONCAR#DE_STR         EQU        $F5EA
+CADHEX#AFLOT          EQU        $F850
+PONE#CEROENACPFPS1    EQU        $F8D6
+PARHEXA#BYTEQ         EQU        $F8E1
+VAL#DIGHEX            EQU        $F8F8
+VAL#GEN               EQU        $F905
+STR$#GEN              EQU        $F954
+HEX$#GEN              EQU        $F976
+CHR$#GEN              EQU        $F9AE
+ASC#GEN               EQU        $F9C3
+LEN#GEN               EQU        $F9DD
+SGN#GEN               EQU        $F9E6
+ABS#GEN               EQU        $F9F8
+CINT#GEN              EQU        $F9FB
+CSGN#GEN              EQU        $FA32
+DIVENT#PFPS           EQU        $FA3C
+SUB#AUXDIVINTYMOD     EQU        $FA5E
+MODAL#PFPS            EQU        $FA72
+OPERBOOLE#PFPS        EQU        $FA94
+OPERBOOLE#NBY         EQU        $FAAF
+NOT#PFPS              EQU        $FB02
+NOT#NBY               EQU        $FB1B
+BLOQUE1#ABLOQUE2      EQU        $FB29
+AVISO#INDINV          EQU        $FB42
+INPUT#ACC9            EQU        $FB99
+TX#SCI                EQU        $FBC6
+RX#SCI                EQU        $FBCC
+MUL#N3B               EQU        $FBD2
+txsci equ $fc87
+rxsci equ $fc8d
+acc#1          equ $A0
+apf#ps1        equ $B4
+m1pf#ps1       equ $B5
+m2pf#ps1       equ $B6
+m3pf#ps1       equ $B7
+tspf#ps1       equ $B8
+apf#ps2        equ $B9
+m1pf#ps2       equ $BA
+m2pf#ps2       equ $BB
+m3pf#ps2       equ $BC
+tspf#ps2       equ $BD
+apun*          equ $87
+var#dirinistr  equ $89
+var#dirultdesc equ $8B
+var#topmem     equ $8D
+locaux#-6      equ $8F
+locaux#-5      equ $90
+locaux#-4      equ $91
+locaux#-3      equ $92
+locaux#-2      equ $93
+locaux#-1      equ $94
+locaux#0       equ $95
+locaux#1       equ $96
+locaux#2       equ $97
+locaux#3       equ $98
+locaux#4       equ $99
+locaux#5       equ $9A
+locaux#6       equ $9B
+locaux#7       equ $9C
+nu#by          equ $9D
+bya#dirll      equ $9E
+byb#dirll      equ $9F
+** Asignaciones equ asociadas con sentencias defvarxptr **
+** Fin de colocación de equs asociados con declaraciones defvarxptr
+
+
+ini#sp            equ $047F
+                         org $82A6
+* Inicialización predefinida por el compilador SB8 o el usuario en archivo E:\ejemplos_sbas8_2020-1\printlcd16x2sh_cps.car *
+* Guarda en stack status de delimitadores de direcciones asociadas con
+* variables string locales,propias del procedimiento que llamó al presente.
+
+                         pshh
+                         pshx
+                         psha
+ 
+                         ldhx apun*
+                         pshh
+                         pshx
+                         ldhx var#dirinistr
+                         pshh
+                         pshx
+
+                         ldhx var#dirultdesc
+                         pshh
+                         pshx
+                         ldhx var#topmem
+                         pshh
+                         pshx
+*.................................................................................
+
+* Fin de inicialización predefinida por el compilador SB8 o el usuario *
+                         ldhx #dirinivars*
+otro#ceroaram:           clr ,x
+                         aix #$01
+                         cphx #top#mem+1
+                         bne otro#ceroaram
+                         ldhx #dirinistrings*
+                         cphx #dirinivrstr*
+                         beq ini#tops
+                         pshh 
+                         pula 
+                         sta locaux#1
+                         pshx 
+                         pula 
+                         sta locaux#2
+                         ldhx #dirinivrstr*
+otro#descriptor:         lda locaux#1
+                         sta ,x
+                         lda locaux#2
+                         sta $01,x
+                         aix #$03
+                         cphx #dirinistrings*
+                         bne otro#descriptor
+ini#tops:                ldhx #dirinistrings*
+                         sthx var#dirinistr
+                         ldhx #dir#ultdesc
+                         sthx var#dirultdesc
+                         ldhx #top#mem+1
+                         sthx var#topmem
+                         clr locaux#-6
+                         clr bya#dirll
+                         clr byb#dirll
+****  Fin de código de inicialización  *****
+*
+****  Inicia código de usuario *****
+* finens  ---> r=11
+*            iniens
+main                     equ $804a
+printlcd16x2sh           equ $82a6
+*            finens
+* l..str~ = 0  ---> r=22
+                         lda #$00
+                         sta l..str~
+* tesdir..str% = 0  ---> r=23
+                         ldhx #$0000
+                         pshh 
+                         pula 
+                         sta tesdir..str%
+                         stx tesdir..str%+1
+* finens  ---> r=36
+*            iniens
+                         ldhx $0e,sp
+                         lda $02,x
+                         sta l..str~
+                         lda ,x
+                         sta tesdir..str%
+                         lda $01,x
+                         sta tesdir..str%+1
+*            finens
+* mi..ascii% = 0  ---> r=39
+                         ldhx #$0000
+                         pshh 
+                         pula 
+                         sta mi..ascii%
+                         stx mi..ascii%+1
+* x1 = ""  ---> r=41
+                         ldhx #x1
+                         sthx acc#1+6
+                         mov #$00,acc#1+8
+                         jsr asigcad#astr
+* finens  ---> r=46
+*            iniens
+                         lda l..str~
+                         beq fuera..
+*            finens
+* for i..~ = 1 to l..str~  ---> r=48
+                         lda #$01
+                         sta i..~
+ciclofor#001:            nop 
+* finens  ---> r=56
+*            iniens
+                         ldhx tesdir..str%
+                         lda ,x
+                         sta mi..ascii%+1
+                         aix #$01
+                         sthx tesdir..str%
+*            finens
+* x1 = x1 + chr$ ( mi..ascii% )  ---> r=59
+                         ldhx #mi..ascii%
+                         mov x+,m1pf#ps1
+                         mov x+,m2pf#ps1
+                         jsr conv#24
+                         jsr flot5b#aflot4b
+                         ldhx #t!1
+                         mov apf#ps1,x+
+                         mov apf#ps1+1,x+
+                         mov apf#ps1+2,x+
+                         mov apf#ps1+3,x+
+                         ldhx #t!1
+                         jsr vmemfl#acpfps1
+                         jsr chr$#gen
+                         ldhx #t$1
+                         sthx acc#1+6
+                         jsr asigcad#astr
+                         ldhx #x1
+                         mov x+,acc#1
+                         mov x+,acc#1+1
+                         mov x+,acc#1+2
+                         ldhx #t$1
+                         mov x+,acc#1+3
+                         mov x+,acc#1+4
+                         mov x+,acc#1+5
+                         jsr sum#strings
+                         ldhx #x1
+                         sthx acc#1+6
+                         jsr asigcad#astr
+* next i..~  ---> r=64
+                         ldhx #i..~
+                         mov x+,acc#1
+                         lda #$01
+                         sta acc#1+1
+                         mov #$01,nu#by
+                         jsr sumal#nby
+                         ldhx #i..~
+                         mov acc#1,x+
+                         ldhx #l..str~
+                         mov x+,acc#1+1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         bhi exitfor#001
+                         jmp ciclofor#001
+exitfor#001:   nop
+* fuera..:  ---> r=65
+fuera..:     nop
+* finens  ---> r=71
+*            iniens
+                         ldhx $10,sp
+                         lda ,x
+                         sta ren
+*            finens
+* finens  ---> r=78
+*            iniens
+                         ldhx $12,sp
+                         lda ,x
+                         sta col
+*            finens
+* if x1 = "" then  ---> r=94
+                         mov #$00,acc#1+5
+                         ldhx #x1
+                         mov x+,acc#1
+                         mov x+,acc#1+1
+                         mov x+,acc#1+2
+                         jsr cp#strings
+                         beq cmps1se0#001
+                         clra 
+                         bra cmps1se1#001
+cmps1se0#001:            lda #$01
+cmps1se1#001:            sta t~1
+                         lda t~1
+                         bne argifblovdo#001
+                         jmp endif#001
+argifblovdo#001:         nop 
+* finens  ---> r=98
+*            iniens
+                         jsr inilcd
+*            finens
+* goto fuera  ---> r=99
+                         jmp fuera
+* endif  ---> r=100
+endif#001:   nop
+* if ren < 1 or ren > 2 then  ---> r=102
+                         lda #$01
+                         sta acc#1+1
+                         ldhx #ren
+                         mov x+,acc#1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         blo cmpv1n2b0#001
+                         clra 
+                         bra cmpv1n2b1#001
+cmpv1n2b0#001:           lda #$01
+cmpv1n2b1#001:           sta t~1
+                         lda #$02
+                         sta acc#1+1
+                         ldhx #ren
+                         mov x+,acc#1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         bhi cmpv1n2b0#002
+                         clra 
+                         bra cmpv1n2b1#002
+cmpv1n2b0#002:           lda #$01
+cmpv1n2b1#002:           sta t~2
+                         lda t~1
+                           
+                         ora t~2
+                           
+                         sta t~3
+                         lda t~3
+                         bne argifblovdo#002
+                         jmp endif#002
+argifblovdo#002:         nop 
+* goto fuera  ---> r=103
+                         jmp fuera
+* endif  ---> r=104
+endif#002:   nop
+* if col < 1 or col > 16 then  ---> r=106
+                         lda #$01
+                         sta acc#1+1
+                         ldhx #col
+                         mov x+,acc#1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         blo cmpv1n2b0#003
+                         clra 
+                         bra cmpv1n2b1#003
+cmpv1n2b0#003:           lda #$01
+cmpv1n2b1#003:           sta t~1
+                         lda #$10
+                         sta acc#1+1
+                         ldhx #col
+                         mov x+,acc#1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         bhi cmpv1n2b0#004
+                         clra 
+                         bra cmpv1n2b1#004
+cmpv1n2b0#004:           lda #$01
+cmpv1n2b1#004:           sta t~2
+                         lda t~1
+                           
+                         ora t~2
+                           
+                         sta t~3
+                         lda t~3
+                         bne argifblovdo#003
+                         jmp endif#003
+argifblovdo#003:         nop 
+* goto fuera  ---> r=107
+                         jmp fuera
+* endif  ---> r=108
+endif#003:   nop
+* if ren = 1 then  ---> r=110
+                         lda #$01
+                         sta acc#1+1
+                         ldhx #ren
+                         mov x+,acc#1
+                         mov #$01,nu#by
+                         jsr cp#nby
+                         beq cmpv1n2b0#005
+                         clra 
+                         bra cmpv1n2b1#005
+cmpv1n2b0#005:           lda #$01
+cmpv1n2b1#005:           sta t~1
+                         lda t~1
+                         bne argifblovdo#004
+                         jmp else#004
+argifblovdo#004:         nop 
+* posdesp~ = col - 129  ---> r=111
+                         lda col
+                         sta acc#1+1
+                         jsr conv#12
+                         ldhx acc#1
+                         pshh 
+                         pula 
+                         sta t%1
+                         stx t%1+1
+                         lda t%1
+                         sta acc#1+0
+                         lda t%1+1
+                         sta acc#1+1
+                         ldhx #$0081
+                         sthx acc#1+2
+                         mov #$02,nu#by
+                         jsr restal#nby
+                         ldhx acc#1+0
+                         pshh 
+                         pula 
+                         sta t%2
+                         stx t%2+1
+                         ldhx #t%2
+                         mov x+,acc#1
+                         mov x+,acc#1+1
+                         jsr conv#21
+                         lda acc#1+1
+                         sta posdesp~
+* else  ---> r=112
+                         jmp endif#004
+else#004:    nop
+* posdesp~ = col - 65  ---> r=113
+                         lda col
+                         sta acc#1+0
+                         lda #$41
+                         sta acc#1+1
+                         mov #$01,nu#by
+                         jsr restal#nby
+                         lda acc#1+0
+                         sta posdesp~
+* endif  ---> r=114
+endif#004:   nop
+* num$ = x1  ---> r=116
+                         ldhx #x1
+                         lda ,x
+                         sta acc#1
+                         lda $01,x
+                         sta acc#1+1
+                         lda $02,x
+                         sta nu#by
+                         sta acc#1+8
+                         beq asigi1s#001
+                         clrh 
+                         ldx #acc#1+9
+                         sthx acc#1+2
+                         jsr bloque1#abloque2
+asigi1s#001:             ldhx #num$
+                         sthx acc#1+6
+                         jsr asigcad#astr
+* gosub despstr  ---> r=117
+                         jsr despstr
+* goto fuera  ---> r=121
+                         jmp fuera
+* finens  ---> r=465
+*            iniens
+contcar                  equ $80
+contgcgram               equ $81
+contret                  equ $82
+ascamina                 equ $e1
+ascemina                 equ $e9
+ascimina                 equ $ed
+ascomina                 equ $f3
+ascumina                 equ $fa
+asceniemin               equ $f1
+ascumindier              equ $fc
+ascamaya                 equ $c1
+ascemaya                 equ $c9
+ascimaya                 equ $cd
+ascomaya                 equ $d3
+ascumaya                 equ $da
+asceniemay               equ $d1
+ascumaydier              equ $dc
+portlcd                  equ $04
+ddrportlcd               equ $05
+inilcd:                  psha 
+                         lda #$fc
+                         sta ddrportlcd
+                         jsr ret5m
+                         jsr ret5m
+                         jsr ret5m
+                         jsr ret5m
+                         lda #$30
+                         bsr escom8
+                         jsr ret5m
+                         bsr escom8
+                         jsr ret100m
+                         jsr ret5m
+                         bsr escom8
+                         lda #$20
+                         bsr escom8
+                         lda #$28
+                         bsr escom4
+                         lda #$0c
+                         bsr escom4
+                         lda #$01
+                         bsr escom4
+                         lda #$06
+                         bsr escom4
+                         jsr cargagcgram
+                         pula 
+                         rts 
+escom8:                  psha 
+                         and #$f0
+                         sta portlcd
+                         bclr 2,portlcd
+                         bset 3,portlcd
+                         mov #$23,contret
+oppp:                    bsr ret500
+                         dec contret
+                         bne oppp
+                         bclr 3,portlcd
+                         pula 
+                         rts 
+escdat8:                 psha 
+                         and #$f0
+                         sta portlcd
+                         bset 2,portlcd
+                         bset 3,portlcd
+                         mov #$23,contret
+oppp2:                   bsr ret500
+                         dec contret
+                         bne oppp2
+                         bclr 3,portlcd
+                         bclr 2,portlcd
+                         pula 
+                         rts 
+escdat4:                 psha 
+                         cmp #$7f
+                         bls sigg1
+asciiext:                bsr prasciiext
+sigg1:                   bsr escdat8
+                         clc 
+                         rola 
+                         rola 
+                         rola 
+                         rola 
+                         bsr escdat8
+                         pula 
+                         rts 
+escom4:                  psha 
+                         bsr escom8
+                         clc 
+                         rola 
+                         rola 
+                         rola 
+                         rola 
+                         bsr escom8
+                         pula 
+                         rts 
+ret100m:                 pshx 
+                         ldx #$64
+otroret5m:               bsr ret5m
+                         decx 
+                         bne otroret5m
+                         pulx 
+                         rts 
+ret5m:                   pshx 
+                         ldx #$64
+otroret500:              bsr ret500
+                         decx 
+                         bne otroret500
+                         pulx 
+                         rts 
+ret100:                  pshx 
+                         nop 
+                         nop 
+                         nop 
+                         ldx #$4c
+vv:                      nop 
+                         decx 
+                         bne vv
+                         pulx 
+                         rts 
+ret500:                  pshx 
+                         nop 
+                         nop 
+                         nop 
+                         ldx #$c4
+vv1:                     nop 
+                         decx 
+                         bne vv1
+                         pulx 
+                         rts 
+copiadis:                pshx 
+                         pshh 
+                         psha 
+                         bsr escom4
+                         lda #$10
+                         sta contcar
+otra:                    lda ,x
+                         bsr escdat4
+                         aix #$01
+                         dec contcar
+                         bne otra
+                         pula 
+                         pulh 
+                         pulx 
+                         rts 
+cargagcgram:             psha 
+                         pshh 
+                         pshx 
+                         lda #$40
+                         jsr escom4
+                         mov #$40,contgcgram
+                         ldhx #aminacen
+otradircg:               lda ,x
+                         jsr escdat4
+                         aix #$01
+                         dec contgcgram
+                         bne otradircg
+                         pulx 
+                         pulh 
+                         pula 
+                         rts 
+prasciiext:              cmp #ascamina
+                         beq fuegamina
+                         cmp #ascemina
+                         beq fuegemina
+                         cmp #ascimina
+                         beq fuegimina
+                         cmp #ascomina
+                         beq fuegomina
+                         cmp #ascumina
+                         beq fuegumina
+                         cmp #asceniemin
+                         beq fuegeniemin
+                         cmp #ascumindier
+                         beq fuegumindier
+                         cmp #asceniemay
+                         beq fuegeniemay
+                         bra salgprasciiext
+fuegamina:               lda #$00
+                         bra salgprasciiext
+fuegemina:               lda #$01
+                         bra salgprasciiext
+fuegimina:               lda #$02
+                         bra salgprasciiext
+fuegomina:               lda #$03
+                         bra salgprasciiext
+fuegumina:               lda #$04
+                         bra salgprasciiext
+fuegeniemin:             lda #$05
+                         bra salgprasciiext
+fuegumindier:            lda #$06
+                         bra salgprasciiext
+fuegeniemay:             lda #$07
+salgprasciiext:          rts 
+aminacen:                db $02,$04,$0e,$01,$0f,$11,$0f,$00
+eminacen:                db $02,$04,$0e,$11,$1f,$10,$0e,$00
+iminacen:                db $02,$04,$00,$0c,$04,$04,$0e,$00
+ominacen:                db $02,$04,$0e,$11,$11,$11,$0e,$00
+uminacen:                db $02,$04,$11,$11,$11,$13,$0d,$00
+eniemin:                 db $0e,$00,$16,$19,$11,$11,$11,$00
+umindier:                db $11,$00,$11,$11,$11,$13,$0d,$00
+eniemayacen:             db $0e,$00,$11,$19,$15,$13,$11,$00
+*            finens
+* despstr:  ---> r=476
+despstr:     nop
+* lstr~ = len ( num$ )  ---> r=478
+                         ldhx #num$
+                         jsr len#gen
+                         ldhx #t%1
+                         mov acc#1,x+
+                         mov acc#1+1,x+
+                         ldhx #t%1
+                         mov x+,acc#1
+                         mov x+,acc#1+1
+                         jsr conv#21
+                         lda acc#1+1
+                         sta lstr~
+* finens  ---> r=496
+*            iniens
+                         lda num$
+                         psha 
+                         pulh 
+                         ldx num$+1
+                         lda posdesp~
+                         jsr escom4
+yuopp:                   lda ,x
+                         jsr escdat4
+                         aix #$01
+                         lda lstr~
+                         deca 
+                         sta lstr~
+                         bne yuopp
+*            finens
+* return  ---> r=498
+                         rts
+* fuera:  ---> r=500
+fuera:     nop
+* finens  ---> r=524
+*            iniens
+                         pulx 
+                         pulh 
+                         sthx var#topmem
+                         pulx 
+                         pulh 
+                         sthx var#dirultdesc
+                         pulx 
+                         pulh 
+                         sthx var#dirinistr
+                         pulx 
+                         pulh 
+                         sthx apun*
+                         pula 
+                         pulx 
+                         pulh 
+                         rts 
+*            finens
+****  Fin de código ejecutable de usuario *****
+fin#codus:               bra fin#codus
+*...............................................................................*
+****  Inicio de datos de usuario declarados con sentencias datax, x=b/w/l/s *****

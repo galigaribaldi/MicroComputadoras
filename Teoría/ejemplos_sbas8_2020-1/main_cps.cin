@@ -1,0 +1,204 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DEL CÓDIGO INTERMEDIO
+*
+*    <<< iniens  (ren= 4) >>>
+*
+        iniens 
+           main equ $804a 
+           printlcd16x2sh equ $82a6 
+*
+*    <<< finens  (ren= 7) >>>
+*
+        finens 
+ fin#sent finens   7 4
+*
+*    <<< iniens  (ren= 20) >>>
+*
+        iniens 
+           jsr lee#car 
+*
+*    <<< finens  (ren= 22) >>>
+*
+        finens 
+ fin#sent finens   22 7
+*
+*    <<< varaux..1$ = ""  (ren= 25) >>>
+*
+                        varaux..1$  = ""
+ fin#sent varaux..1$ = ""   25 8
+*
+*    <<< varaux..2~ = 1  (ren= 26) >>>
+*
+                        varaux..2~  = 1
+ fin#sent varaux..2~ = 1   26 9
+*
+*    <<< varaux..3~ = 1  (ren= 27) >>>
+*
+                        varaux..3~  = 1
+ fin#sent varaux..3~ = 1   27 10
+*
+*    <<< iniens  (ren= 29) >>>
+*
+        iniens 
+           ldhx #varaux..3~ 
+           pshx 
+           pshh 
+           ldhx #varaux..2~ 
+           pshx 
+           pshh 
+           ldhx #varaux..1$ 
+           pshx 
+           pshh 
+           jsr printlcd16x2sh 
+           ais #$06 
+*
+*    <<< finens  (ren= 41) >>>
+*
+        finens 
+ fin#sent finens   41 23
+*
+*    <<< while 1  (ren= 45) >>>
+*
+iniwhile#001:
+                        t~1 = val#boole 1
+                        while#001 t~1 wend#001
+ fin#sent while 1   45 24
+*
+*    <<< input "Dar texto a colocar en LCD,texto = " , texto$  (ren= 50) >>>
+*
+                        print1#de0 "Dar texto a colocar en LCD,texto = "
+                        input#0 texto$ 
+                        print#crlf
+ fin#sent input "Dar texto a colocar en LCD,texto = " , texto$   50 25
+*
+*    <<< input "Dar renglón,renglón = " , rn~  (ren= 51) >>>
+*
+                        print1#de0 "Dar renglón,renglón = "
+                        input#1 rn~ 
+                        print#crlf
+ fin#sent input "Dar renglón,renglón = " , rn~   51 26
+*
+*    <<< input "Dar columna,columna = " , colu~  (ren= 52) >>>
+*
+                        print1#de0 "Dar columna,columna = "
+                        input#1 colu~ 
+                        print#crlf
+ fin#sent input "Dar columna,columna = " , colu~   52 27
+*
+*    <<< varaux..1$ = texto$  (ren= 55) >>>
+*
+                        varaux..1$  = texto$
+ fin#sent varaux..1$ = texto$   55 28
+*
+*    <<< varaux..2~ = rn~  (ren= 56) >>>
+*
+                        varaux..2~  = rn~
+ fin#sent varaux..2~ = rn~   56 29
+*
+*    <<< varaux..3~ = colu~  (ren= 57) >>>
+*
+                        varaux..3~  = colu~
+ fin#sent varaux..3~ = colu~   57 30
+*
+*    <<< iniens  (ren= 59) >>>
+*
+        iniens 
+           ldhx #varaux..3~ 
+           pshx 
+           pshh 
+           ldhx #varaux..2~ 
+           pshx 
+           pshh 
+           ldhx #varaux..1$ 
+           pshx 
+           pshh 
+           jsr printlcd16x2sh 
+           ais #$06 
+*
+*    <<< finens  (ren= 71) >>>
+*
+        finens 
+ fin#sent finens   71 43
+*
+*    <<< print "Oprimir una tecla"  (ren= 75) >>>
+*
+                        print1#de0 "Oprimir una tecla"
+                        print#crlf
+ fin#sent print "Oprimir una tecla"   75 44
+*
+*    <<< iniens  (ren= 77) >>>
+*
+        iniens 
+           jsr lee#car 
+*
+*    <<< finens  (ren= 79) >>>
+*
+        finens 
+ fin#sent finens   79 47
+*
+*    <<< varaux..1$ = "                "  (ren= 82) >>>
+*
+                        varaux..1$  = "                "
+ fin#sent varaux..1$ = "                "   82 48
+*
+*    <<< varaux..2~ = rn~  (ren= 83) >>>
+*
+                        varaux..2~  = rn~
+ fin#sent varaux..2~ = rn~   83 49
+*
+*    <<< varaux..3~ = 1  (ren= 84) >>>
+*
+                        varaux..3~  = 1
+ fin#sent varaux..3~ = 1   84 50
+*
+*    <<< iniens  (ren= 86) >>>
+*
+        iniens 
+           ldhx #varaux..3~ 
+           pshx 
+           pshh 
+           ldhx #varaux..2~ 
+           pshx 
+           pshh 
+           ldhx #varaux..1$ 
+           pshx 
+           pshh 
+           jsr printlcd16x2sh 
+           ais #$06 
+*
+*    <<< finens  (ren= 98) >>>
+*
+        finens 
+ fin#sent finens   98 63
+*
+*    <<< wend  (ren= 105) >>>
+*
+                        goto iniwhile#001
+wend#001:
+ fin#sent wend   105 64
+*
+*    <<< iniens  (ren= 113) >>>
+*
+        iniens 
+           pulx 
+           pulh 
+           sthx var#topmem 
+           pulx 
+           pulh 
+           sthx var#dirultdesc 
+           pulx 
+           pulh 
+           sthx var#dirinistr 
+           pulx 
+           pulh 
+           sthx apun * 
+           pula 
+           pulx 
+           pulh 
+           rts 
+*
+*    <<< finens  (ren= 130) >>>
+*
+        finens 
+ fin#sent finens   130 82
+** Sentencias data **
+** Sentencias datax, x=b/w/l/s/d **

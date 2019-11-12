@@ -1,0 +1,496 @@
+ def_fun lecdhtxxsh(portn as byte,bitn as byte,vlec as byte,tipsens as byte,repec as byte) as single
+
+ 'Retorna la humedad relativa o la temperatura registradas por sensores DHT11 o DHT22
+ 'esto acorde con el argumento vlec.
+
+    'La funcionalidad de los cinco argumentos es:
+
+    '1) portn,es el número de puerto implicado donde residirá el bit implicado en la comunicación.
+
+    '    1 <= portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    '2) bitn,es el número de bit que se usará para la comunicación con el sensor DHT11 o DHT22/AM2302.
+    '******************* BITS VALIDOS PARA BITN ************************************
+    ' Si se escoge el puerto A como contenedor del bitn
+    '    bitn = 0,1,2,3,6 
+    ' Si se escoge el puerto B como contenedor del bitn
+    '    2 <= bitn <= 5
+    ' Si se escoge el puerto C como contenedor del bitn
+    '    0 <= bitn <= 7  
+    '********************************************************************************
+
+    '3) vlec,define que variable física HR o Temperatura se desea leer.
+    'Si vlec <> 0,retorna la humedad relativa en %.
+    'Si vlec = 0,retorna la temperatura en grados Centigrados.
+ 
+    '4) tipens,define que tipo de sensor se usa en un momento dado.
+    'Si tipsens = 0, supone que el sensor es el DHT11 o equivalente.
+    'Si tipsens <> 0, supone que el sensor es el DHT22 o equivalente (AM2302).
+    'Nota: Si tipens no es coherente con el sensor presente,la función retorna valores absurdos.
+ 
+    '5) repec,especifica si los errores se reportan en la consola.
+    'Si repec = 0,  los errores que se pudieran presentar no se reportan en la consola,
+'                   éstos simplemente se reportan,retornándose valores específicos no
+'                   válidos para las variables físicas que miden los sensores DHT11 o DHT22. 
+'   'Si repec <> 0, Los errores que se pudieran presentar se reportan en la consola,
+'                   y además se testifican con el hecho de retornar valores inválidos para las
+'                   variables que miden los sensores.
+ 
+ 'A continuación se detalla que retorna el procedimiento,si se presentan los siguientes errores:
+
+ 'Error tipo 1:No hay comunicación con el sensor DHTXX.
+'              Retorna 201.
+ 'Error tipo 2:El sensor DHTXX no envió señal de cierre de envío de datos. 
+'              Retorna 202.
+ 'Error tipo 3:Datos recibidos del sensor DHTXX son incoherentes con checksum. 
+'              Retorna 203.
+ 'Error tipo 4:En la función lecdhtxxsh,el puerto escogido como contenedor del bit de enlace es inválido. 
+'              Retorna 204.
+ 'Error tipo 5:En la función lecdhtxxsh,el bit escogido para enlace con el sensor DHTXX es inválido.
+ '             Retorna 205.
+
+ 
+dim maskd,maskdinv,byhumh,byhuml,bytemh,byteml,bycheck,bytese as byte
+dim dirportcom,dirportcomdd,contmcs as integer
+
+    if portn < 1 or portn > 3 then
+     gosub repportinv
+     lecdhtxxsh = 204
+     exit_fun
+    endif
+
+    select case portn
+
+    case 1
+    'Checa que bitn sea válido,
+    'si este reside en el puerto A
+    'Si bitn es válido,inicializa las variables dirportcom y dirportcomdd  
+    if bitn >= 7 or bitn <0 then
+     gosub repbitinv 
+     lecdhtxxsh = 205
+     exit_fun
+
+     elseif bitn=4 then
+     gosub repbitinv 
+     lecdhtxxsh = 205
+     exit_fun
+
+     elseif bitn=5 then
+     gosub repbitinv
+     lecdhtxxsh = 205
+     exit_fun
+
+    endif
+    dirportcom=0
+    dirportcomdd=1
+
+
+    case 2
+    'Checa que bitn sea válido,
+    'si este reside en el puerto B
+    'Si bitn es válido,inicializa las variables dirportcom y dirportcomdd 
+    if bitn < 2 or bitn > 5  then
+     gosub repbitinv 
+     exit_fun
+    endif
+    dirportcom=2
+    dirportcomdd=3
+
+
+    case 3
+    'Checa que bitn sea válido,
+    'si este reside en el puerto C
+    'Si bitn es válido,inicializa las variables dirportcom y dirportcomdd 
+    if bitn < 0 or bitn > 7  then
+     gosub repbitinv 
+     exit_fun
+    endif
+    dirportcom=4
+    dirportcomdd=5
+
+
+    end select
+
+     'Inicializa las máscaras maskd y maskdinv acorde con bitn
+     if bitn=7 then
+     maskd = -128
+     maskdinv=127
+     else
+     maskd=2^bitn
+     maskdinv = -(maskd+1)
+     endif
+     '.......................................................
+      
+
+  
+      gosub leedht11
+
+      if bytese > 0 then
+
+         select case bytese
+         
+          case 1
+         'Reporta error tipo 1,falla de comunicación con el sensor
+          if repec <> 0 then
+          print "Error tipo 1 en procedimiento lecdhtxxsh."
+          print "No hay comunicación con el sensor DHTXX"
+          endif
+          lecdhtxxsh = 201
+          exit_fun 
+
+          case 2
+         'Reporta error tipo 2,falla de comunicación con el sensor
+          if repec <> 0 then
+          print "Error tipo 2 en procedimiento lecdhtxxsh:"
+          print "El sensor DHTXX no envió señal de cierre de envío de datos"
+          endif 
+          lecdhtxxsh = 202
+
+          exit_fun 
+
+          case 3
+         'Reporta error tipo 3,datos corruptos
+          if repec <> 0 then
+          print "Error tipo 3 en procedimiento lecdhtxxsh:"
+          print "Datos recibidos del sensor DHTXX son incoherentes con checksum."
+          endif
+          lecdhtxxsh = 203
+          exit_fun 
+
+         end select
+         print
+
+
+      endif
+
+
+       if vlec <> 0 then
+       'Capta bytes de HR
+       bydath~ = byhumh
+       bydatl~ = byhuml
+ 
+       else
+       'Capta bytes de temperatura
+       bydath~ = bytemh
+       bydatl~ = byteml
+
+       endif
+
+       'Convierte valores de bytes de datos a su equivalente no signado como variables tipo integer
+        if bydath~ < 0 then
+        bydh% = 256 + bydath~
+        else
+        bydh% = bydath~ 
+        endif
+
+        if bydatl~ < 0 then
+        bydl% = 256 + bydatl~
+        else
+        bydl% = bydatl~
+        endif
+       '..........................................................................................
+        
+       if tipsens = 0 then
+       'Supone que el sensor es el DHT11
+        lecdhtxxsh = (bydh%*256+bydl%)*3.90625e-3
+
+       else 
+       'Supone que el sensor es el DHT22
+            if bydh%>127 then
+            bydh% = bydh%-128
+            fact~ = -1
+            else
+            fact~ = 1
+            endif
+       lecdhtxxsh = (bydh%*256+bydl%)*fact~/10.
+
+       endif
+
+      
+    '  print "---> ";byhumh;"  ";byhuml;"  ";bytemh;"  ";byteml;"  ";bycheck;"  ";bytese 
+
+      exit_fun
+
+
+
+repportinv: if repec <> 0 then
+            print "Error tipo 4:"
+            print "En el procedimiento lecdhtxxsh,el puerto escogido como contenedor del bit de enlace es inválido"
+            endif
+            return
+
+repbitinv: if repec <> 0 then
+           print "Error tipo 5:"
+           print "En el procedimiento lecdhtxxsh,el bit escogido para enlace con el sensor es inválido"
+           endif
+           return
+
+    
+      iniens
+'' Subrutina leedht11
+'' Recaba humedad y temperatura del
+'' sensor DHT11.
+'' Al retornar:
+'' byhumh <-- byte alto de (humedad relativa) X 10 
+'' byhuml <-- byte bajo de (humedad relativa) X 10 
+'' bytemh <-- byte alto de (Temperatura) X 10 
+'' byteml <-- byte bajo de (Temperatura) X 10 
+'' bycheck <-- byte checksum = bytebajode(byhumh+byhuml+bytemh+byteml) 
+'' bytese <-- bytestigo de error
+'' bytese = 0, no hubo errror
+'' bytese = 1, hubo errror tipo 1,el sensor no respondió a la señal de start.
+'' bytese = 2, hubo errror tipo 2,no se captó testigo de fin de transmisión de datos.
+'' bytese = 3, hubo errror tipo 3,checksum diferente de suma de valores de los cuatro bytes de datos.
+
+
+leedht11: pshh
+          pshx
+          psha
+
+'.... Pone ceros en localidades donde se almacenará la info proporcionada
+'.... por el sensor.
+
+          clra
+          sta byhumh
+          sta byhuml
+          sta bytemh
+          sta byteml
+          sta bycheck
+          sta bytese 'testifica por default que no hay error
+
+'.... Configura bitdat como salida y lanza señal de start al sensor ...
+'.... Al final de esto configura bitdat como entrada para esperar datos del sensor
+         
+          ldhx  dirportcomdd
+          lda ,x  ';portcomdd
+          ora  maskd
+          sta ,x  ';portcomdd 'bitdat es salida
+
+'.... Lanza señal de start al sensor ........... 
+          ldhx  dirportcom
+          lda ,x  'portcom
+          and  maskdinv
+          sta ,x  'portcom 'bitdat <-- 0
+          jsr ret18ms 'espera 18 ms
+
+          lda ,x  'portcom
+          ora  maskd
+          sta ,x  'portcom 'bitdat <-- 1
+          jsr ret30us  'espera 30 us
+
+          lda ,x 'portcom
+          and  maskdinv
+          sta ,x 'portcom 'bitdat <-- 0
+
+          ldhx  dirportcomdd 
+          lda ,x  ';portcomdd
+          and  maskdinv
+          sta ,x  ';portcomdd 'bitdat es entrada
+ 
+'... Fin de señal de start, pasa a esperar 40 bits enviados por el sensor DHT11 .... 
+
+'..... Pasa primero a verificar tarnsmisión desde sensor pulso de 80 us en bajo, ....
+'..... seguido por pulso de 80 us en alto, esto antes de que éste inicie la transmisión
+'..... de los 40 bits que definen los cinco bytes de información, que el sensor envía.
+
+          ldhx  dirportcom
+          jsr ret40us ' espera 40 us,(Trel tipico)/2
+          lda ,x  'portcom
+          bit  maskd     
+          bne reperror1 'Si bitdat capta uno lógico el sensor no respondió,hay error tipo 1,pasa a reportarlo y sale.
+          jsr ret80us
+          lda ,x  'portcom
+          bit  maskd
+          beq reperror1 'Si bitdat capta cero lógico el sensor no respondió,hay error tipo 1,pasa a reportarlo y sale.
+''......................................................................................
+
+''... Pasa a captar los cuarenta bits de datos y colocarlos en byhumh:byhuml:bytemh:byteml:bycheck
+'
+sopak:    ldx #$28 ' x<-- 40
+          
+recbit:   bsr medus_pulso
+          lda bycheck
+          rola
+          sta bycheck
+          lda byteml
+          rola
+          sta byteml
+          lda bytemh
+          rola
+          sta bytemh
+          lda byhuml
+          rola
+          sta byhuml
+          lda byhumh
+          rola
+          sta byhumh
+
+          decx
+          bne recbit
+
+'... Pasa a checar que haya cero lógico en bitdat 30 us depués de que ha finalizado
+'... la transmisión desde el sensor.
+          jsr ret30us ' espera 40 us,(Trel tipico)/2
+          ldhx  dirportcom 'Esto faltaba
+          lda ,x  'portcom
+          bit  maskd     
+          bne reperror2 ' Si bitdat capta uno lógico no se capto la señal de fin de envío de datos,
+                        ' hay error tipo 2,pasa a reportarlo y sale.
+
+          jsr ret80us
+          lda ,x 'portcom
+          bit  maskd
+          beq reperror2 ' Si bitdat capta uno lógico no se capto la señal de fin de envío de datos,
+                        ' hay error tipo 2,pasa a reportarlo y sale.
+
+    
+         ' mov #$18,$04 '<<<<<<<<<<<<
+         ' Checa si no hay error de checksum
+
+          lda byhumh
+          add byhuml
+          add bytemh
+          add byteml
+          cmp bycheck
+          bne reperror3 'Si checksum no concuerda pasa a reportar error tipo 3 
+          bra sallecdht11
+
+reperror1: lda #$01
+           bra teserror
+reperror2: lda #$02
+           bra teserror
+reperror3: lda #$03
+teserror:  sta bytese
+         
+sallecdht11:  pula
+              pulx
+              pulh
+              rts
+
+''' Subrutina medus_pulso
+''' Mide el tiempo de duración de un pulso
+''' verificado en alto y con duración de hasta
+''' 65535 us, aplicado en
+''' el bit definido por la mascara maskd
+''' presente en el puerto definido por
+''' el string portcom.
+''' Al retornar:
+''' c=1, si la duración del pulso es mayor que 50/1.5 us,(uno lógico enviado por sensor DHT11).
+''' c=0, si la duración del pulso es menor que 50/1.5 us,(cero lógico enviado por sensor DHT11).
+
+
+
+medus_pulso: pshh
+             pshx
+             psha
+          '   mov #$a0,$04 '<<<<<<
+
+            ldhx  dirportcom 
+
+'   'Espera a que bitdat regrese a cero
+'   (espb3:  brset bitdat,portcom,espb3)
+espb3:     lda ,x 'portcom    ''3 
+           bit  maskd   ''2
+           bne espb3   ''3
+
+         '  mov #$01,$04 '<<<<<<
+
+'   'Espera por flanco de subida de pulso
+'    (espb0:  brclr bitdat,portcom,espb0)
+espb0:     lda ,x 'portcom    ''3
+           bit  maskd   ''2
+           beq espb0   ''3
+
+         '  mov #$02,$04 '<<<<<<
+'    '........................................
+          ldhx #$0000 'inicializa contador de us
+          sthx contmcs
+          ldhx dirportcom 'Recupera dir de puerto implicado
+
+ 
+'    ' El siguiente lazo se ejecuta en 1.5 us si fbus = 20 MHz 
+
+espb2:     pshh  '2 guarda en stack h:x como dir de puerto implicado
+           pshx  '2
+           ldhx contmcs ''5
+           aix #$01    ''2
+           sthx contmcs '5
+           pulx '3
+           pulh '3 recupera de stack h:x como dir de puerto implicado
+
+'       'Espera,para salir del lazo, por flanco de bajada de pulso
+'       (espb1:  brset bitdat,portcom,espb2)
+espb1:     lda ,x ' 3 portcom    ''3
+           bit  maskd    ''2
+           bne espb2   ''3
+'    '........................................
+'' jopat:    sthx contus ''5  
+
+         '  mov #$03,$04 '<<<<<<
+          
+           ldhx contmcs 
+           cphx #$0021 ' compara con cuenta de us con int(50/1.5)
+           bhs fueuno
+fuecero:   clc 'testifica que duración de pulso fue menor que int(50/1.5) us
+           bra salmedpuls        
+fueuno:    sec 'testifica que duración de pulso fue mayor que int(50/1.5) us
+
+salmedpuls: pula
+            pulx
+            pulh
+            rts
+
+''' Tr = (30 + 10Xr)Tb ''
+ret18ms:   pshh
+           pshx
+           nop
+           nop
+           nop
+           ldhx #$8c9d  '07cd
+vuelta1:   nop
+           nop
+           aix #$ff
+           cphx #$0000
+           bne vuelta1
+           nop
+           nop 
+            pulx
+           pulh  
+           rts 
+
+ret10us:   pshh
+           pshx
+           nop
+           nop
+           nop
+           ldhx #$0011
+vuelta2:   nop
+           nop
+           aix #$ff
+           cphx #$0000
+           bne vuelta2
+           nop
+           nop 
+           pulx
+           pulh  
+           rts 
+
+ret80us:  jsr ret10us
+          jsr ret10us
+          jsr ret10us
+          jsr ret10us
+ret40us:  jsr ret10us
+ret30us:  jsr ret10us
+          jsr ret10us
+          jsr ret10us
+          rts
+
+
+      finens  
+
+ end_fun
+

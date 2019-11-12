@@ -1,0 +1,14 @@
+   def_sub esd_locm(dir as integer,bydat as byte)
+
+      'Escribe el byte especificado por bydat en la localidad 
+      'de memoria cuya dirección es dir.
+
+      'Este procedimiento se ejecuta en 14 us  @Fbus=20 MHz
+
+       iniens
+       ldhx dir
+       lda bydat
+       sta ,x
+       finens
+
+   end_sub

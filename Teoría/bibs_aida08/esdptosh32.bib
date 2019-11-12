@@ -1,0 +1,53 @@
+ def_sub esd_pto_sh32(portn as byte,byaport as byte)
+    
+    'Escribe en el puerto definido por la variable portn,
+    'el byte especificado por la variable byaport.
+
+    'portn es el número de puerto implicado.
+    '    1 < portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+    'Este procedimiento se ejecuta en 12 us  @Fbus=20MHz. 
+
+      iniens
+porta equ $00
+portb equ $02
+portc equ $04
+
+        lda portn
+        cmp #$01
+        beq acporta
+        cmp #$02
+        beq acportb
+        cmp #$03
+        beq acportc
+        bra fuerasinacc
+   
+       'Escritura sobre el puerto A
+acporta: lda byaport
+         sta porta
+         bra fuerasinacc
+
+       'Escritura sobre el puerto B
+acportb:  lda byaport
+          sta portb
+          bra fuerasinacc
+
+       'Escritura sobre el puerto C
+acportc:  lda byaport
+          sta portc
+          bra fuerasinacc
+
+       finens
+
+fuerasinacc: 
+ 
+
+       end_sub
+

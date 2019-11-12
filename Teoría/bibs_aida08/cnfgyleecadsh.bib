@@ -1,0 +1,185 @@
+     def_sub cnfgcadsh(adlpc as byte,divr1 as byte,adlsmp as byte,nbit as byte,divr2 as byte)
+     
+     'Configura el CAD del MCU para una determinada resolución (8 ó 10 bits),
+     ' y una determinada frecuencia de operación (Fadck).
+     
+     'También se predetermina, mediante el parámetro adlpc, si el CSD podrá operar a
+     'el valor máximo de Fadck (8 MHz si adlpc=0); o bien 4 MHz si adlpc=1, a costa de
+     'que cuando adlpc=1, el hardware interno del MCU hace que se reduzca el consumo el CAD.
+
+     'La frecuencia mínima a la que puede operar el CAD es 0.4 MHz.
+
+     'También se predetermina,mediante el parámetro adlsmp, si ha de usarse un periodo
+     'interno de muestreo corto o largo.
+
+     'adlsmp=0, hace que el periodo interno de muestreo sea corto.
+     'adlsmp=1, hace que el periodo interno de muestreo sea largo.
+
+     'Este procedimiento no considera las posibles señales de reloj ALTCLK y ADACK para generar 
+     'el reloj asociado con el CAD. Véase lo propio en el capítulo 9 de mc9s08sh32.pdf
+
+     'La frecuencia Fadck a la que operará el CAD es:
+
+     '    Fadck = Fbus/(divr1*divr2)
+
+     'Donde:  
+
+     'divr1 = 1,2,4,8
+     'divr2 = 1,2
+
+     
+
+     'Si uno o varios de los parámetros es inválido este procdedimiento no efectúa
+     'ninguna acción y simplemente se retorna.
+
+     'Para mas detalles acerca de la condiguraciín del CAD del MCU
+     'véase el capítulo 9 del documento mc9s08sh32.pdf
+
+
+    defvarbptr adccfg &h16
+
+    dim adiv,mode as byte
+ 
+    if adlpc < 0 or adlpc > 1 then
+      exit_sub
+
+     elseif adslmp <0 or adlsmp > 1 then
+      exit_sub
+
+     elseif divr2 < 1 or divr2 > 2 then
+      exit_sub
+     
+    endif
+
+      select case divr1
+
+      case 1
+      'divr1 = 1
+       adiv=0
+
+      case 2
+      'divr1 = 2
+      adiv=1
+
+      case 4
+      'divr1 = 4
+      adiv=2
+
+      case 8
+      'divr1 = 8
+      adiv=3
+
+      case else 
+
+      exit_sub
+
+      end select
+
+   
+
+      if divr2=1 then
+      adiclk=0
+      else
+      adiclk=1
+      endif
+
+       select case nbit
+      
+       case 8
+       mode=0
+
+       case 10
+       mode=2
+
+       case else
+        exit_sub
+
+       end select
+
+
+       mok% = adiclk + mode*4 +  adlsmp*16 + adiv*32 +adlpc*128
+        
+       iniens
+       lda mok%+1
+       sta adccfg
+       finens
+
+       end_sub
+
+        def_fun leecadsh(ncanal as byte) as integer
+
+       'Se efectúa la conversión analogica-digital del canal de entrada analógico
+       'cuyo número es ncanal.
+
+       'Retorna el valor del resultado de la conversión como entero de dos bytes (tipo integer). 
+
+       'Si el número de canal es inválido no se efectúa la conversión, y se retorna cero 
+       'como resultado.
+
+ dim resul as integer
+ dim mask as byte 
+
+             iniens
+'** Equ's del CAD **
+
+adcsc1  equ $10
+adcsc2  equ $11
+adcrh   equ $12
+adcrl   equ $13
+adccvh  equ $14
+adccvl  equ $15
+adccfg  equ $16
+apctl1  equ $17
+apctl2  equ $18   
+
+'*******************
+
+        
+        lda ncanal
+        bpl sopat
+        jmp sal_leecadsh
+sopat:  cmp #$0f
+        bls sopat2
+        jmp sal_leecadsh
+
+sopat2: cmp #$07
+        bls sopat3
+        sub #$08 'Si ncanal > 7 a <-- ncanal para adcptl2
+
+'Calcula byte a colocar en registro adcptli, i=1 si ncanal<8,i=2 si ncanal>7 
+sopat3: psha
+        pulx 'x <- ncanal o ncanal para adcptl2
+        lda #$01
+        cpx #$00
+        beq asmsk
+       
+otr:    asla
+        decx
+        bne otr
+asmsk:  sta mask
+        ldx mask
+        lda ncanal
+        cmp #$07
+        bhi ncmay7
+ncmen8: stx apctl1
+        bra iniconv
+ncmay7: stx apctl2
+
+iniconv: lda ncanal
+         sta adcsc1
+
+checoco: brclr 7,adcsc1,checoco
+         ldhx adcrh
+         sthx resul
+
+       finens
+
+
+'Asigna resultado a valor retornado      
+           
+       leecadsh=resul
+
+
+sal_leecadsh:
+
+        end_fun

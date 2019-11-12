@@ -1,0 +1,70 @@
+ def_sub cnfgbitsalsh(portn as byte,bitn as byte)
+
+ 'configura como salida el bitn del puerto denotado por portn.
+
+ 'portn es el número de puerto implicado.
+
+    '    1 <= portn <= 3 
+
+    'portn=1 si el puerto implicado es el puerto A
+    'portn=2 si el puerto implicado es el puerto B
+    'portn=3 si el puerto implicado es el puerto C
+
+    'Si portn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+    ' bitn es el número de bit implicado.
+
+    '    0 <= bitn <= 7  
+
+    'Si bitn tiene un valor inválido,
+    'no se efectúa acción y se sale del procedimiento.
+
+dim mask as byte
+
+     if portn < 1 or portn > 3 then
+     exit_sub
+
+     elseif bitn <0 or bitn > 7 then
+
+     exit_sub
+     endif
+
+     if bitn=7 then
+     mask = -128
+
+     else
+
+     mask=2^bitn
+
+     endif
+  
+     select case portn
+
+      case 1
+      'Se configuran bits como salida en puerto A
+      iniens
+      lda $01
+      ora mask
+      sta $01
+      finens
+
+      case 2
+      'Se configuran bits como salida en puerto B
+      iniens
+      lda $03
+      ora mask
+      sta $03
+      finens
+
+      case 3
+      'Se configuran bits como salida en puerto C
+      iniens
+      lda $05
+      ora mask
+      sta $05
+      finens
+
+     end select     
+
+ end_sub

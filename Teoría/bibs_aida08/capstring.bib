@@ -1,0 +1,22 @@
+def_fun capstring(dinistr as long,of_ini as integer,of_fin as integer) as string
+     
+     'Retorna como string BASIC la cadena cuyos códigos ascii,
+     'son los valores del contenido de memoria comprendido entre
+     'las direcciones:
+     'dinistr+of_ini y dinistr+of_fin.
+     'Si of_ini > of_fin, retorna un strig nulo.
+      
+        if of_ini>of_fin then
+        capstring=""
+        exit_fun
+        endif
+
+ 
+      capstr$ = "" '
+      for i%=dinistr + of_ini to dinistr + of_fin
+       capstr$ = capstr$ + chr$(peek(i%))
+      next i%
+
+     capstring=capstr$
+
+   end_fun

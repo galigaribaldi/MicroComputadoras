@@ -1,0 +1,94 @@
+
+E:\Ejemplos_2020-1\pr3_2020-1.ASM   Ensamblado con ENS08 el 27/08/2019 06:48:39 p. m.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0000                ed1 equ $a3
+0000                ed2 equ $00
+0000                ed3 equ $0f
+0000                ed4 equ $f0 
+0000                ptcd equ $04
+0000                ptcdd equ $05
+
+0100               			org $0100
+
+0100 6EFF05         		mov #$ff,ptcdd ;ptcd es salida
+
+0103 6EA304         loop: 	mov #ed1,ptcd
+0106 CD012C         		jsr ret500ms
+0109 CD012C         		jsr ret500ms
+
+010C 6E0004         		mov #ed2,ptcd
+010F CD012C         		jsr ret500ms
+0112               		
+0112 6E0F04         		mov #ed3,ptcd
+0115 CD012C         		jsr ret500ms
+0118 CD012C         		jsr ret500ms
+011B CD012C         		jsr ret500ms
+011E CD012C         		jsr ret500ms
+
+0121 6EF004         		mov #ed4,ptcd
+0124 CD012C         		jsr ret500ms
+0127 CD012C         		jsr ret500ms
+
+012A 20D7           		bra loop
+
+
+
+
+012C 87             ret500ms:    psha
+012D A614                       lda #$14
+012F CD0139         otro:       jsr ret25ms
+0132 4A                         deca
+0133 A100                       cmp #$00
+0135 26F8                       bne otro
+0137 86                         pula
+0138 81                         rts
+
+
+
+
+0139 8B             ret25ms:    pshh
+013A 89                         pshx
+013B 45C34D                     ldhx #$c34d
+013E 9D             vuelta:     nop
+013F 9D                         nop
+0140 AFFF                       aix #$ff
+0142 650000                     cphx #$0000
+0145 26F7                       bne vuelta
+0147 9D                         nop
+0148 88                         pulx
+0149 8A                         pulh
+014A 81                         rts
+
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+LOOP                     0103
+RET500MS                 012C
+OTRO                     012F
+RET25MS                  0139
+VUELTA                   013E
+
+   ASIGNACIONES    EQU
+
+ED1                     $A3
+ED2                     $00
+ED3                     $0F
+ED4                     $F0
+PTCD                    $04
+PTCDD                   $05
+

@@ -1,0 +1,440 @@
++  ESTE ES EL ENCABEZADO DEL ARCHIVO DEL CÓDIGO INTERMEDIO
+*
+*    <<< end_codini  (ren= 5) >>>
+*
+ fin#sent end_codini   5 1
+*
+*    <<< def_sub main ( )  (ren= 7) >>>
+*
+ fin#sent def_sub main ( )   7 2
+*
+*    <<< iniens  (ren= 9) >>>
+*
+        iniens 
+           jsr lee#car 
+*
+*    <<< finens  (ren= 11) >>>
+*
+        finens 
+ fin#sent finens   11 5
+*
+*    <<< printlcd16x2sh ( "" , 1 , 1 )  (ren= 13) >>>
+*
+ fin#sent printlcd16x2sh ( "" , 1 , 1 )   13 6
+*
+*    <<< while 1  (ren= 15) >>>
+*
+iniwhile#001:
+                        t~1 = val#boole 1
+                        while#001 t~1 wend#001
+ fin#sent while 1   15 7
+*
+*    <<< input "Dar texto a colocar en LCD,texto = " , texto$  (ren= 20) >>>
+*
+                        print1#de0 "Dar texto a colocar en LCD,texto = "
+                        input#0 texto$ 
+                        print#crlf
+ fin#sent input "Dar texto a colocar en LCD,texto = " , texto$   20 8
+*
+*    <<< input "Dar renglón,renglón = " , rn~  (ren= 21) >>>
+*
+                        print1#de0 "Dar renglón,renglón = "
+                        input#1 rn~ 
+                        print#crlf
+ fin#sent input "Dar renglón,renglón = " , rn~   21 9
+*
+*    <<< input "Dar columna,columna = " , colu~  (ren= 22) >>>
+*
+                        print1#de0 "Dar columna,columna = "
+                        input#1 colu~ 
+                        print#crlf
+ fin#sent input "Dar columna,columna = " , colu~   22 10
+*
+*    <<< printlcd16x2sh ( texto$ , rn~ , colu~ )  (ren= 24) >>>
+*
+ fin#sent printlcd16x2sh ( texto$ , rn~ , colu~ )   24 11
+*
+*    <<< wend  (ren= 26) >>>
+*
+                        goto iniwhile#001
+wend#001:
+ fin#sent wend   26 12
+*
+*    <<< end_sub  (ren= 29) >>>
+*
+ fin#sent end_sub   29 13
+*
+*    <<< def_sub printlcd16x2sh ( x1 as string , ren as byte , col as byte )  (ren= 33) >>>
+*
+ fin#sent def_sub printlcd16x2sh ( x1 as string , ren as byte , col as byte )   33 14
+*
+*    <<< if x1 = "" then  (ren= 44) >>>
+*
+ fin#sent if x1 = "" then   44 15
+*
+*    <<< iniens  (ren= 46) >>>
+*
+        iniens 
+           jsr inilcd 
+*
+*    <<< finens  (ren= 48) >>>
+*
+        finens 
+ fin#sent finens   48 18
+*
+*    <<< goto fuera  (ren= 49) >>>
+*
+                        goto fuera 
+ fin#sent goto fuera   49 19
+*
+*    <<< endif  (ren= 50) >>>
+*
+endif#001:
+ fin#sent endif   50 20
+*
+*    <<< if ren < 1 or ren > 2 then  (ren= 52) >>>
+*
+                        t!1 = conv#14 1
+                        t~1 = comp#men ren t!1
+                        t!2 = conv#14 2
+                        t~2 = comp#may ren t!2
+                        t~3 = t~1 or t~2
+                        ifblo#002 t~3 endif#002
+ fin#sent if ren < 1 or ren > 2 then   52 21
+*
+*    <<< goto fuera  (ren= 53) >>>
+*
+                        goto fuera 
+ fin#sent goto fuera   53 22
+*
+*    <<< endif  (ren= 54) >>>
+*
+endif#002:
+ fin#sent endif   54 23
+*
+*    <<< if col < 1 or col > 16 then  (ren= 56) >>>
+*
+                        t!1 = conv#14 1
+                        t~1 = comp#men col t!1
+                        t!2 = conv#14 16
+                        t~2 = comp#may col t!2
+                        t~3 = t~1 or t~2
+                        ifblo#003 t~3 endif#003
+ fin#sent if col < 1 or col > 16 then   56 24
+*
+*    <<< goto fuera  (ren= 57) >>>
+*
+                        goto fuera 
+ fin#sent goto fuera   57 25
+*
+*    <<< endif  (ren= 58) >>>
+*
+endif#003:
+ fin#sent endif   58 26
+*
+*    <<< if ren = 1 then  (ren= 60) >>>
+*
+                        t!1 = conv#14 1
+                        t~1 = comp#igu ren t!1
+                        ifblo#004 t~1 else#004
+ fin#sent if ren = 1 then   60 27
+*
+*    <<< posdesp~ = col - 129  (ren= 61) >>>
+*
+                        t!1 = conv#24  129
+                        t!2 = col - t!1
+                        t~1 = conv#41  t!2
+                        posdesp~  = t~1
+ fin#sent posdesp~ = col - 129   61 28
+*
+*    <<< else  (ren= 62) >>>
+*
+                        goto endif#004
+else#004:
+ fin#sent else   62 29
+*
+*    <<< posdesp~ = col - 65  (ren= 63) >>>
+*
+                        t!1 = conv#14  65
+                        t!2 = col - t!1
+                        t~1 = conv#41  t!2
+                        posdesp~  = t~1
+ fin#sent posdesp~ = col - 65   63 30
+*
+*    <<< endif  (ren= 64) >>>
+*
+endif#004:
+ fin#sent endif   64 31
+*
+*    <<< num$ = x1  (ren= 66) >>>
+*
+ fin#sent num$ = x1   66 32
+*
+*    <<< gosub despstr  (ren= 67) >>>
+*
+                        gosub despstr 
+ fin#sent gosub despstr   67 33
+*
+*    <<< goto fuera  (ren= 71) >>>
+*
+                        goto fuera 
+ fin#sent goto fuera   71 34
+*
+*    <<< iniens  (ren= 73) >>>
+*
+        iniens 
+           contcar equ $80 
+           contgcgram equ $81 
+           contret equ $82 
+           ascamina equ $e1 
+           ascemina equ $e9 
+           ascimina equ $ed 
+           ascomina equ $f3 
+           ascumina equ $fa 
+           asceniemin equ $f1 
+           ascumindier equ $fc 
+           ascamaya equ $c1 
+           ascemaya equ $c9 
+           ascimaya equ $cd 
+           ascomaya equ $d3 
+           ascumaya equ $da 
+           asceniemay equ $d1 
+           ascumaydier equ $dc 
+           portlcd equ $04 
+           ddrportlcd equ $05 
+inilcd:       psha 
+           lda #$fc 
+           sta ddrportlcd 
+           jsr ret5m 
+           jsr ret5m 
+           jsr ret5m 
+           jsr ret5m 
+           lda #$30 
+           bsr escom8 
+           jsr ret5m 
+           bsr escom8 
+           jsr ret100m 
+           jsr ret5m 
+           bsr escom8 
+           lda #$20 
+           bsr escom8 
+           lda #$28 
+           bsr escom4 
+           lda #$0c 
+           bsr escom4 
+           lda #$01 
+           bsr escom4 
+           lda #$06 
+           bsr escom4 
+           jsr cargagcgram 
+           pula 
+           rts 
+escom8:       psha 
+           and #$f0 
+           sta portlcd 
+           bclr 2 , portlcd 
+           bset 3 , portlcd 
+           mov #$23 , contret 
+oppp:       bsr ret500 
+           dec contret 
+           bne oppp 
+           bclr 3 , portlcd 
+           pula 
+           rts 
+escdat8:       psha 
+           and #$f0 
+           sta portlcd 
+           bset 2 , portlcd 
+           bset 3 , portlcd 
+           mov #$23 , contret 
+oppp2:       bsr ret500 
+           dec contret 
+           bne oppp2 
+           bclr 3 , portlcd 
+           bclr 2 , portlcd 
+           pula 
+           rts 
+escdat4:       psha 
+           cmp #$7f 
+           bls sigg1 
+asciiext:       bsr prasciiext 
+sigg1:       bsr escdat8 
+           clc 
+           rola 
+           rola 
+           rola 
+           rola 
+           bsr escdat8 
+           pula 
+           rts 
+escom4:       psha 
+           bsr escom8 
+           clc 
+           rola 
+           rola 
+           rola 
+           rola 
+           bsr escom8 
+           pula 
+           rts 
+ret100m:       pshx 
+           ldx #$64 
+otroret5m:       bsr ret5m 
+           decx 
+           bne otroret5m 
+           pulx 
+           rts 
+ret5m:       pshx 
+           ldx #$64 
+otroret500:       bsr ret500 
+           decx 
+           bne otroret500 
+           pulx 
+           rts 
+ret100:       pshx 
+           nop 
+           nop 
+           nop 
+           ldx #$4c 
+vv:       nop 
+           decx 
+           bne vv 
+           pulx 
+           rts 
+ret500:       pshx 
+           nop 
+           nop 
+           nop 
+           ldx #$c4 
+vv1:       nop 
+           decx 
+           bne vv1 
+           pulx 
+           rts 
+copiadis:       pshx 
+           pshh 
+           psha 
+           bsr escom4 
+           lda #$10 
+           sta contcar 
+otra:       lda , x 
+           bsr escdat4 
+           aix #$01 
+           dec contcar 
+           bne otra 
+           pula 
+           pulh 
+           pulx 
+           rts 
+cargagcgram:       psha 
+           pshh 
+           pshx 
+           lda #$40 
+           jsr escom4 
+           mov #$40 , contgcgram 
+           ldhx #aminacen 
+otradircg:       lda , x 
+           jsr escdat4 
+           aix #$01 
+           dec contgcgram 
+           bne otradircg 
+           pulx 
+           pulh 
+           pula 
+           rts 
+prasciiext:       cmp #ascamina 
+           beq fuegamina 
+           cmp #ascemina 
+           beq fuegemina 
+           cmp #ascimina 
+           beq fuegimina 
+           cmp #ascomina 
+           beq fuegomina 
+           cmp #ascumina 
+           beq fuegumina 
+           cmp #asceniemin 
+           beq fuegeniemin 
+           cmp #ascumindier 
+           beq fuegumindier 
+           cmp #asceniemay 
+           beq fuegeniemay 
+           bra salgprasciiext 
+fuegamina:       lda #$00 
+           bra salgprasciiext 
+fuegemina:       lda #$01 
+           bra salgprasciiext 
+fuegimina:       lda #$02 
+           bra salgprasciiext 
+fuegomina:       lda #$03 
+           bra salgprasciiext 
+fuegumina:       lda #$04 
+           bra salgprasciiext 
+fuegeniemin:       lda #$05 
+           bra salgprasciiext 
+fuegumindier:       lda #$06 
+           bra salgprasciiext 
+fuegeniemay:       lda #$07 
+salgprasciiext:       rts 
+aminacen:       db $02 , $04 , $0e , $01 , $0f , $11 , $0f , $00 
+eminacen:       db $02 , $04 , $0e , $11 , $1f , $10 , $0e , $00 
+iminacen:       db $02 , $04 , $00 , $0c , $04 , $04 , $0e , $00 
+ominacen:       db $02 , $04 , $0e , $11 , $11 , $11 , $0e , $00 
+uminacen:       db $02 , $04 , $11 , $11 , $11 , $13 , $0d , $00 
+eniemin:       db $0e , $00 , $16 , $19 , $11 , $11 , $11 , $00 
+umindier:       db $11 , $00 , $11 , $11 , $11 , $13 , $0d , $00 
+eniemayacen:       db $0e , $00 , $11 , $19 , $15 , $13 , $11 , $00 
+*
+*    <<< finens  (ren= 415) >>>
+*
+        finens 
+ fin#sent finens   415 236
+*
+*<<< despstr:  (ren= 426) >>>
+*
+despstr:
+ fin#sent despstr:   426 237
+*
+*    <<< lstr~ = len ( num$ )  (ren= 428) >>>
+*
+                        t%1 = len(num$)
+                        t~1 = conv#21  t%1
+                        lstr~  = t~1
+ fin#sent lstr~ = len ( num$ )   428 238
+*
+*    <<< iniens  (ren= 430) >>>
+*
+        iniens 
+           lda num$ 
+           psha 
+           pulh 
+           ldx num$ + 1 
+           lda posdesp~ 
+           jsr escom4 
+yuopp:       lda , x 
+           jsr escdat4 
+           aix #$01 
+           lda lstr~ 
+           deca 
+           sta lstr~ 
+           bne yuopp 
+*
+*    <<< finens  (ren= 446) >>>
+*
+        finens 
+ fin#sent finens   446 253
+*
+*    <<< return  (ren= 448) >>>
+*
+                        return 
+ fin#sent return   448 254
+*
+*<<< fuera:  (ren= 450) >>>
+*
+fuera:
+ fin#sent fuera:   450 255
+*
+*    <<< end_sub  (ren= 452) >>>
+*
+ fin#sent end_sub   452 256
+** Sentencias data **
+** Sentencias datax, x=b/w/l/s/d **

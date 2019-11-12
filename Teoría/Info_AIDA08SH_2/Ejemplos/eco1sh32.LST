@@ -1,0 +1,72 @@
+
+F:\Info_AIDA08SH_2\Ejemplos\eco1sh32.asm   Ensamblado con ENS08 el 24/08/2016 10:01:39 a. m.
+
+
+0000               * Programa ECO1SH32
+0000               * Ejecutable en RAM del MCU MC9S08SH32
+0000               * Recibe un byte por el puerto serie (SCI)
+0000               * después lo transmite por el mismo puerto,
+0000               * repiténdos endefinidamente estas acciones.
+
+0000               * Por: Antonio Salvá Calleja
+0000               * Fecha: abril 22,2016
+0000                  
+0000                scibdh equ $38
+0000                scibdl equ $39
+0000                scic2  equ $3b
+0000                scis1  equ $3c
+0000                scid   equ $3f
+0000                 
+0100                           org $0100
+
+0100 450082                 ldhx #$0082
+0103 3538                   sthx scibdh
+0105 6E0C3B                 mov #$0c,scic2
+
+0108 AD04           ciclo:  bsr rxsci ;Recibe byte.
+010A AD08                   bsr txsci ;Tranmite byte recibido.
+010C 20FA                   bra ciclo
+
+010E               ** SUBRUTINA RXSCI DE RECEPCIÓN SERIE **
+010E               ** Al invocarse se pasa a un lazo de espera
+010E               ** por la recepción de un byte en el puerto
+010E               ** serie del MCU MC9S08SH32.
+010E               ** Al retornar:
+010E               ** a <-- byte recibido
+
+010E 0B3CFD         rxsci: brclr 5,scis1,rxsci
+0111 B63F                  lda scid
+0113 81                    rts
+0114                 
+
+0114                 
+
+0114               ** SUBRUTINA TXSCI DE TRANSMISIÓN SERIE **
+0114               ** por el puerto serie del MCU MC9S08SH32.
+0114               ** Antes de invocar:
+0114               ** a <-- byte a transmitir
+0114               ** Al retornar:
+0114               ** ya se habra transmitido el byte implicado
+
+0114 0D3CFD         txsci: brclr 6,scis1,txsci
+0117 B73F                  sta scid
+0119 81                    rts
+
+011A                  
+
+   TABLA DE SÍMBOLOS
+
+       ETIQUETAS
+
+CICLO                    0108
+RXSCI                    010E
+TXSCI                    0114
+
+   ASIGNACIONES    EQU
+
+SCIBDH                  $38
+SCIBDL                  $39
+SCIC2                   $3B
+SCIS1                   $3C
+SCID                    $3F
+
