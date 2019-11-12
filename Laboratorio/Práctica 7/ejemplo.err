@@ -1,0 +1,10 @@
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 1 : Found directive in column 1. (processor)
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 2 : Found directive in column 1. (include)
+Message[301] C:\PROGRAM FILES (X86)\MICROCHIP\MPASM SUITE\P16F877.INC 33 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 10 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 12 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 13 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 14 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 16 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 29 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 7\EJEMPLO.ASM 34 : Found directive in column 1. (end)

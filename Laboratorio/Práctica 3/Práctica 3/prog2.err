@@ -1,0 +1,13 @@
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 1 : Found directive in column 1. (processor)
+Message[301] C:\PROGRAM FILES (X86)\MICROCHIP\MPASM SUITE\P16F877.INC 33 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 21 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 23 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 25 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 67 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 82 : Using default destination of 1 (file).
+Warning[207] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 95 : Found label after column 1. (loop3)
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 98 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 127 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 129 : Using default destination of 1 (file).
+Message[305] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 131 : Using default destination of 1 (file).
+Warning[205] C:\USERS\MICROS\DESKTOP\PR·CTICA 3\PROG2.ASM 134 : Found directive in column 1. (end)

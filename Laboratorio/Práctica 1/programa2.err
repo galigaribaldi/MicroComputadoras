@@ -1,0 +1,3 @@
+Warning[205] C:\USERS\MICROS\DOCUMENTS\PROGRAMA2.ASM 1 : Found directive in column 1. (processor)
+Warning[205] C:\USERS\MICROS\DOCUMENTS\PROGRAMA2.ASM 2 : Found directive in column 1. (include)
+Message[301] C:\PROGRAM FILES (X86)\MICROCHIP\MPASM SUITE\P16F877.INC 33 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
